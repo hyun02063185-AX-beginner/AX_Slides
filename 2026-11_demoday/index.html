@@ -1,0 +1,254 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>데모데이 15분 · 21시간 과정의 첫 15분</title>
+<link rel="stylesheet" href="../assets/deck.css">
+<style>
+  .ai-demo { display: flex; flex-direction: column; gap: 28px; margin-top: 30px; }
+  .ai-demo .q { font-size: 40px; font-weight: 700; padding: 26px 40px; }
+  .ai-demo .row { gap: 36px; }
+  .ai-demo .panel { flex: 1; min-height: 330px; display: flex; flex-direction: column; gap: 18px; }
+  .ai-demo .label { font-size: 30px; font-weight: 700; color: var(--muted); }
+  .ai-demo .ans { font-size: 48px; font-weight: 800; line-height: 1.3; }
+  .ai-demo .src { font-size: 30px; color: var(--muted); }
+  .ai-demo .badge { align-self: flex-start; margin-top: auto; }
+  .ai-demo .controls { display: flex; gap: 16px; align-items: center; font-size: 22px; color: var(--muted); }
+  .ai-demo button { font: inherit; font-size: 22px; padding: 8px 18px; border-radius: 10px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+  .scale { display: flex; justify-content: space-between; font-size: 56px; font-weight: 800; margin-top: 70px; color: var(--muted); }
+  .scale + .row { justify-content: space-between; font-size: 30px; color: var(--muted); margin-top: 12px; }
+  .cuts { display: grid; grid-template-columns: repeat(4, 1fr); gap: 28px; margin-top: 48px; }
+  .cuts .card { font-size: 34px; line-height: 1.45; min-height: 360px; }
+  .cuts .card b { display: block; font-size: 28px; color: var(--accent); margin-bottom: 14px; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 52px; }
+  .note-col p { font-size: 34px; line-height: 1.55; }
+</style>
+</head>
+<body>
+<div class="stage">
+
+<!-- ===== 1부. 문제 공감 (0:00~2:30) ===== -->
+
+<section class="slide center" data-start="0:00" data-title="표지 · 오늘의 목표"
+  data-notes="오늘은 21시간 과정의 첫 15분을 그대로 보여 드립니다. 심사위원님들을 회사가 보내서 오신 재직자로 모시겠습니다.
+15분 뒤 손에 남는 것: 휴가 때 전화 오는 일 하나, 그리고 그걸 줄일 첫 행동 하나.">
+  <div class="kicker">21시간 과정 · 첫 15분</div>
+  <h1>[과정 제목]</h1>
+  <div class="card accent" style="margin-top:64px">
+    <div class="small accent" style="font-weight:700;margin-bottom:12px">오늘 15분의 목표</div>
+    <div class="big">휴가 때 전화 오는 일 하나,<br>그리고 그걸 줄일 첫 행동 하나</div>
+  </div>
+</section>
+
+<section class="slide" data-start="0:20" data-title="어느 회사의 월요일 (40초)" data-auto="1600"
+  data-notes="말하지 않는다. 40초 동안 자리를 잡고 청중을 본다.">
+  <div class="chat">
+    <div class="bubble step"><small>박 과장</small>그 견적서? 그 폴더에 있어</div>
+    <div class="bubble me step"><small>나</small>어느 폴더요…? 최종이 두 개인데요</div>
+    <div class="bubble step"><small>최 주임</small>카톡 뒤져봐, 거기서 얘기했던 것 같은데</div>
+    <div class="bubble me step"><small>나</small>그래서 뭘로 정했어요?</div>
+    <div class="bubble step"><small>이 대리</small>회의록엔 김치찌개, 카톡엔 돈가스…</div>
+  </div>
+  <h2 class="step" style="margin-top:40px">어느 회사의 월요일</h2>
+  <div class="source">예시 장면(재구성). 원본 영상 대사·장면 출처는 발표자 노트 참고</div>
+</section>
+
+<section class="slide center" data-start="1:00" data-title="작은 회사의 대표가 되어 봅니다"
+  data-notes="오늘은 우리 회사 문제를 조금 멀리서 보려고 작은 회사의 대표가 되어 보겠습니다. 해결할 때는 다시 내 자리로 돌아옵니다.
+방금 영상 속 회사가 이 회사다. 21시간 동안 이 회사로 실습한다. 회사 자료는 필요 없다.">
+  <div class="kicker">오늘의 역할</div>
+  <h2>우리 회사 문제를 조금 멀리서 보려고,<br>작은 회사의 대표가 되어 봅니다</h2>
+  <div class="row" style="margin-top:56px;align-items:stretch">
+    <div class="card" style="flex:1">
+      <div class="small muted">(주)다온오피스 · 대표</div>
+      <div class="big" style="margin-top:12px">여러분</div>
+      <div class="small muted" style="margin-top:16px">직원 5명 · 사무용품 납품<br>주문·재고·고객 문의가 카톡·메일·엑셀에 흩어진 회사</div>
+    </div>
+    <div class="card accent step" style="flex:1;display:flex;align-items:center">
+      <div class="big">문제는 대표의 눈으로,<br>해결은 내 자리에서</div>
+    </div>
+  </div>
+</section>
+
+<section class="slide center" data-start="1:35" data-title="이 회사가 살아남는 방법"
+  data-notes="부정 문장(사장 편하자고 하는 게 아니다)은 쓰지 않는다.
+반복해서 확인하고 설명하는 시간을 줄이는 것. 그게 이 회사가 사는 길.">
+  <div class="kicker">이 회사가 살아남는 방법</div>
+  <h1>직원이 덜 헤매는 것</h1>
+  <p class="lead">반복해서 확인하고, 다시 설명하는 시간을 줄입니다</p>
+  <div class="placeholder step" style="margin-top:48px;height:240px">[도식] 직원 5명의 헤매는 시간이 줄어드는 그림</div>
+</section>
+
+<section class="slide center" data-start="2:00" data-title="2주 휴가 질문"
+  data-notes="운영 일을 할 때 두 달마다 신입이 왔고, 그때마다 같은 설명을 했다(본인).
+숫자 하나만 손가락으로. 10이면 전부 굴러간다.">
+  <h2>내일부터 2주 휴가라면,<br>내 일 중 얼마가 대신 굴러갈까요?</h2>
+  <div class="scale"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+  <div class="row"><span>하나도 안 굴러간다</span><span>전부 굴러간다</span></div>
+</section>
+
+<!-- ===== 2부. 시연과 진단 (2:30~8:00) ===== -->
+
+<section class="slide" data-start="2:30" data-title="개발 경험 없는 직원 (4컷)"
+  data-notes="'바빠 죽겠는데'는 우리 모두의 말이다.
+이 직원이 먼저 한 건 자동화가 아니라, 어떤 일을 줄일지 찾는 것이었다.
+(30개·1,300시간 같은 숫자는 원본 확인 전까지 말하지 않는다)">
+  <div class="kicker">실제 이야기</div>
+  <h2>개발 경험 없는 직원이, 하루 이틀 만에</h2>
+  <div class="cuts">
+    <div class="card step"><b>①</b>"올해 생산성 10% 올리세요"</div>
+    <div class="card step"><b>②</b>동료들<br>"바빠 죽겠는데…"</div>
+    <div class="card step"><b>③</b>내가 반복하는 일과<br>그 자료부터 적어 봄</div>
+    <div class="card accent step"><b>④</b>업무 목록 한 장<br>→ 줄일 일이 보였다</div>
+  </div>
+  <p class="lead step" style="margin-top:36px">어떤 일을 줄일지 찾는 데서 시작했습니다</p>
+  <div class="source">유튜브 '철수씨' 중소기업 대표·직원 인터뷰 (대표 00:15~15:20, 직원 01:32~05:17)</div>
+</section>
+
+<section class="slide center" data-start="3:20" data-title="정리된 일은 나를 지킨다"
+  data-notes="대표 역할에서 잠깐 나와 나로 돌아온다.
+기록은 감시가 아니라, 인수인계와 반복 설명을 줄이는 공통 기록이고, 내 실적이 된다.">
+  <h2>정리된 일은 나를 먼저 편하게 하고,<br>나를 지킵니다</h2>
+  <div class="two">
+    <div class="card step">"왜 그거 안 했어요?"</div>
+    <div class="card accent step">"이때 이렇게 요청하셨고,<br>저는 여기까지 했습니다" → 기록 화면</div>
+  </div>
+  <p class="lead step">인수인계도, 같은 설명을 반복하는 일도 줄어듭니다</p>
+  <div class="source">유튜브 '공여사들' 직원 경험담 (26:39, 02:06)</div>
+</section>
+
+<section class="slide" data-start="3:50" data-title="같은 자료, 다른 폴더"
+  data-notes="어느 게 맞나요? 정답은 없습니다. 사람마다 정리 방식이 원래 다릅니다.
+혼자 쓰기엔 편해도, 함께 찾으려면 약속이 필요합니다.">
+  <div class="kicker">세 사람이 같은 자료 20개를 정리했습니다</div>
+  <h2>같은 자료, 다른 폴더</h2>
+  <div class="trees">
+    <div class="tree"><h4>거래처별로</h4>
+      <div class="f">맑은내과 <span class="n">2</span></div><div class="f">정진세무 <span class="n">2</span></div><div class="f">다솜요양원 <span class="n">2</span></div><div class="f">해솔·새솔·그린… <span class="n">6</span></div><div class="f">공통 <span class="n">8</span></div></div>
+    <div class="tree"><h4>업무별로</h4>
+      <div class="f">견적 <span class="n">4</span></div><div class="f">주문·배송 <span class="n">5</span></div><div class="f">재고 <span class="n">2</span></div><div class="f">회의 <span class="n">2</span></div><div class="f">경리·기타 <span class="n">7</span></div></div>
+    <div class="tree"><h4>날짜별로</h4>
+      <div class="f">10월 2주 <span class="n">6</span></div><div class="f">10월 3주 <span class="n">4</span></div><div class="f">10월 4주 <span class="n">5</span></div><div class="f">10월 말 <span class="n">3</span></div><div class="f">옛날 거 <span class="n">2</span></div></div>
+  </div>
+  <p class="lead step">혼자 쓰기엔 편해도, 함께 찾으려면 약속이 필요합니다</p>
+  <div class="source">사람마다 다른 정리 방식: 개인 정보 관리 연구 (Malone 1983, Whittaker & Sidner 1996)</div>
+</section>
+
+<section class="slide" data-start="4:20" data-title="AI 시연 (1분 20초)"
+  data-notes="방금 그 자료 20개에 같은 질문을 합니다. 먼저 어제 20번 돌린 결과(기록 보기), 인터넷이 되면 지금 한 번 더(r).
+답 숫자보다 '근거 파일'을 짚는다. 정리 후 쪽은 무엇을 더했는지(자료 목록 1개) 말한다.
+끝에: 회사 AI 환경은 뒤에서 말씀드립니다.">
+  <h2 class="step" style="font-size:60px">AI가 답을 찾아 줘도,<br>최신본인지는 확인해야 합니다</h2>
+  <div class="ai-demo no-advance" data-corpus="demo/corpus.json" data-recorded="demo/recorded.json" data-question="맑은내과 최종 견적 얼마야?">
+    <div class="card q">질문 · "맑은내과 최종 견적 얼마야?"</div>
+    <div class="row">
+      <div class="card panel" data-side="before">
+        <div class="label">정리 전 · 파일 20개 그대로</div>
+        <div class="ans">—</div><div class="src"></div><span class="badge pill"></span>
+      </div>
+      <div class="card panel" data-side="after">
+        <div class="label">정리 후 · 같은 20개 + 자료 목록 1개</div>
+        <div class="ans">—</div><div class="src"></div><span class="badge pill"></span>
+      </div>
+    </div>
+    <div class="controls no-print"><button data-act="recorded">기록 보기</button><button data-act="live">지금 실행 (r)</button><span class="status"></span></div>
+  </div>
+  <div class="source">가상 회사 (주)다온오피스 자료 · 정리 후 = 파일마다 '최신·이전·확정'을 적은 목록 표 1개를 더함</div>
+</section>
+
+<section class="slide" data-start="5:40" data-title="내 업무 점검 카드 (1분)"
+  data-notes="4번에서 떠올린 숫자를 쪼개 봅니다. 업무 이름부터 적어 주세요. 조용히 1분 (s 키 또는 타이머 클릭).">
+  <div class="kicker">내 업무 점검 카드 · 1분</div>
+  <div class="row" style="align-items:flex-start;margin-top:20px">
+    <div class="col grow">
+      <div class="check">휴가 때 전화 오는 일 하나: <span class="blank"></span></div>
+      <div class="check" style="margin-top:24px"><span class="box"></span>다른 사람이 절차를 확인할 수 있다</div>
+      <div class="check"><span class="box"></span>필요한 자료가 어디 있는지 남도 안다</div>
+      <div class="check"><span class="box"></span>어느 게 최신본인지 구별된다</div>
+    </div>
+    <div class="timer no-advance" data-seconds="60">1:00</div>
+  </div>
+</section>
+
+<section class="slide center" data-start="6:55" data-title="체크 수 손들기"
+  data-notes="지목하지 않는다. '3개 다 체크하신 분?'부터. 대부분 1~2개다.
+본인 예시로 이어 간다: 신입 교육 자료가 어디 있는지 나만 알았다 → '자료 위치 한곳에 표시'만 해도 한 칸이 채워진다.">
+  <h2>3개 다 체크하신 분?</h2>
+  <p class="lead step">대부분 1~2개입니다. 정상입니다.</p>
+  <div class="card accent step" style="margin-top:48px"><div class="big">체크 못 한 칸이 오늘의 첫 개선 후보입니다</div></div>
+</section>
+
+<!-- ===== 3부. 과정 안내 (8:00~10:30) ===== -->
+
+<section class="slide" data-start="8:00" data-title="21시간 과정의 출발점"
+  data-notes="방금 하신 점검이 1회차의 출발점.
+한 단계에서 효과를 확인한 뒤, 앞뒤 업무와 보고까지 살펴본다. 가로·세로는 제 틀입니다.">
+  <div class="kicker">방금 하신 점검이 21시간 과정의 출발점입니다</div>
+  <h2>한 단계에서 효과를 확인하고,<br>앞뒤 업무와 보고까지 넓혀 갑니다</h2>
+  <div class="track">
+    <div class="card accent step"><h3>1회 · 정보 정리</h3><p>최소한의 정리 약속<br>→ 정리 규칙, 업무 흐름도</p></div>
+    <div class="card step"><h3>2회 · 업무 흐름 끝까지</h3><p>주문 접수 → 재고 확인 → 고객 안내<br>→ 업무 요청서, 점검표</p></div>
+    <div class="card step"><h3>3회 · 보고·결재까지</h3><p>기록에서 바로 보고<br>→ 업무 개선안 1장</p></div>
+  </div>
+  <p class="small muted" style="margin-top:28px">7시간 = 1회차 · 14시간 = 1·2회차 · 21시간 = 1·2·3회차</p>
+</section>
+
+<section class="slide center" data-start="9:00" data-title="회사에서 AI를 쓸 수 있나요?"
+  data-notes="회사마다 쓸 수 있는 AI가 다르다. 정리는 어디서나 같고, AI 실습은 허용된 환경에서. AI를 전혀 못 쓰면 AI 실습은 시연으로 대신한다.">
+  <h2>회사에서 AI를 쓸 수 있나요?</h2>
+  <div class="two">
+    <div class="card"><h3>정리</h3><p class="lead" style="margin-top:12px">어느 회사나 똑같이 합니다</p></div>
+    <div class="card accent"><h3>AI 실습</h3><p class="lead" style="margin-top:12px">회사가 승인한 도구,<br>또는 가상 회사 자료로</p></div>
+  </div>
+</section>
+
+<section class="slide" data-start="9:30" data-title="과제와 결과물"
+  data-notes="처음엔 정리할 일이 생기지만, 반복해서 찾고 설명하는 일을 줄이는 게 목표.
+'지난주 두 번 설명한 일을, 다음엔 한 번만 설명하게.' 결과물 샘플은 21시간 과정 예시.">
+  <div class="kicker">21시간 과정 예시</div>
+  <h2>처음엔 정리할 일이 생기지만,<br>반복해서 찾고 설명하는 일을 줄이는 게 목표입니다</h2>
+  <div class="row" style="margin-top:44px;align-items:stretch">
+    <div class="col" style="flex:1.1">
+      <div class="card step"><b>1회 뒤</b> 오늘 고른 업무 하나 기록 + 정리 약속 2가지</div>
+      <div class="card step"><b>2회 뒤</b> 그 업무 흐름에 AI 한 단계</div>
+      <div class="card step"><b>2주 뒤</b> 업무 개선안 1장 (경영진 보고 형식)</div>
+    </div>
+    <div class="placeholder step" style="flex:1">[결과물 샘플] 업무 개선안 1장 · 전·후</div>
+  </div>
+</section>
+
+<!-- ===== 4부. 행동 결정 (10:30~13:00) ===== -->
+
+<section class="slide" data-start="10:30" data-title="설계자 노트 (1분)"
+  data-notes="여기서 1분은 강사가 아니라 설계자로 말씀드립니다.
+측정: 점검 카드 체크 수를 수업 전·후로 비교. 개정: 1안(강사 15분 설명) → 지금(시연·진단·행동).">
+  <div class="kicker">여기서 1분은 설계자로 말씀드립니다</div>
+  <h2>설계자 노트</h2>
+  <div class="track">
+    <div class="card"><h3>구조</h3><p>7·14·21시간이<br>1회차를 공유하고<br>회차마다 결과물이 쌓임</p></div>
+    <div class="card"><h3>측정</h3><p>점검 카드 체크 수<br>수업 전 → 2주 뒤</p></div>
+    <div class="card accent"><h3>개정</h3><p>1안: 강사가 15분 설명<br>→ 지금: 시연·진단·행동</p></div>
+  </div>
+</section>
+
+<section class="slide" data-start="11:30" data-title="첫 행동 하나 고르기 · 목표 확인"
+  data-notes="카드로 돌아갑니다. 체크 못 한 칸 하나를 골라, 첫 행동 하나에 표시해 주세요.
+예: 견적서는 최신본 구별이 안 된다 → 최종 승인본 표시 규칙부터.
+처음 말씀드린 목표: 휴가 때 전화 오는 일 하나, 그리고 첫 행동 하나. 지금 손에 있습니다.
+그 행동이 0번 과제이고, 다음 시간의 첫 재료입니다. (QR은 발표 후)">
+  <div class="kicker">카드로 돌아갑니다</div>
+  <h2>체크 못 한 칸 하나, 첫 행동 하나</h2>
+  <div class="check" style="margin-top:40px">
+    <div><span class="circle"></span>절차를 3단계로 적기</div>
+    <div><span class="circle"></span>자료 위치를 한곳에 표시하기</div>
+    <div><span class="circle"></span>최신본 구별 기준 정하기</div>
+  </div>
+  <div class="card accent step" style="margin-top:36px"><div class="big" style="font-size:52px">그 행동이 0번 과제입니다 · 다음 시간의 첫 재료</div></div>
+</section>
+
+</div>
+<script src="../assets/deck.js"></script>
+<script src="../assets/ai-demo.js"></script>
+</body>
+</html>

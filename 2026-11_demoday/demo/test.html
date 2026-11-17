@@ -1,0 +1,76 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>AI 시연 재현 시험</title>
+<style>
+  body { font-family: "Pretendard", "Malgun Gothic", sans-serif; max-width: 1100px; margin: 32px auto; padding: 0 16px; color: #17191c; background: #fff; }
+  h1 { font-size: 26px; } p, label, button, select, input { font-size: 16px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 16px; font-size: 14px; }
+  th, td { border: 1px solid #d9dde3; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #f3f5f8; }
+  .ok { color: #17784a; font-weight: 700; } .no { color: #b4410c; font-weight: 700; }
+  .sum { margin-top: 16px; padding: 12px 16px; background: #f3f5f8; border-radius: 10px; white-space: pre-line; }
+  button { padding: 6px 14px; margin-right: 6px; }
+</style>
+</head>
+<body>
+<h1>AI 시연 재현 시험</h1>
+<p>같은 질문을 정리 전·정리 후 자료에 여러 번 던져 결과가 정직하게 갈리는지 확인합니다. 키·모델은 <b>k</b> 키(또는 아래 버튼)로 설정합니다. 키는 이 브라우저에만 저장됩니다.</p>
+<p>
+  <label>질문 <select id="q">
+    <option value="맑은내과 최종 견적">맑은내과 최종 견적 얼마야?</option>
+    <option value="10월 말 A4 재고">10월 말 A4 복사지 재고 몇 박스야?</option>
+  </select></label>
+  <label>횟수 <input id="n" type="number" value="10" min="1" max="30" style="width:70px"></label>
+  <button id="cfg">설정</button><button id="go">시험 시작</button><button id="dl" disabled>기록 파일 내려받기 (recorded.json)</button>
+</p>
+<div class="sum" id="sum">아직 시험하지 않았습니다.</div>
+<table><thead><tr><th>#</th><th>쪽</th><th>답</th><th>근거</th><th>판정</th><th>시간</th></tr></thead><tbody id="rows"></tbody></table>
+<script src="../../assets/ai-demo.js"></script>
+<script>
+const QTEXT = { "맑은내과 최종 견적": "맑은내과 최종 견적 얼마야?", "10월 말 A4 재고": "10월 말 A4 복사지 재고 몇 박스야?" };
+let corpus, results = [];
+const digits = s => (s || "").replace(/[^0-9]/g, "");
+document.getElementById("cfg").onclick = () => AIDemo.settings();
+document.getElementById("go").onclick = async () => {
+  corpus = corpus || await AIDemo.fetchJSON("corpus.json");
+  const key = document.getElementById("q").value, question = QTEXT[key];
+  const ans = corpus.answers[key], n = Number(document.getElementById("n").value) || 10;
+  const cfg = AIDemo.load();
+  if (!cfg.key) { alert("먼저 설정에서 키를 넣어 주세요."); return; }
+  results = []; const tb = document.getElementById("rows"); tb.innerHTML = "";
+  for (let i = 1; i <= n; i++) {
+    for (const side of ["before", "after"]) {
+      let r;
+      try { r = await AIDemo.ask(corpus[side], question, cfg, 60); }
+      catch (e) { r = { answer: "오류: " + e.message, source: "", ms: 0 }; }
+      const ok = digits(r.answer).includes(digits(ans.correct));
+      results.push(Object.assign({ i, side, ok }, r));
+      tb.insertAdjacentHTML("beforeend", `<tr><td>${i}</td><td>${side === "before" ? "정리 전" : "정리 후"}</td><td>${r.answer}</td><td>${r.source}</td><td class="${ok ? "ok" : "no"}">${ok ? "정답" : "오답"}</td><td>${(r.ms / 1000).toFixed(1)}초</td></tr>`);
+      summarize(key, question, ans, cfg, n);
+    }
+  }
+  document.getElementById("dl").disabled = false;
+};
+function mode(arr) { const c = {}; arr.forEach(x => c[x] = (c[x] || 0) + 1); return Object.entries(c).sort((a, b) => b[1] - a[1])[0]?.[0] || ""; }
+function summarize(key, question, ans, cfg, n) {
+  const part = s => results.filter(r => r.side === s);
+  const b = part("before"), a = part("after");
+  const avg = arr => arr.length ? (arr.reduce((s, r) => s + r.ms, 0) / arr.length / 1000).toFixed(1) : "-";
+  document.getElementById("sum").textContent =
+    `정답: ${ans.correct} (근거 ${ans.source})\n` +
+    `정리 전: ${b.filter(r => r.ok).length}/${b.length} 정답 · 평균 ${avg(b)}초\n` +
+    `정리 후: ${a.filter(r => r.ok).length}/${a.length} 정답 · 평균 ${avg(a)}초\n` +
+    `결과가 정직하게 갈리면(정리 전 낮음, 정리 후 높음) 이 질문을 시연에 씁니다. 갈리지 않으면 숨기지 말고 다른 질문이나 '근거 확인' 메시지로 바꿉니다.`;
+  const pick = side => { const p = part(side); const ansMode = mode(p.map(r => r.answer)); const row = p.find(r => r.answer === ansMode) || {}; return { answer: row.answer || "", source: row.source || "", correct: p.filter(r => r.ok).length }; };
+  window._rec = { question, model: cfg.model, runs: Math.min(b.length, a.length), recorded_at: new Date().toISOString().slice(0, 16).replace("T", " "), before: pick("before"), after: pick("after") };
+}
+document.getElementById("dl").onclick = () => {
+  const blob = new Blob([JSON.stringify(window._rec, null, 2)], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "recorded.json"; a.click();
+};
+</script>
+</body>
+</html>

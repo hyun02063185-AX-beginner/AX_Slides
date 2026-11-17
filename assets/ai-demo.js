@@ -4,7 +4,8 @@
  */
 window.AIDemo = (function () {
   const LS = "axslides.ai";
-  const DEFAULTS = { base: "https://copa.codyssey.kr/v1", key: "", model: "gpt-5-mini", temperature: "", timeout: 8 };
+  // protocol: "anthropic" = Claude Messages 규격(/v1/messages), "openai" = OpenAI 호환(/v1/chat/completions)
+  const DEFAULTS = { protocol: "anthropic", base: "https://copa.codyssey.kr", key: "", model: "claude-haiku-4", temperature: "0", maxTokens: 300, timeout: 8 };
   const SYSTEM =
     "당신은 (주)다온오피스의 업무 비서입니다. 아래 회사 자료만 보고 질문에 답하세요. " +
     "반드시 두 줄로만 답하세요.\n답: (한 문장)\n근거: (근거로 삼은 파일 이름 하나)\n" +
@@ -28,25 +29,28 @@ window.AIDemo = (function () {
   async function ask(docs, question, cfg, timeoutSec) {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), (timeoutSec || cfg.timeout) * 1000);
-    const body = {
-      model: cfg.model,
-      messages: [
-        { role: "system", content: SYSTEM },
-        { role: "user", content: `${corpusText(docs)}\n\n질문: ${question}` },
-      ],
-    };
-    if (cfg.temperature !== "" && cfg.temperature !== null) body.temperature = Number(cfg.temperature);
+    const user = `${corpusText(docs)}\n\n질문: ${question}`;
+    const root = String(cfg.base || "").replace(/\/+$/, "").replace(/\/v1$/, "");
+    const anthropic = (cfg.protocol || "anthropic") === "anthropic";
+    let url, headers, body;
+    if (anthropic) {
+      url = root + "/v1/messages";
+      headers = { "content-type": "application/json", "x-api-key": cfg.key, "anthropic-version": "2023-06-01" };
+      body = { model: cfg.model, max_tokens: Number(cfg.maxTokens) || 300, system: SYSTEM, messages: [{ role: "user", content: user }] };
+    } else {
+      url = root + "/v1/chat/completions";
+      headers = { "content-type": "application/json", authorization: `Bearer ${cfg.key}` };
+      body = { model: cfg.model, messages: [{ role: "system", content: SYSTEM }, { role: "user", content: user }] };
+    }
+    if (cfg.temperature !== "" && cfg.temperature != null) body.temperature = Number(cfg.temperature);
     const t = performance.now();
     try {
-      const r = await fetch(cfg.base.replace(/\/$/, "") + "/chat/completions", {
-        method: "POST",
-        headers: { "content-type": "application/json", authorization: `Bearer ${cfg.key}` },
-        body: JSON.stringify(body),
-        signal: ctrl.signal,
-      });
+      const r = await fetch(url, { method: "POST", headers, body: JSON.stringify(body), signal: ctrl.signal });
       if (!r.ok) throw new Error(`HTTP ${r.status} ${(await r.text()).slice(0, 160)}`);
       const j = await r.json();
-      const text = j.choices?.[0]?.message?.content || "";
+      const text = anthropic
+        ? (j.content || []).filter(b => b.type === "text").map(b => b.text).join("\n")
+        : j.choices?.[0]?.message?.content || "";
       return Object.assign(parse(text), { raw: text, ms: Math.round(performance.now() - t) });
     } finally { clearTimeout(timer); }
   }
@@ -62,10 +66,12 @@ window.AIDemo = (function () {
       dlg.style.cssText = "font-family:var(--font);font-size:18px;padding:24px;border-radius:14px;border:1px solid #ccc;min-width:520px";
       dlg.innerHTML = `
         <h3 style="font-size:22px;margin:0 0 12px">AI 연결 설정 (이 브라우저에만 저장)</h3>
-        <label>주소 <input name="base" style="width:100%"></label><br><br>
+        <label>방식 <select name="protocol" style="width:100%"><option value="anthropic">Claude (Anthropic Messages · /v1/messages)</option><option value="openai">OpenAI 호환 (/v1/chat/completions)</option></select></label><br><br>
+        <label>주소 (뒤에 /v1 없이) <input name="base" style="width:100%"></label><br><br>
         <label>키 <input name="key" type="password" style="width:100%" autocomplete="off"></label><br><br>
-        <label>모델 <input name="model" style="width:100%"></label><br><br>
+        <label>모델 (예: claude-haiku-4, claude-sonnet-4) <input name="model" style="width:100%"></label><br><br>
         <label>temperature (비우면 보내지 않음) <input name="temperature" style="width:100%"></label><br><br>
+        <label>max_tokens (Claude 필수) <input name="maxTokens" style="width:100%"></label><br><br>
         <label>제한 시간(초) <input name="timeout" style="width:100%"></label><br><br>
         <button data-act="test">연결 시험</button> <button data-act="save">저장</button> <button data-act="close">닫기</button>
         <button data-act="forget" style="float:right">키 지우기</button>
@@ -75,7 +81,7 @@ window.AIDemo = (function () {
         const act = e.target.dataset.act;
         if (!act) return;
         const cfg = {};
-        dlg.querySelectorAll("input").forEach(i => (cfg[i.name] = i.value.trim()));
+        dlg.querySelectorAll("input, select").forEach(i => (cfg[i.name] = i.value.trim()));
         cfg.timeout = Number(cfg.timeout) || 8;
         const msg = dlg.querySelector(".msg");
         if (act === "save") { save(cfg); msg.textContent = "저장했습니다."; }
@@ -93,11 +99,11 @@ window.AIDemo = (function () {
       });
     }
     const cfg = load();
-    dlg.querySelectorAll("input").forEach(i => (i.value = cfg[i.name] ?? ""));
+    dlg.querySelectorAll("input, select").forEach(i => (i.value = cfg[i.name] ?? ""));
     dlg.querySelector(".msg").textContent = "";
     dlg.showModal();
   }
-  document.addEventListener("keydown", e => { if (e.key === "k" && !e.target.closest("input, dialog")) settings(); });
+  document.addEventListener("keydown", e => { if (e.key === "k" && !e.target.closest("input, select, dialog")) settings(); });
 
   /* ---------- 슬라이드 안 시연 ---------- */
   function mount(root) {

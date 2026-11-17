@@ -34,14 +34,28 @@
 - API 키는 코드에 넣지 않습니다. 발표 노트북에서 `k` → 키 입력 → "연결 시험" → "저장".
 - 기본값: 방식 **Claude (Anthropic Messages)**, 주소 `https://copa.codyssey.kr` (`/v1/messages`로 호출), 모델 `claude-haiku-4`(빠름), `temperature 0`(결과를 최대한 고정), `max_tokens 300`. 더 정확한 답이 필요하면 모델을 `claude-sonnet-4`로 바꿔 재현 시험을 다시 합니다.
 - 설정 창에서 방식을 "OpenAI 호환"으로 바꾸면 `/v1/chat/completions`로 호출합니다.
-- "연결 시험"에서 `Failed to fetch`가 나오면 브라우저에서 직접 호출이 막힌 것(CORS)일 수 있습니다. 그때는 리허설 기록만 씁니다.
+- "연결 시험"에서 `Failed to fetch`가 나오면 브라우저 직접 호출이 막힌 것(CORS)입니다. 아래 "발표 노트북에서 쓰기"의 `serve.py`로 띄운 주소에서 하세요.
 
 ### 재현 시험 → 리허설 기록 만들기
 
-1. `2026-11_demoday/demo/test.html`을 엽니다 (배포 주소 뒤에 `/2026-11_demoday/demo/test.html`).
+1. `serve.py`를 띄우고 `http://localhost:8787/2026-11_demoday/demo/test.html`을 엽니다.
 2. "설정"에서 키를 넣고, 질문과 횟수(예: 10~20회)를 고른 뒤 "시험 시작".
 3. 정리 전·후 정답 수가 정직하게 갈리는지 봅니다. 갈리지 않으면 숨기지 말고 질문을 바꾸거나 메시지를 "근거 확인"으로 바꿉니다.
 4. "기록 파일 내려받기"로 받은 `recorded.json`을 `2026-11_demoday/demo/`에 덮어써서 커밋합니다.
+
+## 발표 노트북에서 쓰기 (AI 시연은 이 방법으로)
+
+코디세이 API는 웹페이지에서 직접 부르는 호출(CORS)을 막습니다. 그래서 **GitHub Pages 주소에서는 8번 실시간 실행이 안 되고, 리허설 기록만 나옵니다.** 실시간 실행과 재현 시험은 노트북에서 작은 서버를 띄워서 합니다.
+
+1. 이 저장소를 내려받습니다 (`git clone` 또는 GitHub의 Code → Download ZIP).
+2. 폴더에서 실행합니다.
+   - Windows: `serve.bat` 더블클릭 (또는 `py serve.py`)
+   - Mac·Linux: `python3 serve.py`
+3. 브라우저가 `http://localhost:8787/2026-11_demoday/`로 열립니다. `k` → 키 입력 → "연결 시험" → "저장".
+   - 이 주소에서는 AI 호출이 `serve.py`를 거쳐 코디세이로 갑니다. 키는 브라우저에만 저장되고 `serve.py`는 전달만 합니다.
+4. 재현 시험: `http://localhost:8787/2026-11_demoday/demo/test.html`
+
+인터넷이 끊겨도 슬라이드는 이 주소에서 그대로 열립니다(글꼴 포함). 8번은 리허설 기록으로 넘어갑니다.
 
 ## 배포 (GitHub Pages)
 
@@ -51,7 +65,7 @@
 ## 인터넷이 없을 때
 
 - **PDF 백업**: 슬라이드 화면에서 Ctrl+P → 대상 "PDF로 저장" → 한 장에 슬라이드 하나씩 저장됩니다(단계 등장 효과는 모두 펼쳐진 상태).
-- **노트북에서 바로 열기**: 저장소를 내려받아 폴더에서 `python -m http.server` 실행 후 `http://localhost:8000/2026-11_demoday/`. (파일을 더블클릭해 열면 8번의 기록 파일을 읽지 못합니다)
+- **노트북에서 열기**: 위의 `serve.py` 방법. (index.html을 더블클릭해 열면 8번의 기록 파일을 읽지 못합니다)
 
 ## 시연 자료 다시 만들기
 

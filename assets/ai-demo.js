@@ -30,7 +30,9 @@ window.AIDemo = (function () {
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), (timeoutSec || cfg.timeout) * 1000);
     const user = `${corpusText(docs)}\n\n질문: ${question}`;
-    const root = String(cfg.base || "").replace(/\/+$/, "").replace(/\/v1$/, "");
+    let root = String(cfg.base || "").replace(/\/+$/, "").replace(/\/v1$/, "");
+    // serve.py로 띄웠으면(localhost) 코디세이 주소 대신 같은 주소의 중계(/proxy)로 보낸다 → CORS 문제 없음
+    if (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) && /copa\.codyssey\.kr/.test(root)) root = location.origin + "/proxy";
     const anthropic = (cfg.protocol || "anthropic") === "anthropic";
     let url, headers, body;
     if (anthropic) {
@@ -93,7 +95,7 @@ window.AIDemo = (function () {
             const r = await ask([{ name: "시험.txt", text: "오늘 점심은 김치찌개로 정했다." }], "오늘 점심 메뉴는?", cfg, 20);
             msg.textContent = `연결됨 · ${r.ms}ms\n${r.raw}`;
           } catch (err) {
-            msg.textContent = `실패: ${err.message}\n'Failed to fetch'라면 브라우저에서 직접 호출이 막힌 것(CORS)일 수 있습니다.`;
+            msg.textContent = `실패: ${err.message}\n` + (/^(localhost|127\.0\.0\.1)$/.test(location.hostname) ? "serve.py 창에 오류가 찍혔는지, 인터넷이 되는지 확인하세요." : "'Failed to fetch'면 브라우저 직접 호출이 막힌 것(CORS)입니다. 노트북에서 python serve.py 로 띄운 http://localhost:8787 에서 다시 시험하세요.");
           }
         }
       });

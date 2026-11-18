@@ -131,7 +131,7 @@
   data-notes="과제는 재직자 대상 7·14·21시간 과정이었습니다. 따로 늘린 게 아니라 같은 뼈대가 늘어납니다.
 대상: 회사가 보내서 온 재직자. 그래서 수강생은 '작은 회사의 대표'가 되어 가상 회사 자료로 실습합니다. 문제는 대표의 눈으로, 해결은 내 자리에서.
 1회 정리 → 2회 업무 흐름 끝까지 AI → 3회 보고·결재까지. 회차마다 손에 남는 결과물이 쌓입니다.
-측정: 점검 카드 체크 수를 수업 전과 2주 뒤에 비교. 자세한 차시표는 나눠 드린 A4에 있습니다.
+측정: 점검 카드 체크 수를 수업 전과 2주 뒤에 비교. (자료 배포는 안 됨. 차시표 질문이 나오면 a4.html '과정 설계 한 장'을 화면에 띄운다)
 (지표: 논리적 구성·내용 이해 — 설계 과정)">
   <div class="kicker">② 과제에 대한 답 · 재직자 7·14·21시간 과정</div>
   <h2 style="font-size:62px">같은 뼈대가, 시간만큼 늘어납니다</h2>
@@ -160,7 +160,7 @@
     <div class="seg s2"><b>남는 것</b>AI 업무 요청서 · 결과 점검표</div>
     <div class="seg s3"><b>남는 것</b>기록 기반 보고 · 업무 개선안 1장</div>
   </div>
-  <div class="strip step" style="margin-top:30px"><span class="pill ok">측정: 점검 카드 체크 수 · 수업 전 → 2주 뒤</span><span class="small muted">차시별 내용은 A4로 드립니다</span></div>
+  <div class="strip step" style="margin-top:30px"><span class="pill ok">측정: 점검 카드 체크 수 · 수업 전 → 2주 뒤</span><span class="small muted">차시별 내용은 질의응답 때 화면으로 보여 드립니다</span></div>
 </section>
 
 <section class="slide center" data-start="3:30" data-title="시험해 보고 고쳤습니다 (1분)"
@@ -265,10 +265,10 @@
   <div class="source">가상 회사 (주)다온오피스 자료 20개 · 코디세이 API(claude-haiku-4) · 리허설 기록은 발표 노트북 재현 시험 결과</div>
 </section>
 
-<section class="slide" data-start="8:40" data-title="내 업무 점검 카드 (1분 15초)"
-  data-notes="이제 내 일입니다. 아까 떠올린 숫자를 쪼개 봅니다. 휴가 때 전화 오는 일 하나를 적고, 세 칸을 체크해 주세요. 1분 드리겠습니다 (s 키 또는 타이머 클릭).
+<section class="slide" data-start="8:40" data-title="내 업무 점검 (1분 15초)"
+  data-notes="이제 내 일입니다. 아까 떠올린 숫자를 쪼개 봅니다. 휴가 때 전화 오는 일 하나를 떠올리고(휴대폰 메모에 한 줄 적어 두셔도 좋습니다), 세 칸 중 몇 개에 해당하는지 손가락으로 세어 주세요. 1분 드리겠습니다 (s 키 또는 타이머 클릭).
 (조용히 1분. 지표: 실무 적용·교육 목표 달성)">
-  <div class="kicker">내 업무 점검 카드 · 1분</div>
+  <div class="kicker">내 업무 점검 · 1분 · 마음속으로, 또는 휴대폰 메모에</div>
   <div class="row" style="align-items:flex-start;margin-top:20px">
     <div class="col grow">
       <div class="check">휴가 때 전화 오는 일 하나: <span class="blank"></span></div>
@@ -317,12 +317,12 @@
 </section>
 
 <section class="slide center" data-start="12:30" data-title="목표 확인 · 마무리"
-  data-notes="처음 말씀드린 목표, 휴가 때 전화 오는 일 하나와 첫 행동 하나. 지금 카드에 있습니다.
+  data-notes="처음 말씀드린 목표, 휴가 때 전화 오는 일 하나와 첫 행동 하나. 지금 하나씩 떠올리셨습니다.
 어려운 건 그려야 기억납니다. 오늘 그림 한 장 가져가 주십시오. 감사합니다.
 (13:00 종료. 여유 2분은 질문·지연 대비)">
   <div class="kicker">7분 전에 드린 약속</div>
   <h2>휴가 때 전화 오는 일 하나,<br>그리고 첫 행동 하나</h2>
-  <p class="lead">지금 카드에 적혀 있습니다</p>
+  <p class="lead">지금, 하나씩 떠올리셨습니다</p>
   <div class="card accent step" style="margin-top:56px"><div class="big">어려운 건, 그려야 기억납니다</div></div>
   <p class="small muted step" style="margin-top:40px">감사합니다 · 김현래</p>
 </section>
@@ -340,6 +340,10 @@
       img.src = `${fig.dataset.src}.${exts[i]}`;
     })(0);
   });
+</script>
+<script>
+  /* 질의응답용: a 키 → 과정 설계 한 장(차시표) 화면 */
+  document.addEventListener("keydown", e => { if (e.key === "a" && !e.target.closest("input, select, dialog")) location.href = "a4.html"; });
 </script>
 <script src="../assets/deck.js"></script>
 <script src="../assets/ai-demo.js"></script>

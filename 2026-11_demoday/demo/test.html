@@ -64,7 +64,7 @@ function summarize(key, question, ans, cfg, n) {
     `정리 전: ${b.filter(r => r.ok).length}/${b.length} 정답 · 평균 ${avg(b)}초\n` +
     `정리 후: ${a.filter(r => r.ok).length}/${a.length} 정답 · 평균 ${avg(a)}초\n` +
     `결과가 정직하게 갈리면(정리 전 낮음, 정리 후 높음) 이 질문을 시연에 씁니다. 갈리지 않으면 숨기지 말고 다른 질문이나 '근거 확인' 메시지로 바꿉니다.`;
-  const pick = side => { const p = part(side); const ansMode = mode(p.map(r => r.answer)); const row = p.find(r => r.answer === ansMode) || {}; return { answer: row.answer || "", source: row.source || "", correct: p.filter(r => r.ok).length }; };
+  const pick = side => { const p = part(side); const ansMode = mode(p.map(r => r.answer)); const row = p.find(r => r.answer === ansMode) || {}; return { answer: row.answer || "", source: row.source || "", correct: p.filter(r => r.ok).length, avg_s: Number(avg(p)) || null }; };
   window._rec = { question, model: cfg.model, runs: Math.min(b.length, a.length), recorded_at: new Date().toISOString().slice(0, 16).replace("T", " "), before: pick("before"), after: pick("after") };
 }
 document.getElementById("dl").onclick = () => {

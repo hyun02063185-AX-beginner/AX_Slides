@@ -1,0 +1,350 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>데모데이 15분 v2 · 그림 한 장으로</title>
+<link rel="stylesheet" href="../assets/deck.css">
+<style>
+  :root { --c3: #6b4fbb; --c3-soft: #efeafb; --head: #c8331b; }
+  .slide { word-break: keep-all; }
+  /* 화살표로 이어진 상자 줄 */
+  .flow { display: flex; align-items: stretch; margin-top: 56px; }
+  .flow .n { flex: 1; background: var(--soft); border-radius: 26px; padding: 32px 30px; min-height: 180px; display: flex; flex-direction: column; justify-content: center; gap: 10px; }
+  .flow .n b { font-size: 40px; line-height: 1.25; }
+  .flow .n span { font-size: 28px; color: var(--muted); line-height: 1.4; }
+  .flow .n.accent { background: var(--accent-soft); } .flow .n.accent b { color: var(--accent); }
+  .flow .n.ok { background: var(--ok-soft); } .flow .n.ok b { color: var(--ok); }
+  .flow .n.c3 { background: var(--c3-soft); } .flow .n.c3 b { color: var(--c3); }
+  .flow .ar { width: 70px; flex: none; display: flex; align-items: center; justify-content: center; color: #9aa1aa; }
+  .flow .ar svg { width: 40px; height: 40px; }
+  .flow .n.now { outline: 5px solid var(--accent); outline-offset: -5px; }
+
+  /* 웹툰 자리: 그림이 있으면 그림, 없으면 콘티 글 */
+  .toon { margin: 34px auto 0; width: 1500px; height: 760px; position: relative; }
+  .toon img { width: 100%; height: 100%; object-fit: contain; display: block; }
+  .toon .cuts4 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 22px; height: 100%; }
+  .toon .cut { border: 4px solid var(--ink); border-radius: 18px; padding: 26px 32px; display: flex; flex-direction: column; gap: 12px; font-size: 32px; line-height: 1.4; }
+  .toon .cut em { font-style: normal; font-size: 22px; color: var(--muted); }
+  .toon .cut q { quotes: none; font-weight: 700; }
+  .toon .cut .no { font-size: 24px; font-weight: 800; color: var(--accent); }
+  .toon .tag { position: absolute; right: 0; top: -40px; font-size: 20px; color: var(--muted); }
+
+  /* 과정 설계도 */
+  .course { display: grid; grid-template-columns: 190px 1fr 1fr 1fr; gap: 16px 18px; margin-top: 40px; align-items: stretch; }
+  .course .h { font-size: 30px; font-weight: 800; padding: 0 6px; }
+  .course .h small { display: block; font-size: 24px; font-weight: 500; color: var(--muted); margin-top: 4px; }
+  .course .lab { font-size: 38px; font-weight: 800; display: flex; align-items: center; }
+  .course .seg { border-radius: 18px; padding: 18px 24px; font-size: 26px; line-height: 1.35; color: var(--ink); }
+  .course .s1 { background: var(--accent-soft); } .course .s2 { background: var(--ok-soft); } .course .s3 { background: var(--c3-soft); }
+  .course .seg b { display: block; font-size: 22px; color: var(--muted); font-weight: 600; margin-bottom: 4px; }
+  .course .gap { border: 3px dashed var(--line); border-radius: 18px; }
+  .strip { display: flex; gap: 22px; align-items: center; font-size: 30px; }
+  .strip .pill { font-size: 28px; padding: 10px 26px; }
+
+  /* 흐름도 아래 '머릿속' 표시 */
+  .heads { display: flex; margin-top: 18px; }
+  .heads > div { flex: 1; text-align: center; }
+  .heads > i { width: 70px; flex: none; }
+  .head { display: inline-block; border: 4px dashed var(--head); color: var(--head); border-radius: 20px; padding: 14px 22px; font-size: 28px; font-weight: 700; line-height: 1.35; }
+
+  /* AI 시연 (한쪽 패널) */
+  .ai-demo { display: flex; flex-direction: column; gap: 24px; margin-top: 30px; }
+  .ai-demo .q { font-size: 40px; font-weight: 700; padding: 24px 40px; }
+  .ai-demo .panel { min-height: 300px; display: flex; flex-direction: column; gap: 16px; }
+  .ai-demo .label { font-size: 28px; font-weight: 700; color: var(--muted); }
+  .ai-demo .ans { font-size: 54px; font-weight: 800; line-height: 1.3; }
+  .ai-demo .src { font-size: 34px; color: var(--accent); font-weight: 700; }
+  .ai-demo .badge { align-self: flex-start; margin-top: auto; }
+  .ai-demo .controls { display: flex; gap: 16px; align-items: center; font-size: 22px; color: var(--muted); }
+  .ai-demo button { font: inherit; font-size: 22px; padding: 8px 18px; border-radius: 10px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+
+  .scale { display: flex; justify-content: space-between; font-size: 56px; font-weight: 800; margin-top: 70px; color: var(--muted); }
+  .scale + .row { justify-content: space-between; font-size: 30px; color: var(--muted); margin-top: 12px; }
+  .role { font-size: 120px; font-weight: 800; letter-spacing: -0.03em; line-height: 1.15; }
+  .proof { display: flex; gap: 48px; align-items: center; margin-top: 44px; }
+  .proof img { width: 560px; border-radius: 16px; border: 1px solid var(--line); }
+  .proof p { font-size: 32px; line-height: 1.55; color: var(--muted); }
+</style>
+</head>
+<body>
+<div class="stage">
+
+<!-- ===== ① 나의 AX 전환 (0:00~2:00) ===== -->
+
+<section class="slide center" data-start="0:00" data-title="표지 · 15분 지도"
+  data-notes="안녕하십니까, 김현래입니다. 오늘 15분은 세 덩어리입니다. 제가 어떻게 여기까지 왔는지, 과제로 받은 7·14·21시간 과정을 어떻게 설계했는지, 그리고 그중 한 시간을 지금 직접 해 보시는 것.
+(지표: 교육 목표 명확·논리적 구성)">
+  <div class="kicker">2026 현장형 AX 전문강사 데모데이 · 김현래</div>
+  <h1>휴가 가도 일이 굴러가게</h1>
+  <p class="lead" style="margin-top:20px">재직자 21시간 과정 · 정리에서 AI까지 <span class="small">(가제)</span></p>
+  <div class="flow">
+    <div class="n"><b>① 저는 이렇게 왔습니다</b><span>2분</span></div>
+    <div class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n"><b>② 과제에 대한 답</b><span>7·14·21시간 설계 · 2분 30초</span></div>
+    <div class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n accent"><b>③ 한 시간, 직접 해 보기</b><span>여러분이 수강생 · 7분</span></div>
+  </div>
+</section>
+
+<section class="slide" data-start="0:20" data-title="웹툰 A · 다시, 만드는 사람 (1분)"
+  data-notes="그림을 띄우고 컷마다 한 줄씩만.
+① 10년은 화면을 만들었습니다. ② 9년은 일정과 운영을 맡느라 손을 놓았습니다. ③ 올해 AX 과정에서 AI를 만나 다시 만들기 시작했습니다. 구조는 제가 잡고, AI에게 맡깁니다. ④ 그리고 이제는 남에게 설명하려고 만듭니다.
+(경력·숫자를 나열하지 않는다. 지표: 자신감·열정·진정성)">
+  <div class="kicker">① 저는 이렇게 왔습니다</div>
+  <h2 style="font-size:60px">다시, 만드는 사람</h2>
+  <figure class="toon" data-src="toons/self">
+    <div class="tag">그림 준비 중 · 콘티</div>
+    <div class="cuts4">
+      <div class="cut"><span class="no">1</span><q>"이 화면, 오늘 안에 됩니다!"</q><em>10년, 화면을 만들었다</em></div>
+      <div class="cut"><span class="no">2</span>동료: "코드는 마지막으로 언제 짜 보셨어요?"<q>"…기억이 안 나네요."</q><em>9년, 일정과 운영을 맡았다</em></div>
+      <div class="cut"><span class="no">3</span><q>"어? 다시 만들 수 있겠는데?"</q>AI: "구조는 누가 잡아요?" — <q>"그건 내가."</q></div>
+      <div class="cut"><span class="no">4</span>수강생: "이걸 그림으로 그려 오셨어요?"<q>"어려운 건, 그려야 기억나더라고요."</q></div>
+    </div>
+  </figure>
+</section>
+
+<section class="slide" data-start="1:20" data-title="그래서 저는 이렇게 설명합니다"
+  data-notes="저는 어려운 걸 이 순서로 설명합니다. 웹툰으로 상황을 보고, 흐름으로 순서를 잡고, 한 장으로 관계를 기억하고, 내 일에 해 봅니다.
+코디세이에서 비전공 동료들과 함께 보려고 기술 용어를 이렇게 풀어 왔습니다(오른쪽은 그중 한 편).
+오늘 15분도 이 순서로 갑니다.
+(지표: AI 도구 활용 숙련도·교안 가독성 — 말로 자랑하지 않는다)">
+  <div class="kicker">그래서 저는 이렇게 설명합니다</div>
+  <h2>어려운 건, 이 순서로</h2>
+  <div class="flow">
+    <div class="n"><b>웹툰</b><span>상황으로 첫 이해</span></div>
+    <div class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n"><b>흐름</b><span>시작과 순서</span></div>
+    <div class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n"><b>한 장</b><span>관계로 기억</span></div>
+    <div class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n accent"><b>실행</b><span>내 일에 해 보기</span></div>
+  </div>
+  <div class="proof step">
+    <img src="img/glossary-git-final.webp" alt="최종 파일이 여덟 개가 된 상황을 그린 4컷 만화">
+    <p>코디세이 기술용어 사전 웹툰 중 한 편<br>「최종이 여덟 개예요!」<br><br><b style="color:var(--ink)">오늘 15분도 이 순서로 갑니다</b></p>
+  </div>
+</section>
+
+<!-- ===== ② 과제에 대한 답 (2:00~4:30) ===== -->
+
+<section class="slide" data-start="2:00" data-title="과정 설계도 한 장 (1분 30초)"
+  data-notes="과제는 재직자 대상 7·14·21시간 과정이었습니다. 따로 늘린 게 아니라 같은 뼈대가 늘어납니다.
+대상: 회사가 보내서 온 재직자. 그래서 수강생은 '작은 회사의 대표'가 되어 가상 회사 자료로 실습합니다. 문제는 대표의 눈으로, 해결은 내 자리에서.
+1회 정리 → 2회 업무 흐름 끝까지 AI → 3회 보고·결재까지. 회차마다 손에 남는 결과물이 쌓입니다.
+측정: 점검 카드 체크 수를 수업 전과 2주 뒤에 비교. 자세한 차시표는 나눠 드린 A4에 있습니다.
+(지표: 논리적 구성·내용 이해 — 설계 과정)">
+  <div class="kicker">② 과제에 대한 답 · 재직자 7·14·21시간 과정</div>
+  <h2 style="font-size:62px">같은 뼈대가, 시간만큼 늘어납니다</h2>
+  <div class="strip" style="margin-top:34px">
+    <span class="pill">대상: 회사가 보내서 온 재직자</span>
+    <span class="pill">역할: 작은 회사의 대표 (가상 회사)</span>
+    <span class="pill accent">출발 질문: 휴가 때 어떤 전화가 오나</span>
+  </div>
+  <div class="course">
+    <div></div>
+    <div class="h">1회 · 정리<small>흩어진 자료에 최소 약속</small></div>
+    <div class="h">2회 · 흐름 끝까지<small>접수부터 안내까지 AI와</small></div>
+    <div class="h">3회 · 보고까지<small>기록에서 바로 보고·결재</small></div>
+
+    <div class="lab">7시간</div>
+    <div class="seg s1"><b>남는 것</b>정리 규칙 · 업무 흐름도</div>
+    <div class="gap"></div><div class="gap"></div>
+
+    <div class="lab">14시간</div>
+    <div class="seg s1"><b>남는 것</b>정리 규칙 · 업무 흐름도</div>
+    <div class="seg s2"><b>남는 것</b>AI 업무 요청서 · 결과 점검표</div>
+    <div class="gap"></div>
+
+    <div class="lab">21시간</div>
+    <div class="seg s1"><b>남는 것</b>정리 규칙 · 업무 흐름도</div>
+    <div class="seg s2"><b>남는 것</b>AI 업무 요청서 · 결과 점검표</div>
+    <div class="seg s3"><b>남는 것</b>기록 기반 보고 · 업무 개선안 1장</div>
+  </div>
+  <div class="strip step" style="margin-top:30px"><span class="pill ok">측정: 점검 카드 체크 수 · 수업 전 → 2주 뒤</span><span class="small muted">차시별 내용은 A4로 드립니다</span></div>
+</section>
+
+<section class="slide center" data-start="3:30" data-title="시험해 보고 고쳤습니다 (1분)"
+  data-notes="처음엔 제가 15분 내내 설명하는 안이었습니다. AI 세 곳에 심사위원처럼 채점해 달라고 했더니 공통 지적이 'AI가 안 보인다, 목표가 증명되지 않는다'였습니다.
+그래서 AI 시연을 넣었는데, 미리 10번 돌려 보니 예상과 달랐습니다. 정리 안 된 자료에서도 AI가 10번 다 맞혔습니다.
+그래서 메시지를 바꿨습니다. 'AI가 틀린다'가 아니라 '적혀 있는 건 AI가 찾는다, 머릿속에 있는 건 못 찾는다'.
+(지표: 개선 역량 — 평가 방향 '결과보다 설계 과정과 개선 역량')">
+  <div class="kicker">② 시험해 보고 고쳤습니다</div>
+  <h2 style="font-size:62px">만들고, 시험하고, 바꿨습니다</h2>
+  <div class="flow">
+    <div class="n"><b>1안</b><span>강사가 15분 설명</span></div>
+    <div class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n step"><b>AI 3곳 교차 채점</b><span>"AI가 안 보인다"<br>"목표가 증명 안 된다"</span></div>
+    <div class="ar step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n step"><b>시연 10회 재현 시험</b><span>정리 안 된 자료에서도<br>AI가 10번 다 맞힘</span></div>
+    <div class="ar step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n accent step"><b>메시지를 바꿈</b><span>적혀 있으면 찾는다<br>머릿속은 못 찾는다</span></div>
+  </div>
+</section>
+
+<!-- ===== ③ 한 시간 직접 해 보기 (4:30~11:30) ===== -->
+
+<section class="slide center" data-start="4:30" data-title="역할 전환 · 오늘의 목표"
+  data-notes="지금부터 7분은 21시간 과정 1회차의 첫 시간입니다. 여러분이 수강생입니다.
+이 7분이 끝나면 손에 두 가지가 남습니다. 휴가 때 전화 오는 일 하나, 그리고 그걸 줄일 첫 행동 하나.
+(목소리 톤을 바꾼다. 지표: 교육 목표 명확)">
+  <div class="kicker">③ 21시간 과정 · 1회차 첫 시간</div>
+  <div class="role">지금부터,<br>여러분이 수강생입니다</div>
+  <div class="card accent step" style="margin-top:56px">
+    <div class="small accent" style="font-weight:700;margin-bottom:10px">7분 뒤 손에 남는 것</div>
+    <div class="big">휴가 때 전화 오는 일 하나,<br>그리고 그걸 줄일 첫 행동 하나</div>
+  </div>
+</section>
+
+<section class="slide" data-start="4:50" data-title="웹툰 B · 휴가 첫날 (50초)"
+  data-notes="그림을 띄우고 3초 쉰다(웃음 기다리기).
+가상 회사 다온오피스의 이 대리가 휴가 첫날 받은 전화 세 통입니다. 셋 다 이 대리 머릿속에만 있던 것들이죠.
+여러분 휴가 때는 어떤 전화가 오나요?
+(비유의 한계: 전화가 오는 이유가 모두 정리 부족은 아니다. 급한 결정·권한 문제도 있다. 이 웹툰은 '나만 아는 정보' 때문에 오는 전화만 다룬다)">
+  <div class="kicker">어느 회사의 휴가 첫날</div>
+  <h2 style="font-size:60px">휴가 첫날</h2>
+  <figure class="toon" data-src="toons/vacation">
+    <div class="tag">그림 준비 중 · 콘티</div>
+    <div class="cuts4">
+      <div class="cut"><span class="no">1</span><q>"드디어 휴가다…"</q>휴대폰 알림 — 박 과장: "수진 씨, 잠깐만~"</div>
+      <div class="cut"><span class="no">2</span>박 과장: "A4 재고가 엑셀엔 34개인데, 이게 다예요?"<q>"창고2에 12개 더 있어요! 열쇠는 도윤 씨가…"</q></div>
+      <div class="cut"><span class="no">3</span>"견적 최종본 어느 거예요?" "다솜요양원 어디로 보내요?"<q>"(수정) 파일이요! 다솜은 1층으로요!"</q><em>폴더 모양 모래성을 쌓으며</em></div>
+      <div class="cut"><span class="no">4</span><q>"휴가… 맞죠?"</q><em>휴대폰 댄 쪽만 탄 얼굴, 무너지는 모래성</em></div>
+    </div>
+  </figure>
+  <div class="source">가상 회사 (주)다온오피스 · 실습 자료와 같은 회사</div>
+</section>
+
+<section class="slide center" data-start="5:40" data-title="2주 휴가 질문 (30초)"
+  data-notes="숫자 하나만 손가락으로 보여 주세요. 10이면 전부 굴러갑니다.
+(지목하지 않는다. 대부분 5 아래. '그 숫자를 오늘 쪼개 보겠습니다')">
+  <h2>내일부터 2주 휴가라면,<br>내 일 중 얼마가 대신 굴러갈까요?</h2>
+  <div class="scale"><span>0</span><span>1</span><span>2</span><span>3</span><span>4</span><span>5</span><span>6</span><span>7</span><span>8</span><span>9</span><span>10</span></div>
+  <div class="row"><span>하나도 안 굴러간다</span><span>전부 굴러간다</span></div>
+</section>
+
+<section class="slide center" data-start="6:10" data-title="일의 흐름 · 끊기는 곳 (1분 20초)"
+  data-notes="이 대리 일을 흐름으로 그려 보면 이렇습니다. 견적 → 주문 접수 → 재고 확인 → 출고·배송.
+(단계 공개) 그런데 이 중 세 군데가 이 대리 머릿속에만 있습니다.
+전화는 바로 여기서 옵니다. 흐름이 끊기는 곳.
+제 이야기: 운영 일을 할 때 두 달마다 새 사람이 왔고, 그때마다 같은 설명을 처음부터 했습니다. 흐름이 적혀 있지 않으면 사람이 바뀔 때마다 처음부터입니다.
+(지표: 전달 명확·실무 적용 사례)">
+  <div class="kicker">이 대리의 일, 흐름으로 그려 보면</div>
+  <h2 style="font-size:62px">전화는, 흐름이 끊기는 곳에서 옵니다</h2>
+  <div class="flow" style="margin-top:60px">
+    <div class="n"><b>견적</b><span>견적서 작성·수정</span></div>
+    <div class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n"><b>주문 접수</b><span>카톡·메일·전화</span></div>
+    <div class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n"><b>재고 확인</b><span>재고 엑셀</span></div>
+    <div class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n"><b>출고·배송</b><span>배송 일정표</span></div>
+  </div>
+  <div class="heads">
+    <div class="step"><span class="head">어느 게 최종?<br>머릿속</span></div><i></i>
+    <div></div><i></i>
+    <div class="step"><span class="head">창고2는 따로<br>머릿속</span></div><i></i>
+    <div class="step"><span class="head">2층 공사, 1층으로<br>머릿속</span></div>
+  </div>
+  <p class="lead step" style="margin-top:44px">적혀 있지 않으면, 사람이 바뀔 때마다 처음부터입니다</p>
+</section>
+
+<section class="slide" data-start="7:30" data-title="AI 시연 (1분 10초)"
+  data-notes="이 회사 자료 20개를 정리하지 않은 그대로 AI에게 줬습니다. '맑은내과 최종 견적 얼마야?'
+(기록 보기 → 인터넷이 되면 r로 지금 한 번 더) 1초 남짓 만에 답과 근거 파일까지 찾습니다. 어제 10번 돌려 10번 다 맞혔습니다.
+왜 맞혔을까요? 파일 이름에 '(수정)' 두 글자가 적혀 있었기 때문입니다.
+(단계 공개) 반대로 '창고2는 따로 센다', '다솜은 1층으로' 같은 건 어디에도 없으면 AI도 못 찾습니다.
+(지표: AI 도구 활용 숙련도 — 시연은 짧게, 메시지는 '적기')">
+  <h2 style="font-size:60px">적혀 있는 건, AI가 1초 만에 찾습니다</h2>
+  <div class="ai-demo no-advance" data-corpus="../2026-11_demoday/demo/corpus.json" data-recorded="../2026-11_demoday/demo/recorded.json" data-question="맑은내과 최종 견적 얼마야?">
+    <div class="card q">질문 · "맑은내과 최종 견적 얼마야?" <span class="small muted" style="font-weight:500">— 정리 안 된 자료 20개 그대로</span></div>
+    <div class="card panel" data-side="before">
+      <div class="label">AI의 답</div>
+      <div class="ans">—</div><div class="src"></div><span class="badge pill"></span>
+    </div>
+    <div class="controls no-print"><button data-act="recorded">기록 보기</button><button data-act="live">지금 실행 (r)</button><span class="status"></span></div>
+  </div>
+  <div class="card warn step" style="margin-top:26px;font-size:40px;font-weight:700">머릿속에만 있는 건, AI도 못 찾습니다</div>
+  <div class="source">가상 회사 (주)다온오피스 자료 20개 · 코디세이 API(claude-haiku-4) · 리허설 기록은 발표 노트북 재현 시험 결과</div>
+</section>
+
+<section class="slide" data-start="8:40" data-title="내 업무 점검 카드 (1분 15초)"
+  data-notes="이제 내 일입니다. 아까 떠올린 숫자를 쪼개 봅니다. 휴가 때 전화 오는 일 하나를 적고, 세 칸을 체크해 주세요. 1분 드리겠습니다 (s 키 또는 타이머 클릭).
+(조용히 1분. 지표: 실무 적용·교육 목표 달성)">
+  <div class="kicker">내 업무 점검 카드 · 1분</div>
+  <div class="row" style="align-items:flex-start;margin-top:20px">
+    <div class="col grow">
+      <div class="check">휴가 때 전화 오는 일 하나: <span class="blank"></span></div>
+      <div class="check" style="margin-top:24px"><span class="box"></span>다른 사람이 절차를 확인할 수 있다</div>
+      <div class="check"><span class="box"></span>필요한 자료가 어디 있는지 남도 안다</div>
+      <div class="check"><span class="box"></span>어느 게 최신본인지 구별된다</div>
+    </div>
+    <div class="timer no-advance" data-seconds="60">1:00</div>
+  </div>
+</section>
+
+<section class="slide" data-start="9:55" data-title="체크 수 · 첫 행동 하나 (1분 35초)"
+  data-notes="세 칸 다 체크하신 분? (지목하지 않는다) 대부분 1~2개입니다. 정상입니다.
+체크 못 한 칸이 오늘의 첫 개선 후보입니다. 그 칸 하나를 골라, 아래 첫 행동 하나에 표시해 주세요.
+예: 견적서 최신본 구별이 안 된다 → 최종본 표시 규칙부터.
+그 행동이 0번 과제이고, 다음 시간의 첫 재료입니다.">
+  <h2>세 칸 다 체크하신 분?</h2>
+  <p class="lead step">대부분 1~2개입니다. 체크 못 한 칸이 첫 개선 후보입니다.</p>
+  <div class="check step" style="margin-top:40px">
+    <div><span class="circle"></span>절차를 3단계로 적기</div>
+    <div><span class="circle"></span>자료 위치를 한곳에 표시하기</div>
+    <div><span class="circle"></span>최신본 구별 기준 정하기</div>
+  </div>
+  <div class="card accent step" style="margin-top:30px"><div class="big" style="font-size:50px">그 행동이 0번 과제 · 다음 시간의 첫 재료입니다</div></div>
+</section>
+
+<!-- ===== ④ 정리 (11:30~13:00) ===== -->
+
+<section class="slide center" data-start="11:30" data-title="관계 한 장 (1분)"
+  data-notes="(수강생 역할에서 돌아온다) 오늘 15분은 이 그림 한 장입니다.
+머릿속에만 있는 일을 적으면, 동료가 찾고(휴가 때 전화가 줄고), AI도 읽습니다. 오늘 1회차가 여기까지.
+2회차는 그 기록 위에서 업무 흐름 끝까지 AI와 함께, 3회차는 그 기록이 보고까지 이어지게 합니다.
+(단계마다 한 칸씩 공개. 지표: 논리적 구성·교안 가독성)">
+  <div class="kicker">④ 정리</div>
+  <h2>오늘 15분은, 이 그림 한 장입니다</h2>
+  <div class="flow" style="margin-top:70px">
+    <div class="n" style="background:#fff;border:4px dashed var(--head)"><b style="color:var(--head)">머릿속에만 있는 일</b><span>휴가 때 전화가 온다</span></div>
+    <div class="ar"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n accent step"><b>적어 둔 일</b><span>1회 · 정리<br>동료가 찾는다</span></div>
+    <div class="ar step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n ok step"><b>AI가 읽는 일</b><span>2회 · 흐름 끝까지<br>AI와 함께 처리</span></div>
+    <div class="ar step"><svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2.5" stroke-linecap="round" stroke-linejoin="round"><path d="M5 12h14M13 6l6 6-6 6"/></svg></div>
+    <div class="n c3 step"><b>보고까지 가는 일</b><span>3회 · 기록에서<br>바로 보고·결재</span></div>
+  </div>
+  <p class="lead step" style="margin-top:50px">AI보다 먼저, 적는 것부터</p>
+</section>
+
+<section class="slide center" data-start="12:30" data-title="목표 확인 · 마무리"
+  data-notes="처음 말씀드린 목표, 휴가 때 전화 오는 일 하나와 첫 행동 하나. 지금 카드에 있습니다.
+어려운 건 그려야 기억납니다. 오늘 그림 한 장 가져가 주십시오. 감사합니다.
+(13:00 종료. 여유 2분은 질문·지연 대비)">
+  <div class="kicker">7분 전에 드린 약속</div>
+  <h2>휴가 때 전화 오는 일 하나,<br>그리고 첫 행동 하나</h2>
+  <p class="lead">지금 카드에 적혀 있습니다</p>
+  <div class="card accent step" style="margin-top:56px"><div class="big">어려운 건, 그려야 기억납니다</div></div>
+  <p class="small muted step" style="margin-top:40px">감사합니다 · 김현래</p>
+</section>
+
+</div>
+<script>
+  /* 웹툰 그림이 toons/ 폴더에 있으면 콘티 글 대신 그림을 보여 준다 (png → webp → jpg 순서로 찾음) */
+  document.querySelectorAll("figure.toon[data-src]").forEach(fig => {
+    const exts = ["png", "webp", "jpg"];
+    (function tryNext(i) {
+      if (i >= exts.length) return;
+      const img = new Image();
+      img.onload = () => { fig.innerHTML = ""; img.alt = fig.previousElementSibling ? fig.previousElementSibling.textContent + " 4컷 웹툰" : "4컷 웹툰"; fig.appendChild(img); };
+      img.onerror = () => tryNext(i + 1);
+      img.src = `${fig.dataset.src}.${exts[i]}`;
+    })(0);
+  });
+</script>
+<script src="../assets/deck.js"></script>
+<script src="../assets/ai-demo.js"></script>
+</body>
+</html>

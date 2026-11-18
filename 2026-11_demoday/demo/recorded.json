@@ -1,8 +1,19 @@
 {
   "question": "맑은내과 최종 견적 얼마야?",
-  "model": "",
-  "runs": 0,
-  "recorded_at": "",
-  "before": { "answer": "(재현 시험 후 채워짐)", "source": "", "correct": 0 },
-  "after": { "answer": "(재현 시험 후 채워짐)", "source": "", "correct": 0 }
+  "model": "claude-haiku-4",
+  "runs": 10,
+  "recorded_at": "2026-11-17 23:29",
+  "note": "발표자 노트북 재현 시험(test.html) 결과를 화면 캡처에서 옮겨 적음",
+  "before": {
+    "answer": "맑은내과 최종 견적은 759,880원(부가세 포함)입니다.",
+    "source": "견적서(수정)_맑은내과.xlsx",
+    "correct": 10,
+    "avg_s": 1.3
+  },
+  "after": {
+    "answer": "맑은내과의원 최종 견적은 부가세 포함 759,880원입니다.",
+    "source": "견적서(수정)_맑은내과.xlsx",
+    "correct": 10,
+    "avg_s": 1.3
+  }
 }

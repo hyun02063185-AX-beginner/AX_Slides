@@ -111,7 +111,9 @@ window.AIDemo = (function () {
   function mount(root) {
     const corpusUrl = root.dataset.corpus, recUrl = root.dataset.recorded;
     const question = root.dataset.question;
-    const panels = { before: root.querySelector("[data-side=before]"), after: root.querySelector("[data-side=after]") };
+    const panels = {};
+    ["before", "after"].forEach(k => { const el = root.querySelector(`[data-side=${k}]`); if (el) panels[k] = el; });
+    const sides = Object.keys(panels); // 한쪽 패널만 둔 슬라이드도 지원
     let corpus = null, rec = null;
 
     function paint(side, r, badge, cls) {
@@ -126,8 +128,11 @@ window.AIDemo = (function () {
     function showRecorded(note) {
       if (!rec) return;
       const tag = rec.runs ? `리허설 기록 · ${rec.runs}회 중 정답 ` : "재현 시험 전 (예시 화면)";
-      paint("before", rec.before, rec.runs ? tag + `${rec.before.correct}회` : tag, rec.before.correct > rec.runs / 2 ? "ok" : "warn");
-      paint("after", rec.after, rec.runs ? tag + `${rec.after.correct}회` : tag, rec.after.correct > rec.runs / 2 ? "ok" : "warn");
+      sides.forEach(side => {
+        const r = rec[side] || {};
+        const sec = r.avg_s ? ` · 평균 ${r.avg_s}초` : "";
+        paint(side, r, rec.runs ? tag + `${r.correct}회${sec}` : tag, r.correct > rec.runs / 2 ? "ok" : "warn");
+      });
       root.querySelector(".status").textContent = note || (rec.model ? `모델 ${rec.model} · ${rec.recorded_at}` : "");
     }
 
@@ -135,9 +140,9 @@ window.AIDemo = (function () {
       const cfg = load();
       const status = root.querySelector(".status");
       if (!cfg.key) { status.textContent = "키가 없어 리허설 기록을 보여 드립니다 (k 키로 설정)"; showRecorded(status.textContent); return; }
-      ["before", "after"].forEach(s => paint(s, { answer: "…", source: "" }, "실시간 실행 중", "accent"));
+      sides.forEach(s => paint(s, { answer: "…", source: "" }, "실시간 실행 중", "accent"));
       status.textContent = `실시간 · ${cfg.model}`;
-      const jobs = ["before", "after"].map(async side => {
+      const jobs = sides.map(async side => {
         try {
           const r = await ask(corpus[side], question, cfg);
           paint(side, r, `실시간 · ${(r.ms / 1000).toFixed(1)}초`, "accent");

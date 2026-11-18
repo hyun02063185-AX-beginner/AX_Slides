@@ -4,7 +4,9 @@
 
 | 폴더 | 내용 |
 | --- | --- |
-| `2026-11_demoday/` | 데모데이 15분 (21시간 과정의 첫 15분) |
+| `2026-11_demoday_v2/` | 데모데이 15분 새 버전: 나의 AX 전환 → 과제에 대한 답(7·14·21시간 설계) → 한 시간 직접 해 보기 → 관계 그림 한 장 |
+| `2026-11_demoday_v2/toons/` | 웹툰 그림 넣는 곳: `self.png`(자기소개), `vacation.png`(휴가 첫날). 없으면 슬라이드에 콘티 글이 대신 나옴 |
+| `2026-11_demoday/` | 데모데이 15분 v1 (21시간 과정의 첫 15분) |
 | `2026-11_demoday/demo/` | 8번 AI 시연 자료(`corpus.json`), 리허설 기록(`recorded.json`), 재현 시험 페이지(`test.html`) |
 | `assets/` | 슬라이드 엔진(`deck.js`, `deck.css`), AI 시연(`ai-demo.js`), 글꼴(Pretendard, OFL) |
 

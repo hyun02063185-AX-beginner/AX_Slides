@@ -20,6 +20,7 @@
 <body>
 <h1>처리방침 대조 재현 시험 · 다정밥상</h1>
 <p class="links">시연 자료: <a href="signup.html" target="_blank">회원가입 화면</a><a href="privacy.html" target="_blank">개인정보 처리방침</a></p>
+<p><b>주의:</b> 적중(○)은 키워드로 자동 판정한 것입니다. 표의 'AI 답 (전문)'을 사람이 읽고 최종 판정하세요. 응답이 0.1초처럼 너무 빠르면 저장된 답이 돌아온 것이니 독립된 시험으로 세지 마세요.</p>
 <p>AI에게 회원가입 화면과 처리방침을 주고 "서로 맞지 않거나 확인이 필요한 점"을 찾게 합니다. 심어 둔 불일치 6개(P1~P6)를 몇 번 잡는지, 정답 밖의 지적과 법 조문 인용이 무엇인지 기록합니다. 조문 인용은 사람이 원문과 대조할 대상입니다. 키·모델은 "설정"(또는 k 키)에서 넣고, <code>serve.py</code>로 띄운 주소에서 실행하세요.</p>
 <p>
   <label>횟수 <input id="n" type="number" value="5" min="1" max="20" style="width:64px"></label>
@@ -50,7 +51,7 @@ function score(text) {
   const items = splitItems(text);
   const hit = {}; const used = new Set();
   kase.issues.forEach(is => {
-    const idx = items.findIndex(it => is.kw.some(k => it.includes(k)));
+    const idx = items.findIndex(it => is.rule.every(group => group.some(k => it.includes(k))));
     hit[is.id] = idx >= 0; if (idx >= 0) used.add(idx);
   });
   const extra = items.filter((_, i) => !used.has(i)).map(s => s.split("\n")[0]);
@@ -67,7 +68,8 @@ document.getElementById("go").onclick = async () => {
   results = []; const tb = document.getElementById("rows"); tb.innerHTML = "";
   for (let i = 1; i <= n; i++) {
     let r;
-    try { r = await AIDemo.ask(docs, "두 문서를 대조해 주세요.", cfg, 120, { system: SYSTEM, maxTokens: mt }); }
+    // 회차 번호를 붙여 매번 다른 요청이 되게 한다 (같은 요청은 중간 서버가 저장해 둔 답을 바로 돌려주는 것으로 보임)
+    try { r = await AIDemo.ask(docs, `두 문서를 대조해 주세요. (시험 ${i}회차 · ${Date.now()})`, cfg, 120, { system: SYSTEM, maxTokens: mt }); }
     catch (e) { r = { raw: "오류: " + e.message, ms: 0 }; }
     const s = score(r.raw || "");
     results.push(Object.assign({ i }, r, s));

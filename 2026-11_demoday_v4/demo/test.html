@@ -1,0 +1,104 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>처리방침 대조 재현 시험</title>
+<style>
+  body { font-family: "Pretendard", "Malgun Gothic", sans-serif; max-width: 1180px; margin: 28px auto; padding: 0 16px; color: #17191c; background: #fff; }
+  h1 { font-size: 24px; } p, label, button, input { font-size: 15px; }
+  table { border-collapse: collapse; width: 100%; margin-top: 14px; font-size: 13px; }
+  th, td { border: 1px solid #d9dde3; padding: 6px 8px; text-align: left; vertical-align: top; }
+  th { background: #f3f5f8; }
+  .y { color: #17784a; font-weight: 700; } .n { color: #b4410c; font-weight: 700; }
+  .sum { margin-top: 14px; padding: 12px 16px; background: #f3f5f8; border-radius: 10px; white-space: pre-line; line-height: 1.6; }
+  pre { white-space: pre-wrap; font-family: inherit; font-size: 13px; margin: 0; max-height: 260px; overflow: auto; }
+  button { padding: 6px 14px; margin-right: 6px; }
+  .links a { margin-right: 14px; }
+</style>
+</head>
+<body>
+<h1>처리방침 대조 재현 시험 · 다정밥상</h1>
+<p class="links">시연 자료: <a href="signup.html" target="_blank">회원가입 화면</a><a href="privacy.html" target="_blank">개인정보 처리방침</a></p>
+<p>AI에게 회원가입 화면과 처리방침을 주고 "서로 맞지 않거나 확인이 필요한 점"을 찾게 합니다. 심어 둔 불일치 6개(P1~P6)를 몇 번 잡는지, 정답 밖의 지적과 법 조문 인용이 무엇인지 기록합니다. 조문 인용은 사람이 원문과 대조할 대상입니다. 키·모델은 "설정"(또는 k 키)에서 넣고, <code>serve.py</code>로 띄운 주소에서 실행하세요.</p>
+<p>
+  <label>횟수 <input id="n" type="number" value="5" min="1" max="20" style="width:64px"></label>
+  <label>max_tokens <input id="mt" type="number" value="1500" min="500" max="4000" style="width:80px"></label>
+  <button id="cfg">설정</button><button id="go">시험 시작</button><button id="dl" disabled>기록 파일 내려받기 (recorded.json)</button>
+</p>
+<div class="sum" id="sum">아직 시험하지 않았습니다.</div>
+<table><thead><tr><th>#</th><th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th><th>P6</th><th>정답 밖 지적</th><th>조문 인용</th><th>시간</th><th>AI 답 (전문)</th></tr></thead><tbody id="rows"></tbody></table>
+<script src="../../assets/ai-demo.js"></script>
+<script>
+const SYSTEM = [
+  "당신은 작은 회사의 개인정보 업무 담당자를 돕는 검토 보조입니다.",
+  "법률 판단을 내리지 마세요. 아래 '회원가입 화면'과 '개인정보 처리방침'을 대조해, 서로 맞지 않거나 사람이 확인해야 할 점만 찾으세요.",
+  "맞게 되어 있는 것은 쓰지 마세요. 최대 8개, 중요한 것부터.",
+  "각 항목은 반드시 이 형식으로 쓰세요:",
+  "1. [화면/처리방침 어디] 무엇이 맞지 않는가 (한 문장)",
+  "- 근거: 관련 법 조문은 확실할 때만 번호를 쓰고, 확실하지 않으면 '확인 필요'라고 쓰세요.",
+  "- 검토팀에 물을 질문: (한 문장)"
+].join("\n");
+let kase, results = [];
+document.getElementById("cfg").onclick = () => AIDemo.settings();
+
+function splitItems(text) {
+  const parts = text.split(/\n(?=\s*\d+[.)]\s)/);
+  return parts.map(s => s.trim()).filter(s => /^\d+[.)]/.test(s));
+}
+function score(text) {
+  const items = splitItems(text);
+  const hit = {}; const used = new Set();
+  kase.issues.forEach(is => {
+    const idx = items.findIndex(it => is.kw.some(k => it.includes(k)));
+    hit[is.id] = idx >= 0; if (idx >= 0) used.add(idx);
+  });
+  const extra = items.filter((_, i) => !used.has(i)).map(s => s.split("\n")[0]);
+  const cites = [...new Set((text.match(/(개인정보\s?보호법\s?|전자상거래법\s?|시행령\s?)?제\s?\d+조(의\d+)?(\s?제\d+항)?/g) || []).map(s => s.replace(/\s+/g, " ")))];
+  return { hit, extra, cites, nItems: items.length };
+}
+
+document.getElementById("go").onclick = async () => {
+  kase = kase || await AIDemo.fetchJSON("case.json");
+  const cfg = AIDemo.load();
+  if (!cfg.key) { alert("먼저 설정에서 키를 넣어 주세요."); return; }
+  const n = Number(document.getElementById("n").value) || 5, mt = Number(document.getElementById("mt").value) || 1500;
+  const docs = [{ name: "회원가입 화면", text: kase.signup }, { name: "개인정보 처리방침", text: kase.policy }];
+  results = []; const tb = document.getElementById("rows"); tb.innerHTML = "";
+  for (let i = 1; i <= n; i++) {
+    let r;
+    try { r = await AIDemo.ask(docs, "두 문서를 대조해 주세요.", cfg, 120, { system: SYSTEM, maxTokens: mt }); }
+    catch (e) { r = { raw: "오류: " + e.message, ms: 0 }; }
+    const s = score(r.raw || "");
+    results.push(Object.assign({ i }, r, s));
+    const cell = id => `<td class="${s.hit[id] ? "y" : "n"}">${s.hit[id] ? "○" : "×"}</td>`;
+    tb.insertAdjacentHTML("beforeend", `<tr><td>${i}</td>${kase.issues.map(is => cell(is.id)).join("")}<td>${s.extra.map(x => "· " + x.replace(/</g, "&lt;")).join("<br>")}</td><td>${s.cites.join("<br>")}</td><td>${(r.ms / 1000).toFixed(1)}초</td><td><pre>${(r.raw || "").replace(/</g, "&lt;")}</pre></td></tr>`);
+    summarize(cfg, n);
+  }
+  document.getElementById("dl").disabled = false;
+};
+
+function summarize(cfg, n) {
+  const k = results.length;
+  const per = kase.issues.map(is => `${is.id} ${is.title}: ${results.filter(r => r.hit[is.id]).length}/${k}`);
+  const avg = (results.reduce((a, r) => a + r.ms, 0) / k / 1000).toFixed(1);
+  const allCites = [...new Set(results.flatMap(r => r.cites))];
+  document.getElementById("sum").textContent =
+    `${k}/${n}회 · 평균 ${avg}초 · 모델 ${cfg.model}\n` + per.join("\n") +
+    `\n\n나온 조문 인용(사람이 원문과 대조할 것): ${allCites.join(", ") || "없음"}` +
+    `\n정답 밖 지적은 '틀린 지적'이 아닐 수도 있습니다. 하나씩 읽고 맞는 지적이면 정답지에 추가하세요.`;
+  // 시연용 기록: 정답을 가장 많이 잡은 회차를 대표로 (동점이면 먼저 나온 것)
+  const best = results.slice().sort((a, b) => Object.values(b.hit).filter(Boolean).length - Object.values(a.hit).filter(Boolean).length)[0];
+  window._rec = {
+    model: cfg.model, runs: k, recorded_at: new Date().toISOString().slice(0, 16).replace("T", " "), avg_s: Number(avg),
+    found: Object.fromEntries(kase.issues.map(is => [is.id, results.filter(r => r.hit[is.id]).length])),
+    cites: allCites, best: { raw: best.raw, hit: best.hit, extra: best.extra, cites: best.cites, ms: best.ms }
+  };
+}
+document.getElementById("dl").onclick = () => {
+  const blob = new Blob([JSON.stringify(window._rec, null, 2)], { type: "application/json" });
+  const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "recorded.json"; a.click();
+};
+</script>
+</body>
+</html>

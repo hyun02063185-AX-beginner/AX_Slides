@@ -26,7 +26,8 @@ window.AIDemo = (function () {
     return { answer: a.trim(), source: s.replace(/[\[\]`*]/g, "").trim() };
   }
 
-  async function ask(docs, question, cfg, timeoutSec) {
+  async function ask(docs, question, cfg, timeoutSec, opts) {
+    opts = opts || {}; // { system, maxTokens } — 다른 시연(예: 처리방침 대조)에서 지시문·길이를 바꿀 때
     const ctrl = new AbortController();
     const timer = setTimeout(() => ctrl.abort(), (timeoutSec || cfg.timeout) * 1000);
     const user = `${corpusText(docs)}\n\n질문: ${question}`;
@@ -38,11 +39,12 @@ window.AIDemo = (function () {
     if (anthropic) {
       url = root + "/v1/messages";
       headers = { "content-type": "application/json", "x-api-key": cfg.key, "anthropic-version": "2023-06-01" };
-      body = { model: cfg.model, max_tokens: Number(cfg.maxTokens) || 300, system: SYSTEM, messages: [{ role: "user", content: user }] };
+      body = { model: cfg.model, max_tokens: Number(opts.maxTokens || cfg.maxTokens) || 300, system: opts.system || SYSTEM, messages: [{ role: "user", content: user }] };
     } else {
       url = root + "/v1/chat/completions";
       headers = { "content-type": "application/json", authorization: `Bearer ${cfg.key}` };
-      body = { model: cfg.model, messages: [{ role: "system", content: SYSTEM }, { role: "user", content: user }] };
+      body = { model: cfg.model, messages: [{ role: "system", content: opts.system || SYSTEM }, { role: "user", content: user }] };
+      if (opts.maxTokens) body.max_tokens = Number(opts.maxTokens);
     }
     if (cfg.temperature !== "" && cfg.temperature != null) body.temperature = Number(cfg.temperature);
     const t = performance.now();
@@ -53,7 +55,7 @@ window.AIDemo = (function () {
       const text = anthropic
         ? (j.content || []).filter(b => b.type === "text").map(b => b.text).join("\n")
         : j.choices?.[0]?.message?.content || "";
-      return Object.assign(parse(text), { raw: text, ms: Math.round(performance.now() - t) });
+      return Object.assign(opts.system ? {} : parse(text), { raw: text, ms: Math.round(performance.now() - t) });
     } finally { clearTimeout(timer); }
   }
 

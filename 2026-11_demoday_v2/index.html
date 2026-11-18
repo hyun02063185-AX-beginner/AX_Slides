@@ -21,7 +21,7 @@
   .flow .n.now { outline: 5px solid var(--accent); outline-offset: -5px; }
 
   /* 웹툰 자리: 그림이 있으면 그림, 없으면 콘티 글 */
-  .toon { margin: 34px auto 0; width: 1500px; height: 760px; position: relative; }
+  .toon { margin: 6px auto 0; width: 1500px; height: 850px; position: relative; }
   .toon img { width: 100%; height: 100%; object-fit: contain; display: block; }
   .toon .cuts4 { display: grid; grid-template-columns: 1fr 1fr; grid-template-rows: 1fr 1fr; gap: 22px; height: 100%; }
   .toon .cut { border: 4px solid var(--ink); border-radius: 18px; padding: 26px 32px; display: flex; flex-direction: column; gap: 12px; font-size: 32px; line-height: 1.4; }
@@ -92,7 +92,6 @@
 ① 10년은 화면을 만들었습니다. ② 9년은 일정과 운영을 맡느라 손을 놓았습니다. ③ 올해 AX 과정에서 AI를 만나 다시 만들기 시작했습니다. 구조는 제가 잡고, AI에게 맡깁니다. ④ 그리고 이제는 남에게 설명하려고 만듭니다.
 (경력·숫자를 나열하지 않는다. 지표: 자신감·열정·진정성)">
   <div class="kicker">① 저는 이렇게 왔습니다</div>
-  <h2 style="font-size:60px">다시, 만드는 사람</h2>
   <figure class="toon" data-src="toons/self">
     <div class="tag">그림 준비 중 · 콘티</div>
     <div class="cuts4">
@@ -201,8 +200,7 @@
 가상 회사 다온오피스의 이 대리가 휴가 첫날 받은 전화 세 통입니다. 셋 다 이 대리 머릿속에만 있던 것들이죠.
 여러분 휴가 때는 어떤 전화가 오나요?
 (비유의 한계: 전화가 오는 이유가 모두 정리 부족은 아니다. 급한 결정·권한 문제도 있다. 이 웹툰은 '나만 아는 정보' 때문에 오는 전화만 다룬다)">
-  <div class="kicker">어느 회사의 휴가 첫날</div>
-  <h2 style="font-size:60px">휴가 첫날</h2>
+  <div class="kicker">가상 회사 (주)다온오피스의 휴가 첫날</div>
   <figure class="toon" data-src="toons/vacation">
     <div class="tag">그림 준비 중 · 콘티</div>
     <div class="cuts4">
@@ -212,7 +210,6 @@
       <div class="cut"><span class="no">4</span><q>"휴가… 맞죠?"</q><em>휴대폰 댄 쪽만 탄 얼굴, 무너지는 모래성</em></div>
     </div>
   </figure>
-  <div class="source">가상 회사 (주)다온오피스 · 실습 자료와 같은 회사</div>
 </section>
 
 <section class="slide center" data-start="5:40" data-title="2주 휴가 질문 (30초)"
@@ -332,9 +329,9 @@
 
 </div>
 <script>
-  /* 웹툰 그림이 toons/ 폴더에 있으면 콘티 글 대신 그림을 보여 준다 (png → webp → jpg 순서로 찾음) */
+  /* 웹툰 그림이 toons/ 폴더에 있으면 콘티 글 대신 그림을 보여 준다 (webp → png → jpg 순서로 찾음) */
   document.querySelectorAll("figure.toon[data-src]").forEach(fig => {
-    const exts = ["png", "webp", "jpg"];
+    const exts = ["webp", "png", "jpg"];
     (function tryNext(i) {
       if (i >= exts.length) return;
       const img = new Image();

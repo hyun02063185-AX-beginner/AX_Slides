@@ -71,6 +71,7 @@ function splitItems(text) {
   return text.split(/\n(?=\s*\d+[.)]\s)/).map(s => s.trim()).filter(s => /^\d+[.)]/.test(s));
 }
 function score(text) {
+  text = text.replace(/\*\*/g, "");   // 굵은 글씨 표시(**)가 번호 앞에 붙으면 항목 구분이 깨짐
   const items = splitItems(text), hit = {}, used = new Set();
   kase.issues.forEach(is => {
     const idx = items.findIndex(it => is.rule.every(g => g.some(k => it.includes(k))));

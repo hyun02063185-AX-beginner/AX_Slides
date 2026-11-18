@@ -30,6 +30,7 @@
   <label>모델 (쉼표로 구분) <input id="models" value="claude-haiku-4, claude-sonnet-4" style="width:300px"></label>
   &nbsp; <label><input type="checkbox" id="c0" checked> 점검표 없이</label>
   <label><input type="checkbox" id="c1" checked> 점검표 함께</label>
+  <label><input type="checkbox" id="c2" checked> AI가 만든 점검표</label>
   &nbsp; <label>조건마다 <input id="n" type="number" value="5" min="1" max="20" style="width:56px">회</label>
   &nbsp; <label>max_tokens <input id="mt" type="number" value="2000" min="500" max="4000" style="width:72px"></label>
   <p style="margin:10px 0 0">
@@ -62,6 +63,19 @@ const FORMAT = [
   "- 근거: 관련 법 조문은 확실할 때만 번호를 쓰고, 확실하지 않으면 '확인 필요'라고 쓰세요.",
   "- 검토팀에 물을 질문: (한 문장)"
 ];
+// 전문 인력이 없는 회사: 담당자는 자기 상황만 말하고, 점검표는 AI가 먼저 만든다 (가입 화면·처리방침은 이 단계에서 보여 주지 않음)
+const SITUATION = [
+  "우리 회사는 직원 12명, 반찬 정기배송을 하는 회사입니다. 다음 달 1일 자체 온라인몰을 엽니다.",
+  "회원가입 화면과 개인정보 처리방침은 개발 외주사가 만들어 왔습니다.",
+  "회원가입 때 이름·연락처·주소 등을 받고, 주문·결제·배송을 온라인으로 처리합니다. 결제·배송·문자 발송은 외부 업체를 씁니다.",
+  "회사에 법무 담당자나 개인정보 전문가가 없습니다.",
+].join("\n");
+const MAKE_SYSTEM = [
+  "당신은 작은 회사의 개인정보 업무 담당자를 돕는 검토 보조입니다.",
+  "아래 상황의 회사가 오픈 전에 '회원가입 화면'과 '개인정보 처리방침'을 스스로 점검할 때 쓸 점검표를 만드세요.",
+  "첫 줄은 '[우리 회사 개인정보 처리방침 점검표]'로 쓰고, 그 아래 최대 10줄, 한 줄에 확인할 것 하나를 '- '로 시작해 쓰세요.",
+  "법 조문은 확실할 때만 괄호로 덧붙이세요. 설명이나 인사말은 쓰지 마세요.",
+].join("\n");
 let kase, results = [], stopping = false;
 const $ = id => document.getElementById(id);
 $("cfg").onclick = () => AIDemo.settings();
@@ -90,7 +104,7 @@ $("go").onclick = async () => {
   const base = AIDemo.load();
   if (!base.key) { alert("먼저 설정에서 키를 넣어 주세요."); return; }
   const models = $("models").value.split(",").map(s => s.trim()).filter(Boolean);
-  const modes = [$("c0").checked && "none", $("c1").checked && "checklist"].filter(Boolean);
+  const modes = [$("c0").checked && "none", $("c1").checked && "checklist", $("c2").checked && "self"].filter(Boolean);
   const n = Number($("n").value) || 5, mt = Number($("mt").value) || 2000;
   const conds = models.flatMap(m => modes.map(mode => ({ model: m, mode })));
   if (!conds.length) { alert("조건을 하나 이상 고르세요."); return; }
@@ -104,11 +118,20 @@ $("go").onclick = async () => {
       const cfg = Object.assign({}, base, { model: c.model });
       const docs = [{ name: "회원가입 화면", text: kase.signup }, { name: "개인정보 처리방침", text: kase.policy }];
       if (c.mode === "checklist") docs.push({ name: "우리 회사 점검표", text: kase.checklist });
-      const system = (c.mode === "checklist" ? CL_SYSTEM : BASE_SYSTEM).concat(FORMAT).join("\n");
+      let made = null, madeMs = 0;
+      if (c.mode === "self") {   // 1단계: 상황만 주고 점검표를 만들게 함
+        try {
+          const m = await AIDemo.ask([{ name: "우리 회사 상황", text: SITUATION }], `점검표를 만들어 주세요. (시험 ${k} · ${Date.now()})`, cfg, 180, { system: MAKE_SYSTEM, maxTokens: 800 });
+          made = m.raw; madeMs = m.ms;
+          docs.push({ name: "우리 회사 점검표", text: made });
+        } catch (e) { made = "오류: " + e.message; }
+      }
+      const system = (c.mode === "none" ? BASE_SYSTEM : CL_SYSTEM).concat(FORMAT).join("\n");
       let res;
       try { res = await AIDemo.ask(docs, `두 문서를 대조해 주세요. (시험 ${k} · ${Date.now()})`, cfg, 180, { system, maxTokens: mt }); }
       catch (e) { res = { raw: "오류: " + e.message, ms: 0, error: true }; }
-      const s = score(res.raw || "");
+      if (made !== null) res = Object.assign({}, res, { made, ms: (res.ms || 0) + madeMs, raw: "【AI가 만든 점검표】\n" + made + "\n\n【대조 결과】\n" + res.raw });
+      const s = score(res.made ? res.raw.split("【대조 결과】")[1] || "" : res.raw || "");
       const row = Object.assign({ k, r, cond: label(c), model: c.model, mode: c.mode }, res, s);
       results.push(row);
       const cell = id => `<td class="${s.hit[id] ? "y" : "n"}">${s.hit[id] ? "○" : "×"}</td>`;
@@ -121,7 +144,7 @@ $("go").onclick = async () => {
   $("dlt").disabled = false; $("dlj").disabled = false;
 };
 
-function label(c) { return `${c.model} · ${c.mode === "checklist" ? "점검표 함께" : "점검표 없이"}`; }
+function label(c) { return `${c.model} · ${{ none: "점검표 없이", checklist: "점검표 함께", self: "AI가 만든 점검표" }[c.mode]}`; }
 function summarize(conds) {
   $("sum").innerHTML = conds.map(c => {
     const rs = results.filter(x => x.cond === label(c) && !x.error);
@@ -140,7 +163,7 @@ $("dlt").onclick = () => {
   download("results.txt", head + "\n" + body, "text/plain");
 };
 $("dlj").onclick = () => {
-  download("results.json", JSON.stringify({ recorded_at: new Date().toISOString().slice(0, 16).replace("T", " "), results: results.map(x => ({ k: x.k, cond: x.cond, model: x.model, mode: x.mode, ms: x.ms, hit: x.hit, cites: x.cites, raw: x.raw })) }, null, 2), "application/json");
+  download("results.json", JSON.stringify({ recorded_at: new Date().toISOString().slice(0, 16).replace("T", " "), results: results.map(x => ({ k: x.k, cond: x.cond, model: x.model, mode: x.mode, ms: x.ms, made: x.made, hit: x.hit, cites: x.cites, raw: x.raw })) }, null, 2), "application/json");
 };
 </script>
 </body>

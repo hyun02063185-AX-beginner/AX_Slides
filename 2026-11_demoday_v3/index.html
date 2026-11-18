@@ -1,0 +1,298 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>데모데이 15분 v3 · AX는 페인킬러</title>
+<link rel="stylesheet" href="../assets/deck.css">
+<style>
+  :root { --c3: #6b4fbb; --c3-soft: #efeafb; }
+  .slide { word-break: keep-all; }
+  h2 { font-size: 66px; }
+  .say { font-size: 46px; line-height: 1.6; margin-top: 40px; }
+  .say p + p { margin-top: 22px; }
+  .say .muted { font-size: 38px; }
+  .quote { border-left: 10px solid var(--accent); padding: 10px 0 10px 40px; font-size: 50px; line-height: 1.55; font-weight: 600; }
+  .two { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 50px; }
+  .two .card h3 { font-size: 40px; margin-bottom: 14px; }
+  .two .card p { font-size: 34px; line-height: 1.55; color: var(--muted); }
+  .two .card p b { color: var(--ink); }
+  .proof { display: flex; gap: 50px; align-items: center; margin-top: 40px; }
+  .proof img { height: 540px; border-radius: 16px; border: 1px solid var(--line); }
+
+  /* 과정표 */
+  .course { display: grid; grid-template-columns: 190px 1fr 1fr 1fr; gap: 16px 18px; margin-top: 36px; }
+  .course .h { font-size: 32px; font-weight: 800; }
+  .course .h small { display: block; font-size: 26px; font-weight: 500; color: var(--muted); margin-top: 4px; }
+  .course .lab { font-size: 38px; font-weight: 800; display: flex; align-items: center; }
+  .course .seg { border-radius: 18px; padding: 20px 24px; font-size: 28px; }
+  .s1 { background: var(--accent-soft); } .s2 { background: var(--ok-soft); } .s3 { background: var(--c3-soft); }
+  .course .gap { border: 3px dashed var(--line); border-radius: 18px; }
+
+  /* 회사 소개 */
+  .staff { display: grid; grid-template-columns: repeat(3, 1fr); gap: 18px; margin-top: 30px; }
+  .staff div { background: var(--soft); border-radius: 18px; padding: 18px 24px; font-size: 30px; }
+  .staff b { font-size: 34px; }
+  .staff span { display: block; color: var(--muted); font-size: 26px; margin-top: 4px; }
+  .staff .me { background: var(--accent-soft); }
+
+  /* 자료 20개 */
+  .files { display: grid; grid-template-columns: repeat(4, 1fr); gap: 12px 16px; margin-top: 34px; }
+  .files div { font-size: 26px; padding: 12px 18px; border-radius: 12px; background: var(--soft); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+  .files .q { background: #fff4d6; outline: 3px solid #e2a100; font-weight: 700; }
+
+  /* 견적서 비교 */
+  .quotes { display: grid; grid-template-columns: repeat(3, 1fr); gap: 26px; margin-top: 40px; }
+  .quotes .card { font-size: 30px; }
+  .quotes .card h3 { font-size: 30px; margin-bottom: 14px; word-break: break-all; }
+  .quotes .card .won { font-size: 50px; font-weight: 800; margin-top: 8px; }
+  .quotes .ok { outline: 5px solid var(--ok); }
+
+  /* AI 시연 (한쪽 패널) */
+  .ai-demo { display: flex; flex-direction: column; gap: 24px; margin-top: 30px; }
+  .ai-demo .q { font-size: 40px; font-weight: 700; padding: 24px 40px; }
+  .ai-demo .panel { min-height: 280px; display: flex; flex-direction: column; gap: 16px; }
+  .ai-demo .label { font-size: 28px; font-weight: 700; color: var(--muted); }
+  .ai-demo .ans { font-size: 54px; font-weight: 800; line-height: 1.3; }
+  .ai-demo .src { font-size: 34px; color: var(--accent); font-weight: 700; }
+  .ai-demo .badge { align-self: flex-start; margin-top: auto; }
+  .ai-demo .controls { display: flex; gap: 16px; align-items: center; font-size: 22px; color: var(--muted); }
+  .ai-demo button { font: inherit; font-size: 22px; padding: 8px 18px; border-radius: 10px; border: 1px solid var(--line); background: #fff; cursor: pointer; }
+
+  .toon { margin: 10px auto 0; height: 820px; display: block; border-radius: 12px; }
+  .yn { font-size: 46px; line-height: 1.9; margin-top: 30px; }
+  .yn span { display: inline-block; width: 46px; height: 46px; border: 4px solid var(--ink); border-radius: 50%; vertical-align: -6px; margin-right: 22px; }
+</style>
+</head>
+<body>
+<div class="stage">
+
+<!-- 0 표지 -->
+<section class="slide center" data-start="0:00" data-title="표지 · 오늘 순서"
+  data-notes="안녕하십니까, 김현래입니다. 오늘 15분은 이 순서로 하겠습니다. (네 줄을 읽기만 한다)">
+  <div class="kicker">2026 현장형 AX 전문강사 데모데이 · 김현래</div>
+  <h1>AX는 비타민이 아니라<br>페인킬러입니다</h1>
+  <div class="say" style="font-size:40px;margin-top:50px">
+    <p>1. 제가 AI를 만난 이야기</p>
+    <p>2. AX는 어디서 시작하는가</p>
+    <p>3. 그래서 과정을 이렇게 짰습니다 (7·14·21시간)</p>
+    <p>4. 첫 시간을 5분만 같이 해 보겠습니다</p>
+  </div>
+</section>
+
+<!-- ① 내 이야기 -->
+<section class="slide center" data-start="0:15" data-title="기대가 없었다 (40초)"
+  data-notes="저는 프론트엔드 개발을 10년, 홈페이지와 앱 운영을 9년 했습니다.
+솔직히 AI에는 기대가 없었습니다. 잘나가나 보다 했고, 무료 버전만 써 보고 검색엔진이랑 뭐가 다르지 했습니다.
+(회사 이름을 말할지는 본인 선택)">
+  <div class="kicker">1. 제가 AI를 만난 이야기</div>
+  <h2>저는 AI에 기대가 없었습니다</h2>
+  <div class="say">
+    <p>프론트엔드 개발 10년, 홈페이지·앱 운영 9년.</p>
+    <p>잘나가나 보다 하고만 있었습니다.</p>
+    <p>무료 버전만 써 보고 <b>"검색엔진이랑 뭐가 다르지?"</b> 했습니다.</p>
+  </div>
+</section>
+
+<section class="slide" data-start="0:55" data-title="두 번 놀랐다 (50초)"
+  data-notes="AX 과정에서 제대로 써 보고 두 번 놀랐습니다.
+첫째, 저는 화면 쪽 개발자라 백엔드는 못 했는데, 그 백엔드가 만들어졌습니다. 이제는 혼자서도 뭔가 만들 수 있겠다 싶었습니다.
+둘째, 4컷 만화를 만들어 달라고 소재만 줬는데 그 안에 유머를 담아 왔습니다. 유머도 이해하는구나 했습니다. (오른쪽이 그때 만든 것 중 하나 — 개발 용어 설명용)">
+  <div class="kicker">1. 제가 AI를 만난 이야기</div>
+  <h2>제대로 써 보고, 두 번 놀랐습니다</h2>
+  <div class="proof">
+    <div class="say" style="margin-top:0;flex:1">
+      <p><b>하나.</b> 제가 못 하던 백엔드 개발이 됐습니다.<br><span class="muted">이제 혼자서도 뭔가 만들 수 있겠다.</span></p>
+      <p style="margin-top:40px"><b>둘.</b> 4컷 만화 소재만 줬는데 유머를 담아 왔습니다.<br><span class="muted">유머도 이해하는구나.</span></p>
+    </div>
+    <img src="img/glossary-git-final.webp" alt="최종 파일이 여러 개가 된 상황을 그린 4컷 만화">
+  </div>
+</section>
+
+<section class="slide center" data-start="1:45" data-title="한 번은 크게 헤맸다 (50초)"
+  data-notes="물론 실패도 했습니다. AI가 제안한 방식대로 구현하자고 했는데 너무 느렸고, 필요 없는 것까지 하고 있었습니다. 시간과 토큰을 많이 썼습니다.
+그때 알았습니다. 내가 하려는 분야를 먼저 공부하고, AI와는 협업하듯 일해야 한다.
+개발을 해 봤기 때문에 아는 것도 있었습니다. 기술은 시작과 환경 설정이 중요합니다. AI도 시작은 기술입니다.">
+  <div class="kicker">1. 제가 AI를 만난 이야기</div>
+  <h2>한 번은 크게 헤맸습니다</h2>
+  <div class="say">
+    <p>AI가 제안한 방식대로 구현했더니 너무 느렸습니다.<br><span class="muted">필요 없는 것까지 하고 있었고, 시간과 토큰을 많이 썼습니다.</span></p>
+    <p class="step" style="margin-top:44px"><b>그래서 배운 것:</b> 하려는 분야를 먼저 공부하고,<br>AI와는 협업하듯 일해야 합니다.</p>
+  </div>
+</section>
+
+<!-- ② AX는 어디서 시작하나 -->
+<section class="slide center" data-start="2:35" data-title="절실해야 한다 (1분)"
+  data-notes="그래서 저는 AX가 성공하려면 절실해야 한다고 생각합니다.
+직장생활을 하면서 저는 익숙한 것을 찾게 됐고, 안주했습니다. 돌아보면 그게 후퇴였습니다.
+제가 가장 많이 나아갔을 때는 뭔가 아쉽거나 부족할 때였습니다.
+(본인 경험으로 말한다. 청중에게 '절박하셔야 합니다'라고 요구하지 않는다)">
+  <div class="kicker">2. AX는 어디서 시작하는가</div>
+  <h2>AX가 성공하려면, 절실해야 합니다</h2>
+  <div class="quote" style="margin-top:56px">
+    직장생활을 하면서 익숙한 것을 찾게 됐고, 안주했습니다.<br>
+    돌아보면 그게 후퇴였습니다.
+  </div>
+  <div class="quote step" style="margin-top:40px">
+    제가 가장 많이 나아갔을 때는<br>뭔가 아쉽거나 부족할 때였습니다.
+  </div>
+</section>
+
+<section class="slide center" data-start="3:35" data-title="비타민이 아니라 페인킬러 (50초)"
+  data-notes="그래서 AX는 비타민이 아니라 페인킬러라고 봅니다.
+비타민은 먹으면 좋고, 안 먹어도 당장 문제는 없습니다. 페인킬러는 아파서 찾습니다.
+기존에 하던 방식대로 안주해도 됩니다. 다만 조직이 계속된다는 보장이 없을 뿐입니다.">
+  <div class="kicker">2. AX는 어디서 시작하는가</div>
+  <h2>AX는 비타민이 아니라 페인킬러입니다</h2>
+  <div class="two">
+    <div class="card"><h3>비타민</h3><p>먹으면 좋습니다.<br>안 먹어도 <b>당장은 문제가 없습니다.</b></p></div>
+    <div class="card accent"><h3 class="accent">페인킬러</h3><p><b>아파서 찾습니다.</b><br>안 먹으면 일을 못 합니다.</p></div>
+  </div>
+  <p class="lead step" style="margin-top:50px">하던 방식대로 안주해도 됩니다.<br>다만 조직이 계속된다는 보장이 없을 뿐입니다.</p>
+</section>
+
+<!-- ③ 과정 설계 -->
+<section class="slide center" data-start="4:25" data-title="절실함을 어떻게 만드나 (1분 10초)"
+  data-notes="그런데 과제로 받은 과정의 수강생은 재직자입니다. 대부분 회사가 보내서 옵니다. 절실할 리가 없습니다.
+그래서 과정 설계에서 가장 고민한 게 이겁니다. 절실함을 어떻게 느끼게 할까.
+세 가지로 했습니다. 첫째, 수업 중에는 작은 회사의 대표가 됩니다. 일이 멈추면 내 회사가 멈춥니다.
+둘째, '내가 2주 휴가를 가면 내 일은 굴러가나'로 시작합니다. 셋째, 과제는 가상 회사가 아니라 내 업무로 합니다.
+(지표: 교육 목표·논리적 구성 — 설계 이유)">
+  <div class="kicker">3. 그래서 과정을 이렇게 짰습니다</div>
+  <h2>회사가 보내서 온 분들에게<br>절실함을 어떻게 만들까?</h2>
+  <div class="say">
+    <p class="step"><b>하나.</b> 수업 중에는 작은 회사의 <b>대표</b>가 됩니다. <span class="muted">일이 멈추면 내 회사가 멈춥니다.</span></p>
+    <p class="step"><b>둘.</b> "내가 2주 휴가를 가면, 내 일은 굴러갈까?"로 시작합니다.</p>
+    <p class="step"><b>셋.</b> 과제는 가상 회사가 아니라 <b>내 업무</b>로 합니다.</p>
+  </div>
+</section>
+
+<section class="slide" data-start="5:35" data-title="과정 순서: 정리 → 흐름 끝까지 → 보고까지 (1분 15초)"
+  data-notes="순서는 정리, 흐름 끝까지, 보고까지입니다. 7시간은 1회, 14시간은 2회까지, 21시간은 3회까지입니다.
+이 순서인 이유: AI를 일의 중간 한 단계에만 붙이면, 앞뒤 단계에서 다시 손으로 옮겨 적다가 원래 방식으로 돌아갑니다. 그래서 먼저 자료를 찾을 수 있게 정리하고, 일이 처음부터 끝날 때까지 이어지게 하고, 마지막으로 보고·결재까지 그 기록으로 하게 합니다.
+(차시표 질문이 나오면 a 키)">
+  <div class="kicker">3. 그래서 과정을 이렇게 짰습니다 · 7·14·21시간</div>
+  <h2 style="font-size:58px">AI를 한 단계에만 붙이면, 결국 원래 방식으로 돌아갑니다</h2>
+  <p class="lead" style="margin-top:20px;font-size:38px">그래서 정리 → 흐름 끝까지 → 보고까지, 이 순서로 갑니다.</p>
+  <div class="course">
+    <div></div>
+    <div class="h">1회 · 정리<small>자료를 남도 찾을 수 있게</small></div>
+    <div class="h">2회 · 흐름 끝까지<small>주문 접수부터 고객 안내까지 AI와</small></div>
+    <div class="h">3회 · 보고까지<small>그 기록으로 보고·결재</small></div>
+    <div class="lab">7시간</div><div class="seg s1">정리 규칙 · 업무 흐름도</div><div class="gap"></div><div class="gap"></div>
+    <div class="lab">14시간</div><div class="seg s1">정리 규칙 · 업무 흐름도</div><div class="seg s2">AI 업무 요청서 · 점검표</div><div class="gap"></div>
+    <div class="lab">21시간</div><div class="seg s1">정리 규칙 · 업무 흐름도</div><div class="seg s2">AI 업무 요청서 · 점검표</div><div class="seg s3">기록으로 만든 보고 · 개선안</div>
+  </div>
+</section>
+
+<!-- ④ 첫 시간 5분 -->
+<section class="slide center" data-start="6:50" data-title="여러분은 다온오피스 대표입니다 (40초)"
+  data-notes="그럼 1회차 첫 시간을 5분만 해 보겠습니다. 지금부터 여러분은 이 회사의 대표입니다.
+(주)다온오피스, 성남에서 병원·학원·요양원에 사무용품을 납품합니다. 직원은 다섯 명입니다. 주문은 카톡, 메일, 전화로 들어옵니다.
+(모두 실습용 가상 회사)">
+  <div class="kicker">4. 첫 시간을 5분만 · 지금부터 여러분은 대표입니다</div>
+  <h2>(주)다온오피스</h2>
+  <p class="lead" style="margin-top:16px">성남에서 병원·학원·요양원에 사무용품을 납품합니다. 주문은 카톡·메일·전화로 들어옵니다.</p>
+  <div class="staff">
+    <div class="me"><b>한다온 대표</b><span>여러분</span></div>
+    <div><b>박지훈 과장</b><span>영업·견적</span></div>
+    <div><b>이수진 대리</b><span>구매·재고</span></div>
+    <div><b>최유나 주임</b><span>주문 접수·고객 응대</span></div>
+    <div><b>한도윤 사원</b><span>출고·배송</span></div>
+    <div><b>정혜원 대리</b><span>경리·총무</span></div>
+  </div>
+  <div class="source">실습용 가상 회사입니다. 사람·번호는 모두 지어낸 것입니다.</div>
+</section>
+
+<section class="slide" data-start="7:30" data-title="이수진 대리의 휴가 첫날 (40초)"
+  data-notes="재고 담당 이수진 대리가 2주 휴가를 갔습니다. 첫날 이런 전화를 받았습니다.
+박 과장은 재고 엑셀에서 A4가 34박스인 것만 봤습니다. 견적 최종본이 어느 건지, 다솜요양원은 어디로 보내는지도 이 대리에게 물었습니다.
+(3초 쉬기) 대표님 입장에서 보면, 한 사람이 빠지니 회사가 멈칫합니다.">
+  <div class="kicker">재고 담당 이수진 대리가 2주 휴가를 갔습니다</div>
+  <img class="toon" src="img/vacation.webp" alt="휴가 첫날 해변에서 회사 전화를 계속 받는 이수진 대리의 4컷 만화">
+</section>
+
+<section class="slide" data-start="8:10" data-title="대표님 책상의 자료 20개 (1분)"
+  data-notes="이 대리 자리에 남은 자료가 이 20개입니다. 엑셀, 워드, PDF, 카톡 캡처, 스캔이 섞여 있습니다.
+대표님께 맑은내과에서 전화가 왔습니다. '최종 견적 얼마였죠?' 노란색이 견적서 세 개입니다. 30초 드리겠습니다. 어느 파일일까요?
+(30초 뒤 손 들어 보기: 첫 번째? 두 번째? 세 번째? — 정답은 다음 장 이후에)">
+  <div class="kicker">이 대리 자리에 남은 자료 20개</div>
+  <h2 style="font-size:56px">맑은내과에서 "최종 견적 얼마였죠?" 하고 묻습니다</h2>
+  <div class="files">
+    <div>10월 둘째주 회의록.docx</div><div>KakaoTalk_20261012_153204.png</div><div>KakaoTalk_20261020_091155.png</div><div>RE_ 복사지 납품 일정 문의.pdf</div>
+    <div>[다솜요양원] 정기납품 계약 조건.pdf</div><div>거래명세서_202610_그린치과.pdf</div><div>거래처목록.xlsx</div><div class="q">① 견적서(수정)_맑은내과.xlsx</div>
+    <div class="q">② 견적서_맑은내과_1008.xlsx</div><div class="q">③ 견적서_최종_수정(2).xlsx</div><div>납품확인서_소담어린이집.jpg</div><div>단가표_2026하반기.xlsx</div>
+    <div>메모.txt</div><div>반품요청_오름디자인.docx</div><div>배송일정표_10월.xlsx</div><div>새 문서 1.docx</div>
+    <div>스캔_001.pdf</div><div>재고현황(복사본).xlsx</div><div>재고현황_1031.xlsx</div><div>회의록_1027_최종.docx</div>
+  </div>
+  <div class="row" style="margin-top:34px;align-items:center;justify-content:space-between">
+    <p class="lead" style="margin:0">어느 파일일까요? 30초 드리겠습니다.</p>
+    <div class="timer no-advance" data-seconds="30" style="font-size:90px">0:30</div>
+  </div>
+</section>
+
+<section class="slide" data-start="9:10" data-title="같은 20개를 AI에게 (50초)"
+  data-notes="같은 20개 파일을 정리하지 않은 그대로 AI에게 주고 똑같이 물었습니다.
+(기록 보기 → 인터넷이 되면 r로 한 번 더) 답과 함께 근거로 삼은 파일 이름까지 알려 줍니다. 리허설 때 10번 물어 10번 다 맞혔고, 평균 1.3초 걸렸습니다.">
+  <div class="kicker">같은 20개를, 정리하지 않은 그대로 AI에게 줬습니다</div>
+  <h2 style="font-size:56px">"맑은내과 최종 견적 얼마야?"</h2>
+  <div class="ai-demo no-advance" data-corpus="../2026-11_demoday/demo/corpus.json" data-recorded="../2026-11_demoday/demo/recorded.json" data-question="맑은내과 최종 견적 얼마야?">
+    <div class="card panel" data-side="before">
+      <div class="label">AI의 답</div>
+      <div class="ans">—</div><div class="src"></div><span class="badge pill"></span>
+    </div>
+    <div class="controls no-print"><button data-act="recorded">기록 보기</button><button data-act="live">지금 실행 (r)</button><span class="status"></span></div>
+  </div>
+  <div class="source">코디세이 API(claude-haiku-4). 리허설 기록은 발표 노트북에서 10회 물어본 결과입니다.</div>
+</section>
+
+<section class="slide center" data-start="10:00" data-title="답은 적혀 있었다 (1분)"
+  data-notes="AI가 맞힌 이유는 간단합니다. 누군가 파일 이름에 '(수정)'이라고 적어 두었고, 안에 날짜도 있었습니다. 10월 8일 견적을 13일에 고친 겁니다.
+③번은 이름에 '최종'이 들어 있지만 다른 거래처(정진세무회계) 견적입니다. 아까 ③번 고르신 분 계시죠?
+(단계 공개) 이 회사 회의록에는 이런 줄도 있습니다. '창고2에 A4가 12박스 있었음. 재고 엑셀에 따로 적혀 있어서 아무도 못 봄.'
+정보는 있었는데 사람이 못 찾은 겁니다. 1회차 나머지 시간은 이걸 남도 찾을 수 있게 정리하는 시간입니다.">
+  <div class="kicker">AI가 맞힌 이유</div>
+  <h2 style="font-size:58px">답은 파일 이름과 날짜에 적혀 있었습니다</h2>
+  <div class="quotes">
+    <div class="card"><h3>② 견적서_맑은내과_1008.xlsx</h3>10월 8일 · 처음 견적<div class="won">823,680원</div></div>
+    <div class="card ok"><h3>① 견적서(수정)_맑은내과.xlsx</h3>10월 13일 · 고친 견적<div class="won" style="color:var(--ok)">759,880원</div></div>
+    <div class="card warn"><h3>③ 견적서_최종_수정(2).xlsx</h3>이름엔 '최종'이지만<div class="won" style="font-size:40px">다른 거래처 견적</div></div>
+  </div>
+  <div class="card step" style="margin-top:34px;font-size:36px;line-height:1.55">
+    <span class="small muted">이 회사 10/27 회의록에서</span><br>
+    "창고2에 A4가 12박스 있었음. 재고 엑셀에 따로 적혀 있어서 아무도 못 봄."
+  </div>
+</section>
+
+<section class="slide center" data-start="11:00" data-title="내 일로 돌아오기 (1분)"
+  data-notes="이제 대표 자리에서 내려와 내 일로 돌아오겠습니다.
+내가 내일부터 2주 휴가를 간다면, 전화가 올 일 하나를 떠올려 주세요. 그 일에 대해 세 가지를 물어보겠습니다. '예'가 몇 개인지 손가락으로만 세어 주세요.
+(지목하지 않는다) '아니오'가 나온 곳이 1회차에서 정리할 곳입니다.">
+  <div class="kicker">대표 자리에서 내려와, 내 일로</div>
+  <h2>내가 2주 휴가를 가면,<br>전화가 올 일 하나를 떠올려 보세요</h2>
+  <div class="yn">
+    <div><span></span>다른 사람이 그 일의 절차를 알고 있나요?</div>
+    <div><span></span>필요한 자료가 어디 있는지 남도 아나요?</div>
+    <div><span></span>어느 게 최신본인지 구별되나요?</div>
+  </div>
+  <p class="lead step" style="margin-top:30px">'아니오'가 나온 곳이, 1회차에서 정리할 곳입니다.</p>
+</section>
+
+<section class="slide center" data-start="12:00" data-title="마무리 (1분)"
+  data-notes="저도 안주했을 때 후퇴했고, 아쉬움이 있을 때 가장 많이 나아갔습니다.
+오늘 떠올리신 그 일 하나, 전화가 올 것 같은 그 일이 아쉬운 지점입니다. 거기서 시작하시면 됩니다. 감사합니다.
+(13:00 종료. 여유 2분)">
+  <h2>저도 안주했을 때 후퇴했고,<br>아쉬움이 있을 때 가장 많이 나아갔습니다</h2>
+  <p class="lead" style="margin-top:44px">오늘 떠올리신 그 일 하나에서 시작하시면 됩니다.</p>
+  <p class="small muted" style="margin-top:60px">감사합니다 · 김현래</p>
+</section>
+
+</div>
+<script>
+  /* 질의응답용: a 키 → 과정 설계 한 장(차시표) */
+  document.addEventListener("keydown", e => { if (e.key === "a" && !e.target.closest("input, select, dialog")) location.href = "a4.html"; });
+</script>
+<script src="../assets/deck.js"></script>
+<script src="../assets/ai-demo.js"></script>
+</body>
+</html>

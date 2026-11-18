@@ -65,6 +65,7 @@ document.getElementById("go").onclick = async () => {
   if (!cfg.key) { alert("먼저 설정에서 키를 넣어 주세요."); return; }
   const n = Number(document.getElementById("n").value) || 5, mt = Number(document.getElementById("mt").value) || 1500;
   const docs = [{ name: "회원가입 화면", text: kase.signup }, { name: "개인정보 처리방침", text: kase.policy }];
+  const btn = document.getElementById("go"); if (btn.disabled) return; btn.disabled = true; btn.textContent = "시험 중…";
   results = []; const tb = document.getElementById("rows"); tb.innerHTML = "";
   for (let i = 1; i <= n; i++) {
     let r;
@@ -78,6 +79,7 @@ document.getElementById("go").onclick = async () => {
     summarize(cfg, n);
   }
   document.getElementById("dl").disabled = false;
+  btn.disabled = false; btn.textContent = "시험 시작";
 };
 
 function summarize(cfg, n) {

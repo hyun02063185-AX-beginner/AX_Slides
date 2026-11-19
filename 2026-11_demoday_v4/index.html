@@ -22,7 +22,7 @@
   .course .card { padding: 30px 34px; display: flex; flex-direction: column; gap: 16px; }
   .course .when { font-size: 26px; font-weight: 700; color: var(--muted); }
   .course h3 { font-size: 44px; margin: 0; }
-  .course h3 small { font-size: 30px; color: var(--muted); font-weight: 600; margin-left: 8px; }
+  .course h3 small { font-size: 24px; color: var(--muted); font-weight: 600; margin-left: 8px; }
   .course .one { font-size: 29px; line-height: 1.45; color: var(--muted); }
   .course .today { outline: 6px solid var(--accent); position: relative; }
   .course .today::after { content: "오늘 시연"; position: absolute; top: -24px; right: 24px; background: var(--accent); color: #fff; font-size: 24px; font-weight: 700; padding: 6px 18px; border-radius: 999px; }
@@ -108,7 +108,8 @@
   .msg.ai li small { color: #a2a8b0; font-size: 22px; margin-left: 10px; }
   .chip { flex: none; font-size: 22px; font-weight: 700; padding: 3px 16px; border-radius: 999px; opacity: 0; transition: opacity .3s; }
   .chipson.shown .chip { opacity: 1; }
-  .chip.y { background: var(--ok-soft); color: var(--ok); } .chip.p { background: var(--amber-soft); color: var(--amber); } .chip.x { background: #eef0f3; color: #8a9099; }
+  .chip.y { background: var(--ok-soft); color: var(--ok); }
+  .msg.ai li .row { transition: opacity .3s; } .msg.ai li.dim .row { opacity: .3; } .chip.p { background: var(--amber-soft); color: var(--amber); } .chip.x { background: #eef0f3; color: #8a9099; }
   .chipson.step { opacity: 1; transform: none; }
   .slide.active .typing li { animation: pop .35s both; }
   .slide.active .typing li:nth-child(1) { animation-delay: .5s; } .slide.active .typing li:nth-child(2) { animation-delay: .8s; }
@@ -185,14 +186,31 @@
   .cl div { padding: 8px 0 8px 54px; position: relative; }
   .cl div > b { position: absolute; left: 0; top: 8px; width: 40px; height: 40px; border-radius: 50%; background: var(--soft); text-align: center; font-size: 24px; line-height: 40px; }
   .cl .add > b { background: #ffe25a; }
+  .cl div.dim { color: #a2a8b0; }
   .cl .t { display: inline-block; font-size: 20px; font-weight: 700; padding: 1px 10px; border-radius: 999px; margin-left: 8px; vertical-align: 3px; }
   .cl .t.a { background: var(--ok-soft); color: var(--ok); } .cl .t.b { background: var(--warn-soft); color: var(--warn); }
 
+  .cmp { display: grid; grid-template-columns: 1fr 80px 1fr; gap: 10px; align-items: center; margin-top: 30px; }
+  .cmp .side { display: flex; flex-direction: column; gap: 18px; }
+  .cmp .arrow { font-size: 80px; color: var(--muted); text-align: center; }
+  .score.sm { display: flex; align-items: center; gap: 26px; text-align: left; }
+  .score.sm .num { font-size: 130px; margin: 0; }
+  .score.sm .num span { font-size: 80px; }
+  .board.sm { grid-template-columns: 1fr 1fr; gap: 12px; }
+  .board.sm .grp { padding: 12px 12px 14px; } .board.sm .gl { font-size: 18px; margin-bottom: 8px; }
+  .board.sm .tiles { gap: 8px; } .board.sm .tile { height: 150px; font-size: 20px; border-width: 3px; padding: 6px 4px; }
+  .board.sm .tile .mk { font-size: 42px; min-height: 42px; }
+  .rr5 { font-size: 26px; color: var(--muted); font-weight: 600; }
   /* 18 질문 */
   .qs { margin-top: 30px; display: grid; grid-template-columns: 1fr 1fr; gap: 20px; }
   .qs div { background: var(--soft); border-radius: 20px; padding: 24px 30px; font-size: 32px; line-height: 1.45; }
   .qs small { display: block; font-size: 23px; color: var(--muted); margin-bottom: 6px; font-weight: 700; }
 
+  .two2 { display: grid; grid-template-columns: 1fr 1fr; gap: 30px; margin-top: 32px; }
+  .lane { border-radius: 24px; padding: 28px 32px; display: flex; flex-direction: column; gap: 14px; }
+  .lane.ok { background: var(--ok-soft); } .lane.q { background: var(--warn-soft); }
+  .lane h3 { font-size: 38px; margin: 0 0 6px; } .lane h3 small { display: block; font-size: 24px; color: var(--muted); font-weight: 600; margin-top: 4px; }
+  .lane > div { background: #fff; border-radius: 14px; padding: 14px 20px; font-size: 28px; line-height: 1.4; }
   .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
   .three .card { font-size: 40px; line-height: 1.4; font-weight: 700; }
   .three .card b { display: block; font-size: 76px; color: var(--accent); line-height: 1; margin-bottom: 18px; }
@@ -228,7 +246,7 @@
   <div class="course">
     <div class="card s1">
       <div class="when">1회 · 7시간</div>
-      <h3>정리 <small>DX</small></h3>
+      <h3>정리 <small>DX · AI 쓰기 전 준비</small></h3>
       <div class="mini">
         <div class="scatter"><i style="left:0;top:20px;transform:rotate(-14deg)"></i><i style="left:46px;top:0;transform:rotate(9deg)"></i><i style="left:96px;top:30px;transform:rotate(-6deg)"></i><i style="left:20px;top:78px;transform:rotate(12deg)"></i><i style="left:76px;top:84px;transform:rotate(-18deg)"></i></div>
         <span class="ar">→</span>
@@ -238,13 +256,13 @@
     </div>
     <div class="card s2 today">
       <div class="when">2회 · 14시간까지</div>
-      <h3>흐름 끝까지 <small>가로</small></h3>
+      <h3>흐름 끝까지 <small>가로 · 처음부터 끝까지</small></h3>
       <div class="mini"><span class="b">접수</span><span class="ar">→</span><span class="b">확인</span><span class="ar">→</span><span class="b">안내</span></div>
       <div class="one">업무 하나를 처음부터 끝까지 AI와 함께</div>
     </div>
     <div class="card s3">
       <div class="when">3회 · 21시간까지</div>
-      <h3>보고까지 <small>세로</small></h3>
+      <h3>보고까지 <small>세로 · 실무에서 결재까지</small></h3>
       <div class="mini v"><span class="b">결재</span><span class="ar">↑</span><span class="b">보고</span><span class="ar">↑</span><span class="b">업무 기록</span></div>
       <div class="one">실무 기록에서 바로 보고·결재</div>
     </div>
@@ -358,10 +376,11 @@
 
 <!-- 10 시연 1 -->
 <section class="slide" data-start="6:30" data-title="시연 1: 기준 없이 맡기기 (1분)"
-  data-notes="전문가 검토는 2주 뒤입니다. 그 전에 AI에게 먼저 맡겨 봅니다. 두 문서를 주고, 맞지 않는 점을 찾아 달라고만 했습니다. 점검 기준은 주지 않았습니다.
+  data-notes="(이 화면은 발표 전에 실행한 결과를 그대로 재현한 것이라고 짧게 밝힌다)
+전문가 검토는 2주 뒤입니다. 그 전에 AI에게 먼저 맡겨 봅니다. 두 문서를 주고, 맞지 않는 점을 찾아 달라고만 했습니다. 점검 기준은 주지 않았습니다.
 (답이 올라오는 동안) 여덟 개입니다. 근거 조문까지 붙였습니다. 꼼꼼해 보입니다.
-(넘김: 꼬리표) 항목마다 여섯 곳 중 어디를 짚었는지 붙여 보면, 생년월일·재료·위탁은 짚었고, 7번은 보유 기간을 건드렸지만 법정 보관 기간까지는 아닙니다. 나머지 둘은 여섯 곳 밖의 이야기입니다.">
-  <div class="kicker">시연 1 · 점검 기준 없이</div>
+(넘김: 꼬리표, 여섯 곳 밖은 흐려짐) 항목마다 여섯 곳 중 어디를 짚었는지 붙여 보면, 생년월일·재료·위탁은 짚었고, 7번은 보유 기간을 건드렸지만 법정 보관 기간까지는 아닙니다. 나머지 둘은 여섯 곳 밖의 이야기입니다.">
+  <div class="kicker">시연 1 · 점검 기준 없이 · 발표 전에 실행한 결과를 재현한 화면</div>
   <div class="chatwin">
     <div class="msg me">회원가입 화면과 개인정보 처리방침을 대조해서, 맞지 않거나 확인이 필요한 점을 찾아 주세요.</div>
     <div class="msg ai">
@@ -385,7 +404,8 @@
 <section class="slide" data-start="7:30" data-title="결과: 기준 없이 3 / 6 (40초)"
   data-notes="여섯 곳 중 제대로 짚은 곳은 세 곳입니다. 두 문서를 비교하면 보이는 세 곳입니다.
 법이 요구하는 것과 비교해야 보이는 세 곳은 비었습니다. 보관 기간은 세모, 건드렸지만 핵심을 못 짚었습니다.
-(넘김) 같은 요청을 다섯 번 했는데, 다섯 번 모두 같은 세 곳이 비었습니다.">
+(넘김) 같은 요청을 다섯 번 했는데, 다섯 번 모두 같은 세 항목을 제대로 짚지 못했습니다.
+(이 숫자는 실습용으로 심어 둔 여섯 곳 기준이지, AI의 법률 점검 정확도가 아닙니다)">
   <div class="kicker">시연 1 결과</div>
   <h2 style="font-size:56px">두 문서를 비교하면 보이는 곳만 짚었습니다</h2>
   <div class="result">
@@ -405,19 +425,19 @@
       <div class="rg"><i class="y"></i><i class="y"></i><i class="y"></i><i class="p"></i><i class="p"></i><i class="n"></i></div>
       <div class="rg"><i class="y"></i><i class="y"></i><i class="y"></i><i class="n"></i><i class="p"></i><i class="n"></i></div>
     </div>
-    <span>→ 다섯 번 모두 같은 세 곳이 빔</span>
+    <span>→ 다섯 번 모두 같은 세 항목을 제대로 짚지 못함</span>
   </div>
-  <div class="source">△ 건드렸으나 핵심을 못 짚음 (예: "보유 기간이 모호하다"고만 하고 법정 보관 기록·기간은 없음) · 발표 전 재현 시험 기록</div>
+  <div class="source">실습용으로 심어 둔 여섯 곳 기준 · △ 건드렸으나 핵심을 못 짚음 (예: "보유 기간이 모호하다"고만 하고 법정 보관 기록·기간은 없음) · 발표 전 재현 시험 기록</div>
 </section>
 
 <!-- 12 왜 -->
 <section class="slide" data-start="8:10" data-title="왜 비었나 (40초)"
-  data-notes="두 문서끼리는 비교했습니다. 그래서 두 문서 사이의 세 곳은 찾았습니다.
-(넘김) 하지만 법이 요구하는 것과는 비교하지 않았습니다. 저는 그 기준을 주지 않았습니다.
+  data-notes="두 문서는 비교했습니다. 그래서 두 문서 사이의 세 곳은 찾았습니다.
+(넘김) 하지만 법이 요구하는 기준은 빠짐없이 적용하지 못했습니다. 저는 그 기준을 주지 않았습니다.
 AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하지만 아는 기준을 빠짐없이, 정확하게 적용하리라 믿을 수는 없습니다.
 기준을 주지 않으면, 무엇을 빠뜨렸는지 알 수 없습니다.">
   <div class="kicker">AI는 무엇과 무엇을 비교했나</div>
-  <h2 style="font-size:54px">두 문서끼리는 비교했습니다.<br>법이 요구하는 것과는 비교하지 않았습니다</h2>
+  <h2 style="font-size:54px">두 문서는 비교했습니다.<br>하지만 법이 요구하는 기준은 빠짐없이 적용하지 못했습니다</h2>
   <div class="tri">
     <svg viewBox="0 0 1640 600" preserveAspectRatio="none" aria-hidden="true">
       <line x1="580" y1="525" x2="1060" y2="525" stroke="#17784a" stroke-width="8"/>
@@ -427,9 +447,9 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
     <div class="node bl">회원가입 화면<small>AI에게 줌</small></div>
     <div class="node br">처리방침<small>AI에게 줌</small></div>
     <div class="tag ok">비교함 → 세 곳 찾음</div>
-    <div class="node top step" data-lines>법이 요구하는 것<small>기준으로 주지 않음</small></div>
-    <div class="tag no step" style="left:250px;top:230px">비교 안 함</div>
-    <div class="tag no step" style="right:250px;top:230px">비교 안 함</div>
+    <div class="node top step" data-lines>법이 요구하는 것<small>기준으로 주지 않음 · AI가 아는 만큼만 적용</small></div>
+    <div class="tag no step" style="left:250px;top:230px">빠짐</div>
+    <div class="tag no step" style="right:250px;top:230px">빠짐</div>
   </div>
 </section>
 
@@ -460,18 +480,19 @@ AI가 놓친 것을 찾으려면, 내가 준 기준부터 점검해야 합니다
 
 <!-- 14 기준은 누가 -->
 <section class="slide" data-start="9:50" data-title="기준은 누가, 어디서, 어떻게 (40초)"
-  data-notes="그럼 그 기준은 누가 만들까요. 담당자가 만듭니다. 법률 전문가가 아니어도요.
+  data-notes="그럼 그 기준은 누가 만들까요. 법률 전문가가 아니어도, 담당자가 점검표 초안은 만들 수 있습니다. 해석이 필요한 부분은 전문가에게 넘깁니다.
 저는 시험 공부할 때 법을 해석하고 적용하는 방법을 공식처럼 외웠습니다. 지금은 조문을 많이 잊었지만, 어디를 펴 봐야 하는지는 압니다.
 개인정보위가 내는 처리방침 작성지침입니다. 이걸 AI에게 주고 점검표 초안을 받습니다. 근거 쪽수를 꼭 달게 합니다. 그리고 그 쪽을 펴서 확인하고 보완합니다.
 (발표 전 강사가 직접 한 번 해 보고 다듬을 장면)">
   <div class="kicker">기준은 누가, 어디서, 어떻게</div>
-  <h2>담당자가 만듭니다. 법률 전문가가 아니어도</h2>
+  <h2>담당자도 점검표 초안을 만들 수 있습니다</h2>
   <div class="make">
     <img src="img/jichim_cover.png" alt="개인정보보호위원회 개인정보 처리방침 작성지침 2026.4 표지">
     <div class="steps3">
       <div><b class="n">1</b><div><h4>공식 자료를 구한다</h4><p>개인정보보호위원회 「개인정보 처리방침 작성지침」(2026.4)</p></div></div>
       <div class="step"><b class="n">2</b><div><h4>AI로 점검표 초안을 받는다</h4><p>작성지침을 주고, 항목마다 <b>근거 쪽수</b>를 달게 한다</p></div></div>
       <div class="step"><b class="n">3</b><div><h4>그 쪽을 펴서 확인·보완한다</h4><p>AI가 요약하며 흐려진 내용을 원문에서 되살린다</p></div></div>
+      <div class="step" style="background:var(--warn-soft)"><b class="n" style="background:var(--warn)">4</b><div><h4>해석이 필요한 부분은 전문가에게</h4><p>점검표는 초안, 법적 판단은 전문가 검토로</p></div></div>
     </div>
   </div>
   <div class="source">개인정보보호위원회 「개인정보 처리방침 작성지침」(2026.4) 표지 · 공공누리</div>
@@ -497,7 +518,7 @@ AI가 놓친 것을 찾으려면, 내가 준 기준부터 점검해야 합니다
     </div>
     <div class="callout after step">
       <h4>② 보완한 점검표 항목</h4>
-      "탈퇴 후에도 <b>법령에 따라 보관해야 하는 기록</b>(계약·결제 5년, 불만·분쟁 3년)과 그 기간을 적었는가"
+      "탈퇴 후에도 <b>법령에 따라 보관해야 하는 기록</b>(예: 계약·청약철회 기록 5년)과 그 기간을 적었는가"
     </div>
   </div>
   <div class="source">개인정보보호위원회 「개인정보 처리방침 작성지침」(2026.4) p.31 · 형광펜 표시는 발표자</div>
@@ -513,60 +534,65 @@ AI가 놓친 것을 찾으려면, 내가 준 기준부터 점검해야 합니다
   <div class="cl">
     <div><b>1</b>가입 화면에서 받는 정보가 처리방침 항목에 빠짐없이 있는가<span class="t a">생년월일·재료</span></div>
     <div><b>6</b>외부 업체에 맡기는 일이 '처리 위탁'에 업체 이름과 함께 있는가<span class="t a">위탁 업체</span></div>
-    <div><b>2</b>정보마다 쓰는 목적이 '처리 목적'에 있는가</div>
-    <div><b>7</b>제3자 제공이 있다면 적었는가. 위탁과 구분했는가</div>
+    <div class="dim"><b>2</b>정보마다 쓰는 목적이 '처리 목적'에 있는가</div>
+    <div class="dim"><b>7</b>제3자 제공이 있다면 적었는가. 위탁과 구분했는가</div>
     <div><b>3</b>마케팅 수신 동의는 [선택]으로 따로 받고, 거부해도 가입할 수 있는가<span class="t b">마케팅 동의</span></div>
-    <div><b>8</b>쿠키 같은 자동 수집의 목적과 거부 방법을 적었는가</div>
-    <div><b>4</b>민감할 수 있는 정보를 받는다면 별도 동의가 필요한지 확인했는가</div>
+    <div class="dim"><b>8</b>쿠키 같은 자동 수집의 목적과 거부 방법을 적었는가</div>
+    <div class="dim"><b>4</b>민감할 수 있는 정보를 받는다면 별도 동의가 필요한지 확인했는가</div>
     <div><b>9</b>보호책임자의 이름과 연락처(전화·이메일)를 적었는가<span class="t b">연락처</span></div>
     <div class="add"><b>5</b>탈퇴 후에도 법령에 따라 보관해야 하는 기록과 그 기간을 적었는가<span class="t b">보관 기간</span></div>
-    <div><b>10</b>열람·정정·삭제 요구 방법과 시행일을 적었는가</div>
+    <div class="dim"><b>10</b>열람·정정·삭제 요구 방법과 시행일을 적었는가</div>
   </div>
 </section>
 
-<!-- 17 결과 2 -->
-<section class="slide" data-start="12:00" data-title="시연 2 결과: 기준과 함께 6 / 6 (40초)"
-  data-notes="이 점검표를 함께 주고, 같은 요청을 다시 했습니다.
-여섯 곳을 모두 짚었습니다. (넘김) 다섯 번 모두 같았습니다.
-바뀐 것은 AI가 아니라, 함께 준 기준 하나입니다.">
-  <div class="kicker">시연 2 결과 · 같은 요청, 같은 AI</div>
-  <h2 style="font-size:56px">바뀐 것은 함께 준 기준 하나입니다</h2>
-  <div class="result">
-    <div class="score">
-      <div class="cond yes">점검 기준과 함께</div>
-      <div class="num">6<span> / 6</span></div>
-      <div class="lab">제대로 짚은 곳</div>
+<!-- 17 결과 비교 -->
+<section class="slide center" data-start="12:00" data-title="두 결과 비교: 3 / 6 → 6 / 6 (40초)"
+  data-notes="이 점검표를 함께 주고, 같은 요청을 다시 했습니다. 같은 AI, 같은 자료입니다.
+(넘김) 여섯 곳을 모두 짚었습니다. 다섯 번 모두 같았습니다.
+달라진 것은 AI가 아니라, 함께 준 점검 기준 하나입니다.
+(이 숫자도 실습용 여섯 곳 기준입니다)">
+  <div class="kicker">시연 2 결과 · 같은 AI · 같은 자료 · 추가된 점검 기준</div>
+  <h2 style="font-size:56px">달라진 것은 함께 준 점검 기준 하나입니다</h2>
+  <div class="cmp">
+    <div class="side">
+      <div class="score sm"><div class="cond no">점검 기준 없이</div><div class="num">3<span> / 6</span></div></div>
+      <div class="board sm" data-s="yyynpn"></div>
+      <div class="rr5">다섯 번 모두 같은 세 항목을 제대로 짚지 못함</div>
     </div>
-    <div class="board" data-s="yyyyyy"></div>
-  </div>
-  <div class="runs step">
-    <span>같은 요청 다섯 번</span>
-    <div class="set">
-      <div class="rg"><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i></div>
-      <div class="rg"><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i></div>
-      <div class="rg"><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i></div>
-      <div class="rg"><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i></div>
-      <div class="rg"><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i><i class="y"></i></div>
+    <div class="arrow">→</div>
+    <div class="side step">
+      <div class="score sm"><div class="cond yes">점검 기준과 함께</div><div class="num">6<span> / 6</span></div></div>
+      <div class="board sm" data-s="yyyyyy"></div>
+      <div class="rr5">다섯 번 모두 여섯 곳</div>
     </div>
-    <span>→ 다섯 번 모두 여섯 곳</span>
   </div>
-  <div class="source">발표 전 재현 시험 기록</div>
+  <div class="source">실습용으로 심어 둔 여섯 곳 기준 · 발표 전 재현 시험 기록 (조건마다 5회)</div>
 </section>
 
-<!-- 18 질문 -->
-<section class="slide center" data-start="12:40" data-title="전문가 검토에 가져갈 질문 (40초)"
-  data-notes="AI의 결과는 판단이 아닙니다. 판단을 받기 위한 준비입니다.
-2주 뒤 전문가 검토 때 이 질문들을 가져갑니다. AI가 든 조문은 원문과 맞춰 봤습니다.
-최종 법률 판단은 전문가가 합니다. 질문이 정리되어 있으면 전문가가 핵심 쟁점을 빠르게 파악하고 검토할 수 있습니다. 제가 매월 바뀐 부분 위주로 검토를 요청했던 것과 같습니다.">
+<!-- 18 조치와 질문 -->
+<section class="slide" data-start="12:40" data-title="오픈 전 할 일과 전문가에게 물을 것 (40초)"
+  data-notes="AI의 결과는 판단이 아닙니다. 판단을 받기 위한 준비입니다. 그래서 둘로 나눕니다.
+왼쪽은 사실이 분명한 것입니다. 받는 항목, 맡긴 업체, 연락처를 적지 않은 것. 오픈 전에 담당자가 바로 고칩니다.
+오른쪽은 해석이 필요한 것입니다. 이건 전문가에게 질문으로 가져갑니다. AI가 든 조문은 원문과 맞춰 봤습니다.
+전문가 답이 오기 전에 오픈해도 되는지, 중요한 문제가 남으면 오픈을 미룰지는 대표가 결정합니다.
+질문이 정리되어 있으면 전문가가 핵심 쟁점을 빠르게 파악하고 검토할 수 있습니다. 제가 매월 바뀐 부분 위주로 검토를 요청했던 것과 같습니다.">
   <div class="kicker">AI의 결과는 판단이 아니라, 판단을 받기 위한 준비</div>
-  <h2>2주 뒤 전문가 검토에 가져갈 질문</h2>
-  <div class="qs">
-    <div><small>점검표 3 · 마케팅 동의</small>혜택 알림 수신 동의를 [선택]으로 바꾸고, 거부해도 가입되게 해야 하나요?</div>
-    <div><small>점검표 5 · 보관 기간</small>주문·결제 기록과 불만·분쟁 기록은 각각 몇 년 보관해야 하나요?</div>
-    <div><small>점검표 4 · 민감할 수 있는 정보</small>못 드시는 재료(알레르기)는 별도 동의가 필요한 정보인가요?</div>
-    <div><small>점검표 9 · 연락처</small>보호책임자 연락처는 대표 전화와 이메일로 적으면 되나요?</div>
+  <h2>오픈 전에 고칠 것, 전문가에게 물을 것</h2>
+  <div class="two2">
+    <div class="lane ok">
+      <h3>오픈 전 바로 고친다 <small>사실이 분명한 것 · 담당자</small></h3>
+      <div>처리방침 항목에 <b>생년월일·못 드시는 재료</b> 추가</div>
+      <div>위탁에 <b>(주)메시지온·(주)빠른새벽택배</b> 추가</div>
+      <div>보호책임자 <b>연락처(전화·이메일)</b> 추가</div>
+    </div>
+    <div class="lane q step">
+      <h3>전문가에게 묻는다 <small>해석이 필요한 것 · 2주 뒤 검토</small></h3>
+      <div>혜택 알림 동의를 [선택]으로 분리하고, 거부해도 가입되게 해야 하나요?</div>
+      <div>주문·결제 기록과 불만·분쟁 기록은 각각 몇 년 보관해야 하나요?</div>
+      <div>못 드시는 재료(알레르기)는 별도 동의가 필요한 정보인가요?</div>
+    </div>
   </div>
-  <p class="step" style="font-size:36px;font-weight:700;margin-top:30px">최종 판단은 전문가가 합니다. 우리는 핵심 쟁점을 빠르게 검토할 수 있도록 준비합니다.</p>
+  <p class="step" style="font-size:34px;font-weight:700;margin-top:26px">중요한 문제가 풀리지 않으면 오픈 시점을 다시 정합니다. 최종 판단은 전문가와 대표가 합니다.</p>
 </section>
 
 <!-- 19 세 가지 -->
@@ -606,7 +632,7 @@ AI도 같습니다. AI가 제대로 일하도록 기준을 만드는 것, 그것
                   `<div class="grp b"><div class="gl">법이 요구하는 것과 비교해야 보이는 것</div><div class="tiles">${[3,4,5].map(tile).join("")}</div></div>`;
   });
   /* 10번: 꼬리표 단계가 보이면 칩 표시 */
-  document.querySelectorAll(".chipson").forEach(t => new MutationObserver(() => t.closest(".slide").querySelectorAll(".chip").forEach(c => c.style.opacity = t.classList.contains("shown") ? 1 : 0)).observe(t, { attributes: true }));
+  document.querySelectorAll(".chipson").forEach(t => new MutationObserver(() => { const on = t.classList.contains("shown"); t.closest(".slide").querySelectorAll(".chip").forEach(c => { c.style.opacity = on ? 1 : 0; c.closest("li").classList.toggle("dim", on && c.classList.contains("x")); }); }).observe(t, { attributes: true }));
   /* 12번: '법' 상자가 나오면 점선도 함께 */
   const top = document.querySelector("[data-lines]");
   if (top) new MutationObserver(() => top.closest(".tri").classList.toggle("shown-lines", top.classList.contains("shown"))).observe(top, { attributes: true });

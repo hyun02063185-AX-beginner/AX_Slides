@@ -251,6 +251,39 @@
   .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
   .three .card { font-size: 40px; line-height: 1.4; font-weight: 700; }
   .three .card b { display: block; font-size: 76px; color: var(--accent); line-height: 1; margin-bottom: 18px; }
+  /* 3 개선 이력 요약 */
+  .hist3 { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); gap: 30px; margin-top: 50px; }
+  .hist3 > div { background: var(--soft); border-radius: 26px; padding: 34px 36px; }
+  .hist3 b { display: block; font-size: 120px; font-weight: 800; line-height: 1; color: var(--accent); letter-spacing: -0.03em; }
+  .hist3 b small { font-size: 44px; margin-left: 6px; color: var(--muted); }
+  .hist3 h4 { margin: 18px 0 10px; font-size: 40px; }
+  .hist3 p { margin: 0; font-size: 28px; line-height: 1.45; color: var(--muted); }
+  /* 11 시연 1: 근거 조문 표시 */
+  .chip.x { background: var(--accent-soft); color: var(--accent); }
+  .slide.chips small.bad { color: var(--warn); text-decoration: underline wavy var(--warn); text-underline-offset: 6px; }
+  /* 16·17 원문 확인 흐름 */
+  .flow4 { display: grid; grid-template-columns: repeat(4, minmax(0, 1fr)); gap: 58px; margin-top: 30px; }
+  .flow4 .fb { position: relative; background: var(--soft); border-radius: 24px; padding: 24px 26px 26px; }
+  .flow4 .fb + .fb::before { content: "→"; position: absolute; left: -50px; top: 50%; transform: translateY(-50%); font-size: 44px; font-weight: 800; color: #a2a8b0; }
+  .flow4 .fn { display: inline-block; font-size: 24px; font-weight: 800; color: var(--muted); background: #fff; border-radius: 999px; padding: 4px 16px; }
+  .flow4 p { margin: 14px 0 0; font-size: 30px; line-height: 1.45; }
+  .flow4 em { display: block; font-style: normal; font-size: 24px; color: var(--muted); margin-top: 10px; }
+  .flow4 .fb.look { background: #fff8d6; } .flow4 .fb.look .fn { color: var(--amber); }
+  .flow4 .fb.warn { background: var(--warn-soft); } .flow4 .fb.warn .fn { color: var(--warn); }
+  .flow4 .fb.ok { background: var(--ok-soft); } .flow4 .fb.ok .fn { color: var(--ok); }
+  .orig { margin-top: 30px; border: 2px solid var(--line); border-radius: 18px; padding: 16px 24px 18px; background: #fff; }
+  .orig .dh { font-size: 22px; font-weight: 700; color: var(--muted); margin-bottom: 8px; }
+  .orig .im { display: flex; flex-direction: column; gap: 10px; }
+  .orig img { display: block; width: 100%; max-width: 1150px; }
+  /* 18 점검표 막대 */
+  .bars { display: grid; grid-template-columns: 1fr 1fr; gap: 12px 22px; margin-top: 34px; text-align: left; }
+  .bars div { background: #eceef2; color: #6b727c; border-radius: 12px; padding: 12px 22px; font-size: 30px; font-weight: 600; }
+  .bars .ext, .bars .add { grid-column: span 2; }
+  .bars .ext b { background: #ffe25a; color: var(--ink); border-radius: 8px; padding: 2px 12px; margin-left: 10px; }
+  .bars .add { background: #ffe25a; color: var(--ink); font-weight: 800; }
+  .legend2 { display: flex; gap: 30px; justify-content: center; margin-top: 26px; font-size: 26px; color: var(--muted); font-weight: 600; }
+  .legend2 span::before { content: ""; display: inline-block; width: 26px; height: 18px; border-radius: 5px; margin-right: 10px; vertical-align: -2px; background: #eceef2; }
+  .legend2 span.y::before { background: #ffe25a; }
 </style>
 </head>
 <body>
@@ -270,16 +303,16 @@
 </section>
 
 <!-- 2 과정 설계 -->
-<section class="slide" data-start="1:00" data-title="과제: 7·14·21시간 과정 (1분)"
+<section class="slide" data-start="1:00" data-title="과제: 과정 설계 (1분)"
   data-notes="과제로 7시간, 14시간, 21시간 과정을 설계했습니다. 원칙은 하나입니다. 어느 길이든 세 단계를 모두 거칩니다. 시간이 늘면 단계가 깊어집니다.
 1단계는 정리입니다. 흩어진 자료에 최소한의 공통 기준을 세웁니다. AI를 쓰기 전의 DX입니다.
 2단계는 가로입니다. 업무 하나를 접수부터 안내까지, 처음부터 끝까지 AI와 함께 처리합니다.
 3단계는 세로입니다. 실무 기록에서 바로 보고와 결재까지 올라갑니다.
 한 회는 100분씩 4교시입니다. 7시간만 신청해도 정리 두 교시, 가로 한 교시, 세로 한 교시로 세 단계를 다 거칩니다. AX 과정이니까 7시간에도 AI가 빠지지 않습니다.
-오늘 보여 드릴 것은 2단계의 첫 교시, AI에게 기준을 주고 점검을 맡기는 수업입니다. 이 교시를 마치면 수강생은 공식 자료로 점검표 초안을 만들고, AI 결과를 근거 쪽수로 확인하고, 고칠 것과 물을 것을 나눌 수 있습니다.
+오늘 보여 드릴 것은 2단계의 첫 교시, AI에게 기준을 주고 점검을 맡기는 수업입니다. 업무를 AI와 끝까지 처리하려면, 먼저 AI가 맞게 했는지 확인할 수 있어야 합니다. 그래서 2단계는 이 교시로 시작합니다. 이 교시를 마치면 수강생은 공식 자료로 점검표 초안을 만들고, AI 결과를 근거 쪽수로 확인하고, 고칠 것과 물을 것을 나눌 수 있습니다.
 (질문이 오면 a 키: 과정 한 장 / 시험 조건·원본 응답 질문은 r 키: 재현 시험 기록)">
-  <div class="kicker">과제 · 업무 정리에서 AI 활용까지 (과정명 가제) · 재직자 대상</div>
-  <h2>어느 길이든 세 단계를 모두 거칩니다</h2>
+  <div class="kicker">업무 정리에서 AI 활용까지 (과정명 가제) · 재직자 대상</div>
+  <h2 style="font-size:58px">AX 강사과정 과제: 7·14·21시간 과정을 이렇게 설계했습니다</h2>
   <div class="phase3">
     <div class="ph s1"><b>1단계 · 정리</b><small>DX · 흩어진 자료에 공통 기준</small></div>
     <div class="ph s2"><b>2단계 · 흐름 끝까지</b><small>가로 · 접수 → 확인 → 안내</small></div>
@@ -290,36 +323,31 @@
     <div class="ml">14시간</div><div class="mr"><i class="a"></i><i class="a"></i><i class="a"></i><i class="b today"></i><i class="b"></i><i class="b"></i><i class="c"></i><i class="c"></i></div>
     <div class="ml">21시간</div><div class="mr"><i class="a"></i><i class="a"></i><i class="a"></i><i class="a"></i><i class="b today"></i><i class="b"></i><i class="b"></i><i class="b"></i><i class="c"></i><i class="c"></i><i class="c"></i><i class="c"></i></div>
   </div>
-  <div class="mleg">한 칸 = 100분 교시 · 한 회 = 4교시 · 시간이 늘면 단계가 깊어집니다 · <span class="star">★</span> 오늘 시연</div>
+  <div class="mleg"><b style="color:var(--ink)">어느 길이든 세 단계를 모두 거칩니다</b> · 한 칸 = 100분 교시 · 한 회 = 4교시 · 시간이 늘면 단계가 깊어집니다 · <span class="star">★</span> 오늘 시연</div>
   <div class="todaybar">오늘 시연 · <b>2단계 첫 교시 "기준을 주고 점검 맡기기"</b><div class="goal">이 교시를 마치면 <b>공식 자료로 점검표 초안을 만들고, AI 결과를 근거 쪽수로 확인하고, 고칠 것과 물을 것을 나눌 수 있다</b></div></div>
 </section>
 
 <!-- 2b 개선 이력 -->
-<section class="slide" data-start="2:00" data-title="이렇게 고쳐 왔습니다 (40초)"
+<section class="slide" data-start="2:00" data-title="해 보고 고치며 (30초)"
   data-notes="이 과정은 한 번에 만들지 않았습니다. 해 보고, 발견하고, 고쳤습니다.
-처음 짠 구성은 AI 세 곳에 블라인드로 교차 채점을 받아 두 번 고쳤습니다.
-견적 찾기 시연은 정리 전에도 AI가 열 번 다 찾았습니다. 그래서 메시지를 '적혀 있으면 찾는다'로 바꾸고, 그 시연은 실습으로 돌렸습니다.
-오늘 보여 드릴 처리방침 점검도 시험을 여러 번 돌리며 만들었습니다. 그 결과를 그대로 보여 드리겠습니다.">
-  <div class="kicker">설계 과정 · 해 보고, 발견하고, 고쳤습니다</div>
-  <h2>이 과정을 이렇게 고쳐 왔습니다</h2>
-  <div class="hist">
-    <div class="hh"><span>해 본 것</span><span>발견한 것</span><span>바꾼 것</span></div>
-    <div class="hr"><b>외부 AI 블라인드 교차 검토 (2회)</b><span>"AI가 안 보인다", "15분의 목표가 없다"</span><span>AI 시연을 넣고, 목표를 먼저 제시</span></div>
-    <div class="hr"><b>견적 찾기 시연 10회</b><span>정리 전에도 10/10 정답</span><span>메시지를 "적혀 있으면 찾는다"로, 시연은 실습으로</span></div>
-    <div class="hr"><b>처리방침 대조 · 기준 없이 5회</b><span>매번 같은 세 곳이 빠짐</span><span>"환각"이 아니라 "누락"을 가르치기로</span></div>
-    <div class="hr"><b>AI가 기억만으로 만든 점검표 10개</b><span>10개 모두 법정 보관 기간이 빠짐</span><span>"원문을 펴서 확인" 단계 추가</span></div>
-    <div class="hr"><b>정답을 모르고 만든 AI 초안으로 재시험</b><span>초안 그대로 4/6, 초안에 없는 항목은 못 찾음</span><span>원문 두 곳을 펴서 보탬 → 6/6</span></div>
-    <div class="hr"><b>외부 AI 검수 (3곳)</b><span>고칠 것과 물을 것의 경계가 흐림</span><span>"적혀 있으면 고치고, 판단이 필요하면 묻는다"</span></div>
+처음 짠 구성은 외부 AI에게 블라인드로 교차 채점을 받아 두 번 고쳤습니다. (넘김) 시연은 조건마다 같은 요청을 다섯 번 이상 돌려, 매번 같은 결과가 나오는지 확인했습니다. (넘김) 다 만든 뒤에는 외부 AI 세 곳에 흐름과 표현을 다시 검수받았습니다.
+오늘 보여 드리는 결과는 그 시험 기록 그대로입니다. 상세 기록은 따로 준비해 두었습니다.">
+  <div class="kicker">설계 과정</div>
+  <h2>이 과정은 해 보고, 고치며 만들었습니다</h2>
+  <div class="hist3">
+    <div><b>2<small>회</small></b><h4>블라인드 교차 검토</h4><p>외부 AI가 구성안을 채점<br>→ 목표를 먼저 제시하고, AI 시연을 넣음</p></div>
+    <div class="step"><b>5<small>회 이상</small></b><h4>조건마다 재현 시험</h4><p>같은 요청을 반복해 돌림<br>→ 매번 같은 결과인지 확인한 것만 씀</p></div>
+    <div class="step"><b>3<small>곳</small></b><h4>외부 AI 검수</h4><p>흐름과 표현을 점검<br>→ 어색한 연결과 어려운 말을 고침</p></div>
   </div>
-  <div class="source">시험 기록은 r 키 · 과정 한 장은 a 키</div>
+  <div class="source">상세 시험 기록과 AI 원본 응답은 따로 준비했습니다 (r 키)</div>
 </section>
 
 <!-- 3 경험 -->
-<section class="slide center" data-start="2:40" data-title="갑자기 점검이 필요할 때 (35초)"
-  data-notes="제가 홈페이지를 운영하던 회사는 대기업이었습니다. 법무 검토에 시간이 걸린다는 걸 알아서 미리 신청했고, 매월 정기 점검 때 바뀐 부분 위주로 요청했습니다.
-그래도 갑자기 점검이 필요한 일은 생깁니다. 회사가 크든 작든 마찬가지입니다.">
+<section class="slide center" data-start="2:30" data-title="갑자기 점검이 필요할 때 (40초)"
+  data-notes="제가 홈페이지를 운영하던 회사는 대기업이었습니다. 개인정보 처리방침 법무 검토에 시간이 걸린다는 걸 알아서, 매월 정기 점검 때 바뀐 부분 위주로 미리 신청했습니다.
+(넘김) 그래도 갑자기 점검할 일은 생깁니다. 법령이 바뀔 때, 인증 심사를 받을 때, 새 서비스를 열 때입니다. 회사가 크든 작든 마찬가지입니다.">
   <div class="kicker">제가 홈페이지를 운영할 때</div>
-  <h2>법무 검토는 매월, 미리 신청했습니다</h2>
+  <h2>개인정보 처리방침 법무 검토는 매월, 미리 신청했습니다</h2>
   <div class="tl">
     <div class="axis"></div>
     <div class="lg" style="left:0;color:var(--accent)">● 정기 점검: 바뀐 부분 위주로 요청</div>
@@ -328,23 +356,23 @@
     <div class="m" style="left:70%"><span>5월</span></div><div class="m" style="left:86%"><span>6월</span></div>
     <div class="boom step" style="left:62%"></div>
   </div>
-  <p class="step" style="font-size:44px;font-weight:700;margin-top:30px">그래도 <span class="law">갑자기</span> 점검이 필요한 일은 생깁니다.</p>
+  <p class="step" style="font-size:42px;font-weight:700;margin-top:30px;line-height:1.5">그래도 <b class="law">법령 개정 · 인증 심사 · 신규 서비스 오픈</b>처럼<br><span class="law">갑자기</span> 점검할 일이 생깁니다.</p>
 </section>
 
 <!-- 4 질문 -->
-<section class="slide center" data-start="3:15" data-title="오늘의 질문 (15초)"
-  data-notes="그때 법률 전문가가 아닌 실무자는 어떻게 대응해야 할까요? 오늘 이 질문에 답해 보겠습니다.">
+<section class="slide center" data-start="3:10" data-title="오늘의 질문 (15초)"
+  data-notes="그때 법률 전문가가 아닌 담당자는, 갑자기 생긴 처리방침 점검을 어떻게 해야 할까요? 오늘 이 질문에 답해 보겠습니다.">
   <div class="kicker">오늘의 질문</div>
-  <div class="bigq">법률 전문가가 아닌 실무자는<br><em>어떻게</em> 대응해야 할까요?</div>
+  <div class="bigq" style="font-size:80px">법률 전문가가 아닌 담당자는,<br>갑자기 생긴 처리방침 점검을<br><em>어떻게</em> 해야 할까요?</div>
 </section>
 
 <!-- 5 회사 -->
-<section class="slide" data-start="3:30" data-title="오늘의 회사 (30초)"
-  data-notes="오늘의 회사, 반찬 정기배송을 하는 다정밥상입니다. 다음 달 1일 온라인몰을 엽니다.
+<section class="slide" data-start="3:25" data-title="오늘의 회사 (30초)"
+  data-notes="오늘의 회사는 방금 말씀드린 세 번째 경우, 새 서비스를 여는 회사입니다. 반찬 정기배송을 하는 다정밥상, 다음 달 1일 온라인몰을 엽니다.
 회원가입 화면과 처리방침은 외주사가 다른 쇼핑몰 것을 참고해서 만들어 왔습니다.
 온라인몰 담당자는 한 명, 법률은 모릅니다. 회사 안에 법무 담당도 없습니다. 전문가 검토는 2주 뒤에나 됩니다. 오픈이 먼저입니다.">
-  <div class="kicker">오늘의 회사 (가상) · 2회 3차시 점검 연습 자료</div>
-  <h2>(주)다정밥상, 다음 달 1일 온라인몰을 엽니다</h2>
+  <div class="kicker">오늘의 회사 (가상) · 2단계 첫 교시 실습 자료</div>
+  <h2 style="font-size:58px">(주)다정밥상은 다음 달 1일 온라인몰을 엽니다.<br>법률을 아는 사람은 없습니다</h2>
   <div class="facts">
     <div><small>회사</small>반찬 정기배송</div>
     <div><small>가입 화면·처리방침</small><b>다른 쇼핑몰 것을 참고해</b> 외주 제작</div>
@@ -360,12 +388,12 @@
 </section>
 
 <!-- 6 처리방침이란 -->
-<section class="slide" data-start="4:00" data-title="처리방침이란 (30초)"
-  data-notes="개인정보 처리방침은 개인정보의 처리 내용을 법이 정한 항목에 따라 작성하고 공개하는 문서입니다.
+<section class="slide" data-start="3:55" data-title="처리방침이란 (30초)"
+  data-notes="개인정보 처리방침은 개인정보를 어떻게 처리하는지, 법이 정한 항목에 따라 작성하고 공개해야 하는 문서입니다(개인정보 보호법 제30조).
 항목 이름은 어렵게 들리지만 뜻은 간단합니다. 왜 받는지, 무엇을 받는지, 언제까지 갖고 있는지, 어느 업체에 맡기는지, 문의는 누구에게 하는지.
 그래서 두 가지가 맞아야 합니다. 실제로 받는 정보와 일치해야 하고, 법이 정한 항목이 빠지면 안 됩니다.">
   <div class="kicker">개인정보 처리방침</div>
-  <h2 style="font-size:56px">개인정보의 처리 내용을 법이 정한 항목에 따라<br>작성하고 공개하는 문서입니다</h2>
+  <h2 style="font-size:56px">개인정보 처리방침은 법이 정한 항목에 따라<br>작성하고 공개해야 하는 문서입니다</h2>
   <div class="gloss">
     <div><b>처리 목적</b><span>왜 받는지</span></div>
     <div><b>처리하는 개인정보 항목</b><span>무엇을 받는지</span></div>
@@ -378,10 +406,11 @@
 </section>
 
 <!-- 7 실제 화면 -->
-<section class="slide" data-start="4:30" data-title="오늘 점검할 두 화면 (25초)"
+<section class="slide" data-start="4:25" data-title="오늘 점검할 두 화면 (25초)"
   data-notes="오늘 점검할 두 화면입니다. 왼쪽이 회원가입 화면, 오른쪽이 처리방침의 관련 부분입니다.
 여기에 고쳐야 할 곳을 여섯 곳 심어 두었습니다. 한번 찾아보셔도 좋습니다.">
-  <div class="kicker">오늘 점검할 두 화면 · 고쳐야 할 곳 여섯 곳을 심어 두었습니다</div>
+  <div class="kicker">오늘 점검할 두 화면</div>
+  <h2 style="font-size:50px">회원가입 화면과 처리방침에 고쳐야 할 곳 여섯 곳을 심어 두었습니다</h2>
   <div class="shots">
     <div class="shot sg"><img src="img/signup_crop.png" alt="다정밥상 회원가입 화면 아래쪽: 생년월일, 배송지, 추천인, 못 드시는 재료, 동의 항목, 안내문"><span class="cap">회원가입 화면 (아래쪽)</span></div>
     <div class="shot pv"><img src="img/privacy_crop.png" alt="다정밥상 개인정보 처리방침: 2 항목, 3 보유 기간, 4 제3자 제공, 5 위탁, 10 보호책임자"><span class="cap">개인정보 처리방침 (일부)</span></div>
@@ -390,12 +419,13 @@
 </section>
 
 <!-- 8 대조 -->
-<section class="slide" data-start="4:55" data-title="두 문서 대조 (45초)"
+<section class="slide" data-start="4:50" data-title="두 문서 대조 (50초)"
   data-notes="두 문서를 대조하면 일치하지 않는 곳이 보입니다. 생년월일과 못 드시는 재료는 받는데 처리방침에 없습니다. 알림톡 업체와 택배 업체는 개인정보를 맡기는데 위탁 항목에 없습니다.
-(넘김) 여섯 곳 중 세 곳은 이렇게 두 문서만 비교해도 보입니다.
-나머지 세 곳은 두 문서만 봐서는 보이지 않습니다. 법이 무엇을 요구하는지 알아야 보입니다.">
+(넘김) 여섯 곳 중 세 곳은 이렇게 두 문서만 비교해도 눈으로 보입니다.
+나머지 세 곳은 두 문서만 봐서는 보이지 않습니다. 마케팅 동의를 필수에 묶은 것, 탈퇴 후 법정 보관 기간, 보호책임자 연락처. 법이 무엇을 요구하는지 알아야 보입니다.
+(넘김) 그럼 AI는 어디까지 찾을까요?">
   <div class="kicker">대조</div>
-  <h2 style="font-size:52px">실제 수집하는 정보와 처리방침의 내용이 일치하나요?</h2>
+  <h2 style="font-size:58px">두 문서를 비교하면, 세 곳은 눈으로도 보입니다</h2>
   <div class="match">
     <div class="h">회원가입 화면</div><div></div><div class="h">처리방침</div>
     <div class="l">생년월일</div><div class="a">→</div><div class="rr miss">2. 항목에 없음</div>
@@ -403,28 +433,17 @@
     <div class="l">알림톡 (주)메시지온 · 배송 (주)빠른새벽택배</div><div class="a">→</div><div class="rr miss">5. 위탁에 없음</div>
   </div>
   <div class="board step" data-s="yyyqqq" style="margin-top:28px"></div>
-</section>
-
-<!-- 9 흔한 실수 -->
-<section class="slide center" data-start="5:40" data-title="흔한 실수 (35초)"
-  data-notes="ISMS-P 심사원 시험을 준비하며 이런 문서에서 문제점을 찾는 문제를 많이 풀었습니다.
-가장 흔한 실수는 법이 아니라 다른 서비스는 어떻게 했나를 기준으로 보는 것이었습니다. 오늘 회사도 그렇게 만들어졌습니다.
-제대로 보려면 법을 읽고, 관련된 법까지 이어서 해석해야 합니다. 그래서 전문가가 필요합니다.">
-  <div class="kicker">ISMS-P 심사원 시험을 준비하며</div>
-  <h2>문제점을 찾을 때 흔히 저지르는 실수</h2>
-  <div class="say">
-    <p>법이 아니라 <b>"다른 서비스는 어떻게 했지?"</b>를 기준으로 보는 것.</p>
-    <p class="step">제대로 보려면 법을 읽고,<br>관련된 법까지 <b>이어서</b> 해석해야 합니다.</p>
-  </div>
+  <p class="step" style="font-size:38px;font-weight:800;margin-top:26px;text-align:center">나머지 세 곳은 법을 알아야 보입니다. <span style="color:var(--accent)">AI는 어디까지 찾을까요?</span></p>
 </section>
 
 <!-- 10 시연 1 -->
-<section class="slide" data-start="6:15" data-title="시연 1: 기준 없이 맡기기 (50초)"
+<section class="slide" data-start="5:40" data-title="시연 1: 기준 없이 맡기기 (55초)"
   data-notes="(이 화면은 발표 전에 실행한 결과를 그대로 재현한 것이라고 짧게 밝힌다)
 전문가 검토는 2주 뒤입니다. 그 전에 AI에게 먼저 맡겨 봅니다. 두 문서를 주고, 맞지 않는 점을 찾아 달라고만 했습니다. 점검 기준은 주지 않았습니다.
 (답이 올라오는 동안) 여덟 개입니다. 근거 조문까지 붙였습니다. 꼼꼼해 보입니다.
-(넘김: 꼬리표, 여섯 곳 밖은 흐려짐) 항목마다 여섯 곳 중 어디를 짚었는지 붙여 보면, 생년월일·재료·위탁은 짚었고, 7번은 보유 기간을 건드렸지만 법정 보관 기간까지는 아닙니다. 나머지 둘은 여섯 곳 밖의 이야기입니다.">
-  <div class="kicker">시연 1 · 점검 기준 없이 · 발표 전에 실행한 결과를 재현한 화면</div>
+(넘김: 꼬리표) 항목마다 꼬리표를 붙여 보면, 1번부터 5번까지는 생년월일·위탁 업체·재료, 두 문서를 비교해서 찾은 것입니다. 7번은 보관 기간을 건드렸지만 법정 보관 기록까지는 아니라 절반입니다. 근거로 댄 제39조는 잠시 뒤에 다시 보겠습니다. 6번과 8번은 심어 둔 곳 말고 AI가 추가로 짚은 질문입니다. 틀린 건 아니고, 물어볼 만한 질문입니다.">
+  <div class="kicker">시연 1 · 발표 전에 실행한 결과를 재현한 화면</div>
+  <h2 style="font-size:50px">AI에게 기준 없이, 두 문서만 주고 점검을 맡겼습니다</h2>
   <div class="chatwin">
     <div class="msg me">회원가입 화면과 개인정보 처리방침을 대조해서, 맞지 않거나 확인이 필요한 점을 찾아 주세요.</div>
     <div class="msg ai">
@@ -435,9 +454,9 @@
         <li><div class="row"><span>알림톡 발송 대행사가 위탁 항목에 없음 <small>제26조</small></span><span class="chip y">위탁 업체</span></div></li>
         <li><div class="row"><span>배송 대행사가 처리방침에 없음 <small>제26조</small></span><span class="chip y">위탁 업체</span></div></li>
         <li><div class="row"><span>못 드시는 재료가 처리방침 항목에 없음 <small>제30조</small></span><span class="chip y">재료</span></div></li>
-        <li><div class="row"><span>추천인 적립금과 제3자 제공 관계 확인 필요</span><span class="chip x">여섯 곳 밖</span></div></li>
-        <li><div class="row"><span>보유 기간이 "회원 탈퇴 시"로만 적혀 있음 <small>제39조</small></span><span class="chip p">보관 기간 △</span></div></li>
-        <li><div class="row"><span>혜택 알림을 문자·이메일·앱 푸시별로 나눠야 하는지 <small>제15조</small></span><span class="chip x">여섯 곳 밖</span></div></li>
+        <li><div class="row"><span>추천인 적립금과 제3자 제공 관계 확인 필요</span><span class="chip x">추가 질문</span></div></li>
+        <li><div class="row"><span>보유 기간이 "회원 탈퇴 시"로만 적혀 있음 <small class="bad">제39조</small></span><span class="chip p">보관 기간 절반</span></div></li>
+        <li><div class="row"><span>혜택 알림을 문자·이메일·앱 푸시별로 나눠야 하는지 <small>제15조</small></span><span class="chip x">추가 질문</span></div></li>
       </ol>
     </div>
   </div>
@@ -445,18 +464,18 @@
 </section>
 
 <!-- 11 결과 1 -->
-<section class="slide" data-start="7:05" data-title="결과: 기준 없이 3 / 6 (35초)"
-  data-notes="여섯 곳 중 제대로 짚은 곳은 세 곳입니다. 두 문서를 비교하면 보이는 세 곳입니다.
-법이 요구하는 것과 비교해야 보이는 세 곳은 비었습니다. 보관 기간은 세모, 건드렸지만 핵심을 못 짚었습니다.
-(넘김) 같은 요청을 다섯 번 했는데, 다섯 번 모두 같은 세 항목을 제대로 짚지 못했습니다.
+<section class="slide" data-start="6:35" data-title="결과: 기준 없이 3 / 6 (35초)"
+  data-notes="여섯 곳 중 찾은 곳은 세 곳입니다. 두 문서를 비교해서 알 수 있는 세 곳입니다.
+법을 알아야 보이는 세 곳은 비었습니다. 보관 기간은 세모, 절반만 찾았습니다.
+(넘김) 같은 요청을 다섯 번 했는데, 다섯 번 모두 그 세 곳은 제대로 찾지 못했습니다.
 (이 숫자는 실습용으로 심어 둔 여섯 곳 기준이지, AI의 법률 점검 정확도가 아닙니다)">
   <div class="kicker">시연 1 결과</div>
-  <h2 style="font-size:56px">두 문서를 비교하면 보이는 곳만 짚었습니다</h2>
+  <h2 style="font-size:56px">두 문서를 비교해서 알 수 있는 세 곳만 찾았습니다</h2>
   <div class="result">
     <div class="score">
       <div class="cond no">점검 기준 없이</div>
       <div class="num">3<span> / 6</span></div>
-      <div class="lab">제대로 짚은 곳</div>
+      <div class="lab">찾은 곳</div>
     </div>
     <div class="board" data-s="yyynpn"></div>
   </div>
@@ -469,19 +488,19 @@
       <div class="rg"><i class="y"></i><i class="y"></i><i class="y"></i><i class="p"></i><i class="p"></i><i class="n"></i></div>
       <div class="rg"><i class="y"></i><i class="y"></i><i class="y"></i><i class="n"></i><i class="p"></i><i class="n"></i></div>
     </div>
-    <span>→ 다섯 번 모두 같은 세 항목을 제대로 짚지 못함</span>
+    <span>→ 다섯 번 모두, 법을 알아야 보이는 세 곳은 찾지 못함</span>
   </div>
-  <div class="source">실습용으로 심어 둔 여섯 곳 기준 · △ 건드렸으나 핵심을 못 짚음 (예: "보유 기간이 모호하다"고만 하고 법정 보관 기록·기간은 없음) · 발표 전 재현 시험 기록</div>
+  <div class="source">실습용으로 심어 둔 여섯 곳 기준 · △ 절반만 찾음 (예: "보유 기간이 모호하다"고만 하고 법정 보관 기록·기간은 없음) · 발표 전 재현 시험 기록</div>
 </section>
 
 <!-- 12 왜 -->
-<section class="slide" data-start="7:40" data-title="왜 비었나 (35초)"
-  data-notes="두 문서는 비교했습니다. 그래서 두 문서 사이의 세 곳은 찾았습니다.
-(넘김) 하지만 법이 요구하는 기준은 빠짐없이 적용하지 못했습니다. 저는 그 기준을 주지 않았습니다.
+<section class="slide" data-start="7:10" data-title="왜 비었나 (35초)"
+  data-notes="두 문서는 서로 비교했습니다. 그래서 두 문서 사이의 세 곳은 찾았습니다.
+(넘김) 하지만 법이 요구하는 기준과는 비교하지 않았습니다. 저는 그 기준을 주지 않았습니다.
 AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하지만 아는 기준을 빠짐없이, 정확하게 적용하리라 믿을 수는 없습니다.
 기준을 주지 않으면, 무엇을 빠뜨렸는지 알 수 없습니다.">
   <div class="kicker">AI는 무엇과 무엇을 비교했나</div>
-  <h2 style="font-size:54px">두 문서는 비교했습니다.<br>하지만 법이 요구하는 기준은 빠짐없이 적용하지 못했습니다</h2>
+  <h2 style="font-size:54px">두 문서는 서로 비교했지만,<br>법이 요구하는 기준과는 비교하지 않았습니다</h2>
   <div class="tri">
     <svg viewBox="0 0 1640 600" preserveAspectRatio="none" aria-hidden="true">
       <line x1="580" y1="525" x2="1060" y2="525" stroke="#17784a" stroke-width="8"/>
@@ -492,51 +511,52 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
     <div class="node br">처리방침<small>AI에게 줌</small></div>
     <div class="tag ok">비교함 → 세 곳 찾음</div>
     <div class="node top step" data-lines>법이 요구하는 것<small>기준으로 주지 않음 · AI가 아는 만큼만 적용</small></div>
-    <div class="tag no step" style="left:250px;top:230px">빠짐</div>
-    <div class="tag no step" style="right:250px;top:230px">빠짐</div>
+    <div class="tag no step" style="left:210px;top:230px">비교 안 함</div>
+    <div class="tag no step" style="right:210px;top:230px">비교 안 함</div>
   </div>
 </section>
 
 <!-- 13 환각과 누락 -->
-<section class="slide center" data-start="8:15" data-title="환각과 누락 (50초)"
-  data-notes="AI 결과를 조심하라고 하면 다들 환각을 떠올립니다. 방금 답에도 있었습니다. 보유 기간의 근거로 제39조를 댔는데, 제39조는 손해배상 조항입니다.
-환각은 틀린 것입니다. 적혀 있으니 원문과 맞춰 보면 잡힙니다.
-누락은 빠진 것입니다. 답에 흔적이 없습니다. 그래서 아무도 의심하지 않습니다.
-AI가 놓친 것을 찾으려면, 내가 준 기준부터 점검해야 합니다. 일을 맡긴 사람이 할 일입니다.">
+<section class="slide center" data-start="7:45" data-title="환각과 누락 (50초)"
+  data-notes="AI 결과를 조심하라고 하면 다들 환각을 떠올립니다. 방금 답에도 있었습니다. 7번에서 보유 기간의 근거로 제39조를 댔는데, 제39조는 손해배상 조항입니다.
+환각은 틀린 것입니다. 답에 적혀 있으니, 조문을 찾아보면 틀린 걸 알 수 있습니다.
+(넘김) 누락은 빠진 것입니다. 처리방침에 보호책임자 연락처가 없는데, AI 답에는 그 지적이 없었습니다. 답에 나타나지 않으니, 빠진 줄 알기 어렵습니다.
+(넘김) 누락을 막으려면, AI에게 점검 기준을 줘야 합니다.">
   <div class="kicker">AI 결과에서 조심할 것</div>
   <h2>환각은 틀린 것, 누락은 빠진 것</h2>
   <div class="vs">
     <div class="card">
       <h3>환각</h3>
       <p>없는 것을 있는 것처럼 말합니다.</p>
-      <div class="ex">"보유 기간 근거: <span class="strike">제39조</span>"<br><span class="muted">→ 제39조는 손해배상 조항</span></div>
-      <p><b>적혀 있으니,</b> 원문과 맞춰 보면 잡힙니다.</p>
+      <div class="ex">시연 1의 7번 "보유 기간 근거: <span class="strike">제39조</span>"<br><span class="muted">→ 제39조는 손해배상 조항</span></div>
+      <p><b>답에 적혀 있으니,</b> 조문을 찾아보면 틀린 걸 알 수 있습니다.</p>
     </div>
     <div class="card warn step">
       <h3>누락</h3>
       <p>있어야 할 것을 말하지 않습니다.</p>
-      <div class="ex"><span class="hole"></span><span class="muted">→ "보호책임자 연락처가 없다"는 줄이 답에 없음</span></div>
-      <p><b>흔적이 없으니,</b> 아무도 의심하지 않습니다.</p>
+      <div class="ex"><span class="hole"></span><span class="muted">→ 처리방침에 보호책임자 연락처가 없는데,<br>AI 답에는 그 지적이 없음</span></div>
+      <p><b>답에 나타나지 않으니,</b> 빠진 줄 알기 어렵습니다.</p>
     </div>
   </div>
-  <p class="step" style="font-size:42px;font-weight:800;margin-top:36px">AI가 놓친 것을 찾으려면, 내가 준 기준부터 점검해야 합니다.</p>
+  <p class="step" style="font-size:42px;font-weight:800;margin-top:36px">누락을 막으려면, AI에게 점검 기준을 줘야 합니다.</p>
 </section>
 
 <!-- 14 기준은 누가 -->
-<section class="slide" data-start="9:05" data-title="기준은 누가, 어디서, 어떻게 (40초)"
-  data-notes="(한 문장 요약: 범위를 정하고, 공식 자료를 AI에게 주어 초안을 만들고, 원문으로 확인해 보탠 뒤, 전문가가 판단할 부분을 나눕니다)
-그럼 그 기준은 누가 만들까요. 법률 전문가가 아니어도, 담당자가 점검표 초안은 만들 수 있습니다.
-저는 시험 공부할 때 법을 해석하고 적용하는 방법을 공식처럼 외웠습니다. 지금은 조문을 많이 잊었지만, 어디를 펴 봐야 하는지는 압니다.
-먼저 무엇을 점검할지 정합니다. 오늘은 처리방침과 가입 화면의 동의입니다. 그에 맞는 공식 자료를 구해 AI에게 주고 초안을 받습니다. 근거 쪽수를 꼭 달게 합니다. 그 쪽을 펴서 확인하고 보탭니다. 해석이 필요한 부분은 전문가에게 넘깁니다.">
-  <div class="kicker">기준은 누가, 어디서, 어떻게</div>
-  <h2>담당자도 점검표 초안을 만들 수 있습니다</h2>
+<section class="slide" data-start="8:35" data-title="점검표는 누가, 무엇으로 (50초)"
+  data-notes="(한 문장 요약: 범위를 정하고, 공식 자료를 AI에게 주어 초안을 만들고, 원문으로 확인해 더한 뒤, 전문가가 판단할 부분을 나눕니다)
+그럼 그 점검 기준, 점검표는 누가 무엇으로 만들까요.
+저는 ISMS-P 심사원 시험을 준비하며 이런 문서에서 잘못된 곳을 찾는 문제를 많이 풀었습니다. 가장 흔한 실수는 법이 아니라 '다른 서비스는 어떻게 했지?'를 기준으로 보는 것이었습니다. 다정밥상 처리방침도 다른 쇼핑몰 것을 참고해 만들었죠. 기준은 다른 서비스가 아니라 공식 자료여야 합니다.
+그때 법을 해석하고 적용하는 방법을 공식처럼 익혔습니다. 조문은 많이 잊었지만, 어디를 펴 봐야 하는지는 압니다. 법률 전문가가 아니어도, 점검표 초안은 만들 수 있습니다.
+먼저 무엇을 점검할지 정합니다. 오늘은 처리방침과 가입 화면의 동의입니다. 그에 맞는 공식 자료를 AI에게 주고 초안을 받습니다. 근거 쪽수를 꼭 달게 합니다. 그 쪽을 펴서 확인하고 더합니다. 해석이 필요한 부분은 전문가에게 넘깁니다.">
+  <div class="kicker">점검 기준 = 점검표 · ISMS-P 심사원 시험을 준비하며 익힌 방법</div>
+  <h2 style="font-size:54px">법을 몰라도, 공공기관이 공개한 안내서로<br>점검표 초안은 만들 수 있습니다</h2>
   <div class="make">
     <img src="img/jichim_cover.png" alt="개인정보보호위원회 개인정보 처리방침 작성지침 2026.4 표지">
     <div class="steps3 s5">
       <div><b class="n">1</b><div><h4>점검 범위를 정한다</h4><p>처리방침 문서 + 가입 화면의 동의</p></div></div>
-      <div class="step"><b class="n">2</b><div><h4>범위에 맞는 공식 자료를 구한다</h4><p>개인정보위 「처리방침 작성지침」, KISA 「인증기준 안내서」</p></div></div>
+      <div class="step"><b class="n">2</b><div><h4>범위에 맞는 공식 자료를 구한다</h4><p><b>다른 서비스의 처리방침이 아니라</b> · 개인정보위 「처리방침 작성지침」, KISA 「인증기준 안내서」</p></div></div>
       <div class="step"><b class="n">3</b><div><h4>AI로 점검표 초안을 받는다</h4><p>항목마다 <b>근거 쪽수</b>를 달게 한다</p></div></div>
-      <div class="step"><b class="n">4</b><div><h4>원문을 펴서 확인하고 보탠다</h4><p>AI가 요약하며 흐려지거나 빠뜨린 것을 되살린다</p></div></div>
+      <div class="step"><b class="n">4</b><div><h4>원문을 펴서 확인하고 더한다</h4><p>AI가 흐리게 적거나 빠뜨린 것을 원문에서 되살린다</p></div></div>
       <div class="step" style="background:var(--warn-soft)"><b class="n" style="background:var(--warn)">5</b><div><h4>해석이 필요한 부분은 전문가에게</h4><p>점검표는 초안, 법적 판단은 전문가 검토로</p></div></div>
     </div>
   </div>
@@ -544,109 +564,98 @@ AI가 놓친 것을 찾으려면, 내가 준 기준부터 점검해야 합니다
 </section>
 
 <!-- 15 31쪽 -->
-<section class="slide" data-start="9:45" data-title="31쪽을 펴 보면 (40초)"
-  data-notes="AI 초안에는 '보유·이용 기간이 구체적인가, 31쪽'이라고만 있었습니다.
-31쪽을 펴 봤습니다. (넘김: 형광펜) 관계 법령에서 보유기간을 정하고 있으면 그 근거와 기간을 적으라고 되어 있고, 예시로 전자상거래법의 계약·청약철회 기록 5년이 있습니다.
-(넘김) 그래서 점검표에 이렇게 보완했습니다. 탈퇴 후에도 법령에 따라 보관해야 하는 기록과 그 기간을 적었는가.">
-  <div class="kicker">근거 확인</div>
-  <h2 style="font-size:52px">보탬 ① AI 초안의 "p.31"을 따라가 원문을 펴 봅니다</h2>
-  <div class="p31">
-    <div class="callout before">
-      <h4>① AI 초안</h4>
-      "보유·이용 기간이 구체적으로 명시되어 있는가 <mark>(작성지침 p.31)</mark>"
-    </div>
-    <div class="doc31 step">
-      <div class="dh">작성지침 31쪽 · 5. 개인정보의 처리 및 보유 기간</div>
+<section class="slide" data-start="9:25" data-title="31쪽을 펴 보면 (50초)"
+  data-notes="작성지침은 개인정보보호위원회가 낸 처리방침 작성 안내서입니다. AI는 이 안내서로 점검표 초안 열 줄을 만들었습니다. 그중 한 줄이 '보유 기간이 구체적으로 적혀 있는가, 31쪽'이었습니다.
+(넘김) 31쪽을 펴 봤습니다. 다른 법이 보관 기간을 정하고 있으면, 그 근거와 기간도 적으라고 되어 있습니다. 예시로 전자상거래법의 계약 기록 5년이 있습니다.
+(넘김) 다정밥상에 대 보면, 처리방침에는 '탈퇴 시 지체 없이 파기'라고만 있습니다. 그런데 온라인으로 파는 회사는 주문·계약 기록을 5년 보관해야 합니다.
+(넘김) 그래서 점검표의 그 줄을 이렇게 고쳤습니다. 탈퇴 후에도 법령에 따라 보관해야 하는 기록과 그 기간을 적었는가.">
+  <div class="kicker">보관 기간 · 「작성지침」 = 개인정보보호위원회가 낸 처리방침 작성 안내서</div>
+  <h2 style="font-size:54px">AI 초안이 가리킨 31쪽을 펴 보니,<br>보관 기간 한 줄이 더 필요했습니다</h2>
+  <div class="flow4">
+    <div class="fb"><span class="fn">① AI 초안의 한 줄</span><p>"보유 기간이 구체적으로 적혀 있는가"</p><em>근거: 작성지침 31쪽</em></div>
+    <div class="fb look step"><span class="fn">② 31쪽을 펴 보니</span><p>다른 법이 보관 기간을 정하고 있으면, <b>그 근거와 기간도 적어야</b> 합니다</p><em>예: 전자상거래법 · 계약 기록 5년</em></div>
+    <div class="fb warn step"><span class="fn">③ 다정밥상에 대 보니</span><p>처리방침엔 "탈퇴 시 <b>지체 없이 파기</b>"뿐.<br>온라인 판매는 <b>주문·계약 기록 5년</b> 보관</p></div>
+    <div class="fb ok step"><span class="fn">④ 점검표 한 줄을 고침</span><p>"탈퇴 후에도 <b>법령에 따라 보관해야 하는 기록과 기간</b>을 적었는가"</p></div>
+  </div>
+  <div class="orig">
+    <div class="dh">원문 · 개인정보보호위원회 「개인정보 처리방침 작성지침」(2026.4) 31쪽 · 형광펜은 발표자</div>
+    <div class="im">
       <img src="img/p31_a.png" alt="관계 법령에서 개인정보의 보유기간을 정하고 있는 경우에는 해당 법적 근거 및 법령에서 정한 보유기간을 기재하여야 하며">
-      <div class="gap">… 작성 예시 …</div>
       <img src="img/p31_b.png" alt="계약 또는 청약철회 등에 관한 기록: 5년 (전자상거래 등에서의 소비자보호에 관한 법률 시행령 제6조 제1항제2호)">
     </div>
-    <div class="callout after step">
-      <h4>② 보완한 점검표 항목</h4>
-      "탈퇴 후에도 <b>법령에 따라 보관해야 하는 기록</b>(예: 계약·청약철회 기록 5년)과 그 기간을 적었는가"
-    </div>
   </div>
-  <div class="source">개인정보보호위원회 「개인정보 처리방침 작성지침」(2026.4) p.31 · 형광펜 표시는 발표자</div>
 </section>
 
 <!-- 15b 3.1.7 -->
-<section class="slide" data-start="10:25" data-title="보탬 ② 가입 화면의 동의 (40초)"
-  data-notes="AI 초안은 처리방침 문서의 항목 위주였습니다. 가입 화면에서 동의를 어떻게 받는지는 한 줄도 없었습니다.
-그런데 오늘 점검 범위에는 가입 화면의 동의도 들어 있습니다. 그래서 그 범위에 맞는 공식 자료를 한 곳 더 폈습니다. ISMS-P 인증기준 안내서의 3.1.7, 마케팅 목적의 개인정보 수집입니다.
-마케팅 목적의 동의는 다른 동의와 구분해서 별도로 받으라고 되어 있습니다. 그 한 줄을 보탰습니다.">
-  <div class="kicker">보탬 ② · 범위에 맞는 공식 자료를 한 곳 더</div>
-  <h2 style="font-size:52px">AI 초안에는 '동의를 어떻게 받는가'가 없었습니다</h2>
-  <div class="p31">
-    <div class="callout before">
-      <h4>AI 초안 (작성지침으로 만든 10줄)</h4>
-      처리방침 문서의 항목 위주. 가입 화면의 <b>동의 방식</b>을 묻는 줄은 없음
-    </div>
-    <div class="doc31 step">
-      <div class="dh">KISA 「정보보호 및 개인정보보호 관리체계 인증기준 안내서」(2023.11) 208쪽</div>
+<section class="slide" data-start="10:15" data-title="가입 화면의 동의 (45초)"
+  data-notes="AI 초안은 처리방침 문서의 항목 위주였습니다. 가입 화면에서 동의를 어떻게 받는지 묻는 줄은 없었습니다. 그런데 오늘 점검 범위에는 가입 화면의 동의도 들어 있습니다.
+(넘김) 그래서 동의 기준이 있는 공식 자료를 한 곳 더 폈습니다. KISA가 낸 개인정보 관리체계 인증 기준 안내서, 3.1.7 마케팅 항목입니다. 마케팅 목적의 동의는 다른 동의와 구분해 따로 받으라고 되어 있습니다.
+(넘김) 다정밥상 가입 화면을 보면, 혜택 알림 수신 동의가 필수 개인정보 동의에 묶여 있습니다.
+(넘김) 그래서 점검표에 한 줄을 더했습니다. 마케팅 동의를 다른 동의와 구분해 따로 받는가.">
+  <div class="kicker">마케팅 동의 · 「인증기준 안내서」 = KISA가 낸 개인정보 관리체계(ISMS-P) 인증 기준 안내서</div>
+  <h2 style="font-size:54px">AI 초안에 없던 가입 화면의 동의는,<br>인증기준 안내서에서 한 줄을 더했습니다</h2>
+  <div class="flow4">
+    <div class="fb"><span class="fn">① AI 초안 10줄</span><p>처리방침 항목 위주.<br>가입 화면의 <b>동의 방식</b>을 묻는 줄은 없음</p></div>
+    <div class="fb look step"><span class="fn">② 3.1.7을 펴 보니</span><p>마케팅 목적의 동의는 <b>다른 동의와 구분해 따로</b> 받아야 합니다</p></div>
+    <div class="fb warn step"><span class="fn">③ 다정밥상에 대 보니</span><p>가입 화면의 혜택 알림 수신 동의가 <b>[필수] 개인정보 동의에 묶여</b> 있음</p></div>
+    <div class="fb ok step"><span class="fn">④ 점검표에 한 줄을 더함</span><p>"홍보·혜택 알림 같은 <b>마케팅 동의를 다른 동의와 구분해 따로</b> 받는가"</p></div>
+  </div>
+  <div class="orig">
+    <div class="dh">원문 · KISA 「정보보호 및 개인정보보호 관리체계 인증기준 안내서」(2023.11) 208쪽 · 형광펜은 발표자</div>
+    <div class="im">
       <img src="img/isms317_a.png" alt="3.1.7 마케팅 목적의 개인정보 수집·이용: 정보주체가 명확하게 인지할 수 있도록 알리고 별도의 동의를 받고 있는가">
-      <div class="gap">… 세부 설명 …</div>
       <img src="img/isms317_b.png" alt="상품 홍보, 마케팅 목적으로 수집하는 개인정보는 다른 목적으로 수집하는 정보와 명확하게 구분하여 동의를 받고 수집">
     </div>
-    <div class="callout after step">
-      <h4>보탠 점검표 항목</h4>
-      "홍보·혜택 알림 같은 <b>마케팅 목적의 동의를 다른 동의와 구분해 별도로</b> 받고 있는가"
-    </div>
   </div>
-  <div class="source">KISA 인증기준 안내서(2023.11) 3.1.7 · 형광펜 표시는 발표자</div>
 </section>
 
 <!-- 16 점검표 -->
-<section class="slide center" data-start="11:05" data-title="우리 회사 점검표 (30초)"
-  data-notes="(열한 줄을 다 읽지 않는다. 노란 두 줄만 가리킨다)
-이렇게 만든 우리 회사 점검표입니다. 회색 열 줄은 AI가 작성지침으로 만든 초안 그대로입니다. 노란 두 줄이 사람이 원문을 펴서 고치고 보탠 곳입니다.
-저는 이 점검표를 만들 때 정답을 넣지 않았습니다. AI 초안을 그대로 두고, 두 곳만 원문을 보고 보탰습니다.">
-  <div class="kicker">시연 2 준비 · 점검 기준</div>
-  <h2>우리 회사 점검표 (AI 초안 10줄 + 사람이 보탠 2곳)</h2>
-  <div class="who3"><span><b>누가</b>담당자가</span><span><b>무엇을 기준으로</b>작성지침 · 인증기준 안내서</span><span><b>어떻게</b>AI 초안 → 원문 확인·보탬</span></div>
-  <div class="cl2">
-    <div>수집하는 개인정보 항목이 처리방침에 명시되어 있는가 <i>p.24</i></div>
-    <div>처리 목적이 구체적이고 명확하게 기재되어 있는가 <i>p.21</i></div>
-    <div class="add">보유·이용 기간이 구체적인가. <b>탈퇴 후에도 법령에 따라 보관해야 하는 기록(예: 계약·청약철회 기록 5년)이 있다면 그 근거와 기간을 적었는가</b> <i>p.31 · 보탬 ①</i></div>
-    <div>결제·배송·문자 발송 업체의 위탁 사항이 업체명·업무와 함께 있는가 <i>p.42</i></div>
-    <div>파기 절차 및 방법이 명시되어 있는가 <i>p.35</i></div>
-    <div>보호책임자의 성명·부서·연락처(전화·이메일)가 있는가 <i>p.72</i></div>
-    <div>열람·정정·삭제·처리정지 요청 방법이 안내되어 있는가 <i>p.65</i></div>
-    <div>안전성 확보조치가 기재되어 있는가 <i>p.49</i></div>
-    <div>처리방침이 첫 화면에서 쉽게 접근 가능한가 <i>p.88</i></div>
-    <div>변경 시 공지하고 변경 전후를 비교할 수 있는가 <i>p.83</i></div>
-    <div class="add"><b>마케팅 목적의 동의를 다른 동의와 구분해 별도로 받고 있는가</b> <i>인증기준 3.1.7 · 보탬 ②</i></div>
+<section class="slide center" data-start="11:00" data-title="우리 회사 점검표 (25초)"
+  data-notes="(줄을 읽지 않는다. 노란 두 곳만 가리킨다)
+이렇게 만든 우리 회사 점검표입니다. 회색 열 줄은 정답을 모르는 AI가 작성지침만 보고 만든 초안 그대로입니다.
+노란 두 곳이 사람이 원문을 펴 보고 더한 곳입니다. 보관 기간 한 줄, 마케팅 동의 한 줄.">
+  <div class="kicker">시연 2 준비 · 우리 회사 점검표</div>
+  <h2 style="font-size:56px">AI가 만든 10줄에, 원문을 확인한 2줄을 더해<br>점검표를 만들었습니다</h2>
+  <div class="bars">
+    <div>수집하는 항목</div><div>처리 목적</div>
+    <div class="ext">보유 기간<b>+ 탈퇴 후 법령에 따라 보관하는 기록과 기간</b></div>
+    <div>위탁 업체</div><div>파기 방법</div>
+    <div>보호책임자 연락처</div><div>열람·정정 요청 방법</div>
+    <div>안전 조치</div><div>찾기 쉬운 곳에 있는가</div>
+    <div>변경 공지</div><div style="visibility:hidden"></div>
+    <div class="add">+ 마케팅 동의를 다른 동의와 구분해 따로 받는가</div>
   </div>
-  <div class="source">회색: AI가 작성지침(2026.4)으로 만든 초안 그대로 (줄 끝은 AI가 단 근거 쪽수) · 노랑: 사람이 원문을 보고 고치거나 보탠 곳</div>
+  <div class="legend2"><span>AI가 작성지침으로 만든 초안 10줄 (그대로)</span><span class="y">사람이 원문을 펴 보고 더한 2줄</span></div>
 </section>
 
 <!-- 17 결과 비교 -->
-<section class="slide center" data-start="11:35" data-title="보탠 만큼 찾았다 (50초)"
+<section class="slide center" data-start="11:25" data-title="점검표에 넣은 만큼 (50초)"
   data-notes="같은 AI, 같은 자료로, 같은 날 조건마다 다섯 번씩 돌렸습니다.
 기준 없이: 세 곳. (넘김) AI가 만든 초안을 그대로 줬을 때: 네 곳. 초안에 있던 보호책임자 연락처는 찾았지만, 초안에 없던 것은 못 찾았습니다.
-(넘김) 31쪽을 보고 한 줄 보탰더니: 다섯 곳. 보관 기간을 찾았습니다.
-(넘김) 3.1.7을 보고 한 줄 더 보탰더니: 여섯 곳.
-점검표에 있는 만큼 찾고, 없는 것은 못 찾습니다. 그래서 사람이 원문을 펴서 보태는 한 단계가 결과를 바꿉니다.
-(이 숫자도 실습용 여섯 곳 기준입니다. 여섯 곳 밖 지적은 조건마다 평균 서너 개였고, 대부분 확인 질문이었습니다)">
+(넘김) 보관 기간 한 줄을 더했더니: 다섯 곳. 보관 기간을 찾았습니다.
+(넘김) 마케팅 동의 한 줄을 더했더니: 여섯 곳.
+점검표에 있는 만큼 찾고, 없는 것은 못 찾습니다. 그래서 사람이 원문을 펴서 더하는 한 단계가 결과를 바꿉니다.
+(이 숫자도 실습용 여섯 곳 기준입니다. 심어 둔 곳 외의 추가 질문은 조건마다 평균 서너 개였습니다)">
   <div class="kicker">시연 2 결과 · 같은 AI · 같은 자료 · 같은 날 · 조건마다 5회</div>
-  <h2 style="font-size:58px">보탠 만큼 찾았습니다</h2>
+  <h2 style="font-size:58px">점검표에 넣은 만큼 찾았습니다</h2>
   <div class="stairs">
     <div class="st"><div class="cond no">기준 없이</div><div class="n">3<span>/6</span></div><div class="m6" data-s="yyynpn"></div></div>
     <div class="st step"><div class="cond">AI 초안 그대로</div><div class="n">4<span>/6</span></div><div class="m6" data-s="yyynpy"></div></div>
-    <div class="st step"><div class="cond">+ 31쪽 보탬</div><div class="n">5<span>/6</span></div><div class="m6" data-s="yyynyy"></div></div>
-    <div class="st step"><div class="cond yes">+ 3.1.7 보탬</div><div class="n">6<span>/6</span></div><div class="m6" data-s="yyyyyy"></div></div>
+    <div class="st step"><div class="cond">+ 보관 기간 한 줄</div><div class="n">5<span>/6</span></div><div class="m6" data-s="yyynyy"></div></div>
+    <div class="st step"><div class="cond yes">+ 마케팅 동의 한 줄</div><div class="n">6<span>/6</span></div><div class="m6" data-s="yyyyyy"></div></div>
   </div>
   <p class="step" style="font-size:38px;font-weight:800;margin-top:30px">점검표에 있는 만큼 찾고, 없는 것은 못 찾습니다.</p>
-  <div class="source">Claude Haiku 4 · 2026-11-19 · 실습용으로 심어 둔 여섯 곳 기준 · △ 건드렸으나 핵심을 못 짚음 · 여섯 곳 밖 지적은 조건마다 평균 3~4개 · 기록은 r 키</div>
+  <div class="source">Claude Haiku 4 · 2026-11-19 · 실습용으로 심어 둔 여섯 곳 기준 · △ 절반만 찾음 · 심어 둔 곳 외의 추가 질문은 조건마다 평균 3~4개 · 기록은 r 키</div>
 </section>
 
 <!-- 18 조치와 질문 -->
-<section class="slide" data-start="12:25" data-title="고칠 것과 물을 것 (40초)"
+<section class="slide" data-start="12:15" data-title="고칠 것과 물을 것 (45초)"
   data-notes="AI의 결과는 판단이 아닙니다. 판단을 받기 위한 준비입니다. 나누는 기준은 하나입니다.
 법령이나 지침에 적혀 있는 것은, 실제로 무엇을 받고 누구에게 맡기는지 사실을 확인한 뒤 오픈 전에 담당자가 고칩니다. 보관 기간도 아까 31쪽에서 본 것처럼 적혀 있습니다.
-우리 상황에 대입해서 판단해야 하는 것은 전문가에게 묻습니다. 오른쪽 둘째와 셋째는 시연 1에서 AI가 여섯 곳 밖으로 짚었던 것입니다. 정답지에는 없었지만, 물어볼 만한 질문입니다.
-중요한 문제가 풀리지 않으면 오픈 시점을 다시 정합니다. 최종 판단은 전문가와 대표가 합니다.">
+우리 상황에 대입해서 판단해야 하는 것은 전문가에게 묻습니다. 오른쪽 둘째와 셋째는 시연 1에서 AI가 추가로 짚었던 질문입니다. 정답지에는 없었지만, 물어볼 만한 질문입니다.
+(넘김) 그래서 다정밥상은 다섯 곳을 오픈 전에 고치고, 세 질문은 2주 뒤 검토에 가져갑니다. 중요한 답이 늦으면 오픈 시점을 다시 정합니다. 최종 판단은 전문가와 대표가 합니다.">
   <div class="kicker">AI의 결과는 판단이 아니라, 판단을 받기 위한 준비</div>
-  <h2>적혀 있으면 고치고, 판단이 필요하면 묻습니다</h2>
+  <h2 style="font-size:54px">적혀 있는 것은 오픈 전에 고치고,<br>판단이 필요한 것은 전문가에게 묻습니다</h2>
   <div class="two2">
     <div class="lane ok">
       <h3>오픈 전 고친다 <small>법령·지침에 적혀 있는 것 · 사실 확인 후 · 담당자</small></h3>
@@ -663,16 +672,16 @@ AI가 놓친 것을 찾으려면, 내가 준 기준부터 점검해야 합니다
       <div>추천인 적립금을 줄 때 제3자 제공이 생기나요? <span class="ai">AI가 짚음</span></div>
     </div>
   </div>
-  <p class="step" style="font-size:32px;font-weight:700;margin-top:22px">중요한 문제가 풀리지 않으면 오픈 시점을 다시 정합니다. 최종 판단은 전문가와 대표가 합니다.</p>
+  <p class="step" style="font-size:34px;font-weight:800;margin-top:22px">다정밥상은 다섯 곳을 오픈 전에 고치고, 세 질문은 2주 뒤 검토에 가져갑니다.<br><span class="muted" style="font-size:26px;font-weight:600">중요한 답이 늦으면 오픈 시점을 다시 정합니다 · 최종 판단은 전문가와 대표</span></p>
 </section>
 
 <!-- 19 세 가지 -->
-<section class="slide center" data-start="13:05" data-title="AI에게 맡길 때 (40초)"
+<section class="slide center" data-start="13:00" data-title="AI에게 맡길 때 (40초)"
   data-notes="사람에게 일을 맡길 때도 가이드를 주고, 가이드대로 했는지 보고, 결과가 맞는지 판단합니다.
 AI도 같습니다. 처리방침만이 아닙니다. 견적서와 주문서, 주문표와 재고표, 보고서 숫자와 원자료처럼 두 자료를 맞대 보는 일은 모두 같은 방식입니다. 2회차 실습에서 그대로 해 봅니다.
 AI가 제대로 일하도록 기준을 만드는 것, 그것도 우리의 중요한 역량입니다.">
-  <div class="kicker">사람에게 일을 맡길 때처럼</div>
-  <h2>AI에게 일을 맡길 때도</h2>
+  <div class="kicker">정리</div>
+  <h2 style="font-size:58px">AI에게 일을 맡길 때도,<br>사람에게 맡길 때처럼 세 가지가 필요합니다</h2>
   <div class="three">
     <div class="card"><b>1</b>기준을 줍니다</div>
     <div class="card step"><b>2</b>기준대로 했는지 봅니다</div>
@@ -683,7 +692,7 @@ AI가 제대로 일하도록 기준을 만드는 것, 그것도 우리의 중요
 </section>
 
 <!-- 20 마지막 -->
-<section class="slide center" data-start="13:45" data-title="마지막 말 (25초)"
+<section class="slide center" data-start="13:40" data-title="마지막 말 (25초)"
   data-notes="오늘은 AI로 처리방침을 점검했습니다.
 마지막으로 하나만 더 점검해 보시면 좋겠습니다.
 내가 AI의 방향을 잡고 있는지, AI에게 끌려가고 있는지.
@@ -706,8 +715,8 @@ AI가 제대로 일하도록 기준을 만드는 것, 그것도 우리의 중요
   });
   /* 작은 여섯 칸 */
   document.querySelectorAll(".m6").forEach(m => { const S = ["생년월일", "재료", "위탁", "마케팅", "보관 기간", "연락처"]; const s = m.dataset.s; m.innerHTML = S.map((t, i) => `<b class="k${s[i]}">${s[i] === "p" ? "△ " : ""}${t}</b>`).join(""); });
-  /* 10번: 꼬리표 단계가 보이면 칩 표시 */
-  document.querySelectorAll(".chipson").forEach(t => new MutationObserver(() => { const on = t.classList.contains("shown"); t.closest(".slide").querySelectorAll(".chip").forEach(c => { c.style.opacity = on ? 1 : 0; c.closest("li").classList.toggle("dim", on && c.classList.contains("x")); }); }).observe(t, { attributes: true }));
+  /* 시연 1: 꼬리표 단계가 보이면 칩 표시 + 제39조 표시 */
+  document.querySelectorAll(".chipson").forEach(t => new MutationObserver(() => { const on = t.classList.contains("shown"); t.closest(".slide").querySelectorAll(".chip").forEach(c => { c.style.opacity = on ? 1 : 0; }); t.closest(".slide").classList.toggle("chips", on); }).observe(t, { attributes: true }));
   /* 12번: '법' 상자가 나오면 점선도 함께 */
   const top = document.querySelector("[data-lines]");
   if (top) new MutationObserver(() => top.closest(".tri").classList.toggle("shown-lines", top.classList.contains("shown"))).observe(top, { attributes: true });

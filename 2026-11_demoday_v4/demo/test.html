@@ -27,15 +27,16 @@
 <p class="muted"><b>주의:</b> ○/×는 키워드로 자동 판정한 참고값입니다. 마지막 판정은 사람이 'AI 답 (전문)'을 읽고 합니다. 키는 "설정"(k)에서 넣고, <code>serve.py</code>로 띄운 주소에서 실행하세요.</p>
 
 <fieldset>
-  <label>모델 (쉼표로 구분) <input id="models" value="claude-haiku-4, claude-sonnet-4" style="width:300px"></label>
+  <label>모델 (쉼표로 구분) <input id="models" value="claude-haiku-4" style="width:300px"></label>
   &nbsp; <label><input type="checkbox" id="c0" checked> 점검표 없이</label>
-  <label><input type="checkbox" id="c1" checked> 점검표 함께</label>
-  <label><input type="checkbox" id="c2" checked> AI가 만든 점검표</label>
-  <label><input type="checkbox" id="c3" checked> AI 점검표 + 법 읽는 원리</label>
+  <label><input type="checkbox" id="c1"> 점검표 함께</label>
+  <label><input type="checkbox" id="c2"> AI가 만든 점검표</label>
+  <label><input type="checkbox" id="c3"> AI 점검표 + 법 읽는 원리</label>
   <br><label><input type="checkbox" id="c4"> AI 점검표 ← 작성지침</label>
   <label><input type="checkbox" id="c5"> AI 점검표 ← 작성지침 + 인증기준 안내서 일부</label>
-  <br><label><input type="checkbox" id="c6"> 작성지침 초안 그대로 (고정)</label>
-  <label><input type="checkbox" id="c7"> 작성지침 초안 + 31쪽 보완 (고정)</label>
+  <br><label><input type="checkbox" id="c6" checked> 작성지침 초안 그대로 (고정)</label>
+  <label><input type="checkbox" id="c7" checked> 작성지침 초안 + 31쪽 보완 (고정)</label>
+  <label><input type="checkbox" id="c8" checked> 초안 + 31쪽 + 인증기준 3.1.7 보완 (고정)</label>
   &nbsp; <label>조건마다 <input id="n" type="number" value="5" min="1" max="20" style="width:56px">회</label>
   &nbsp; <label>max_tokens <input id="mt" type="number" value="2000" min="500" max="4000" style="width:72px"></label>
   <p style="margin:10px 0 0">
@@ -128,6 +129,7 @@ async function loadGuide(id) {
 }
 // 4차 시험에서 AI가 작성지침으로 만든 점검표 초안(회차 3)을 그대로 고정. 보완판은 31쪽 원문 확인으로 한 항목만 고침
 const DRAFT = "[우리 회사 개인정보 처리방침 점검표]\n- 회원가입 화면에서 수집하는 개인정보 항목(이름·연락처·주소 등)이 개인정보 처리방침에 명시되어 있는가 (작성지침 p.24)\n- 개인정보의 처리 목적(회원가입 및 관리, 주문·결제·배송)이 구체적이고 명확하게 기재되어 있는가 (작성지침 p.21)\n- 수집한 개인정보의 보유·이용 기간이 구체적으로 명시되어 있는가 (작성지침 p.31)\n- 결제·배송·문자 발송을 담당하는 외부 업체에 대한 위탁 사항이 수탁자 명칭과 위탁업무 내용과 함께 기재되어 있는가 (작성지침 p.42)\n- 개인정보 파기 절차 및 방법(전자파일 암호화 삭제, 종이문서 파쇄 등)이 명시되어 있는가 (작성지침 p.35)\n- 개인정보 보호책임자의 성명, 부서, 연락처(전화·이메일)가 기재되어 있는가 (작성지침 p.72)\n- 정보주체의 개인정보 열람·정정·삭제·처리정지 요청 방법이 구체적으로 안내되어 있는가 (작성지침 p.65)\n- 개인정보의 안전성 확보조치(관리적·기술적·물리적 조치)가 기재되어 있는가 (작성지침 p.49)\n- 개인정보 처리방침이 온라인몰 첫 화면에서 쉽게 접근 가능한 위치에 게시되어 있는가 (작성지침 p.88)\n- 개인정보 처리방침 변경 시 변경 사항을 공지하고 변경 전후 내용을 비교할 수 있도록 안내되어 있는가 (작성지침 p.83)";
+const DRAFT_FIX2_ADD = "\n- 홍보·혜택 알림 같은 마케팅 목적의 동의를 다른 동의와 구분해 별도로 받고 있는가 (인증기준 안내서 3.1.7)";
 const DRAFT_FIX = "[우리 회사 개인정보 처리방침 점검표]\n- 회원가입 화면에서 수집하는 개인정보 항목(이름·연락처·주소 등)이 개인정보 처리방침에 명시되어 있는가 (작성지침 p.24)\n- 개인정보의 처리 목적(회원가입 및 관리, 주문·결제·배송)이 구체적이고 명확하게 기재되어 있는가 (작성지침 p.21)\n- 수집한 개인정보의 보유·이용 기간이 구체적으로 명시되어 있는가. 탈퇴 후에도 법령에 따라 보관해야 하는 기록(예: 계약·청약철회 기록 5년)이 있다면 그 근거와 기간을 적었는가 (작성지침 p.31)\n- 결제·배송·문자 발송을 담당하는 외부 업체에 대한 위탁 사항이 수탁자 명칭과 위탁업무 내용과 함께 기재되어 있는가 (작성지침 p.42)\n- 개인정보 파기 절차 및 방법(전자파일 암호화 삭제, 종이문서 파쇄 등)이 명시되어 있는가 (작성지침 p.35)\n- 개인정보 보호책임자의 성명, 부서, 연락처(전화·이메일)가 기재되어 있는가 (작성지침 p.72)\n- 정보주체의 개인정보 열람·정정·삭제·처리정지 요청 방법이 구체적으로 안내되어 있는가 (작성지침 p.65)\n- 개인정보의 안전성 확보조치(관리적·기술적·물리적 조치)가 기재되어 있는가 (작성지침 p.49)\n- 개인정보 처리방침이 온라인몰 첫 화면에서 쉽게 접근 가능한 위치에 게시되어 있는가 (작성지침 p.88)\n- 개인정보 처리방침 변경 시 변경 사항을 공지하고 변경 전후 내용을 비교할 수 있도록 안내되어 있는가 (작성지침 p.83)";
 let kase, results = [], stopping = false;
 const $ = id => document.getElementById(id);
@@ -158,7 +160,7 @@ $("go").onclick = async () => {
   const base = AIDemo.load();
   if (!base.key) { alert("먼저 설정에서 키를 넣어 주세요."); return; }
   const models = $("models").value.split(",").map(s => s.trim()).filter(Boolean);
-  const modes = [$("c0").checked && "none", $("c1").checked && "checklist", $("c2").checked && "self", $("c3").checked && "principle", $("c4").checked && "guide", $("c5").checked && "guide2", $("c6").checked && "draft", $("c7").checked && "draftfix"].filter(Boolean);
+  const modes = [$("c0").checked && "none", $("c1").checked && "checklist", $("c2").checked && "self", $("c3").checked && "principle", $("c4").checked && "guide", $("c5").checked && "guide2", $("c6").checked && "draft", $("c7").checked && "draftfix", $("c8").checked && "draftfix2"].filter(Boolean);
   if (modes.includes("guide") && !guides.g1) { alert("작성지침 PDF를 먼저 넣어 주세요."); return; }
   if (modes.includes("guide2") && !(guides.g1 && guides.g2)) { alert("작성지침과 인증기준 안내서 PDF를 모두 넣어 주세요."); return; }
   const n = Number($("n").value) || 5, mt = Number($("mt").value) || 2000;
@@ -176,6 +178,7 @@ $("go").onclick = async () => {
       if (c.mode === "checklist") docs.push({ name: "우리 회사 점검표", text: kase.checklist });
       if (c.mode === "draft") docs.push({ name: "우리 회사 점검표", text: DRAFT });
       if (c.mode === "draftfix") docs.push({ name: "우리 회사 점검표", text: DRAFT_FIX });
+      if (c.mode === "draftfix2") docs.push({ name: "우리 회사 점검표", text: DRAFT_FIX + DRAFT_FIX2_ADD });
       let made = null, madeMs = 0;
       if (["self", "principle", "guide", "guide2"].includes(c.mode)) {   // 1단계: 점검표를 AI가 만든다 (가입 화면·처리방침은 이 단계에서 안 보여 줌)
         try {
@@ -206,7 +209,7 @@ $("go").onclick = async () => {
   $("dlt").disabled = false; $("dlj").disabled = false;
 };
 
-function label(c) { return `${c.model} · ${{ none: "점검표 없이", checklist: "점검표 함께", self: "AI가 만든 점검표", principle: "AI 점검표 + 법 읽는 원리", guide: "AI 점검표 ← 작성지침", guide2: "AI 점검표 ← 작성지침+인증기준", draft: "작성지침 초안 그대로", draftfix: "작성지침 초안 + 31쪽 보완" }[c.mode]}`; }
+function label(c) { return `${c.model} · ${{ none: "점검표 없이", checklist: "점검표 함께", self: "AI가 만든 점검표", principle: "AI 점검표 + 법 읽는 원리", guide: "AI 점검표 ← 작성지침", guide2: "AI 점검표 ← 작성지침+인증기준", draft: "작성지침 초안 그대로", draftfix: "작성지침 초안 + 31쪽 보완", draftfix2: "초안 + 31쪽 + 3.1.7 보완" }[c.mode]}`; }
 function summarize(conds) {
   $("sum").innerHTML = conds.map(c => {
     const rs = results.filter(x => x.cond === label(c) && !x.error);

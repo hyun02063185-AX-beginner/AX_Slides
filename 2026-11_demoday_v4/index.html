@@ -37,8 +37,17 @@
   .scatter i { position: absolute; width: 34px; height: 42px; background: #fff; border-radius: 6px; box-shadow: 0 1px 0 rgba(0,0,0,.08); }
   .neat { display: grid; grid-template-columns: repeat(3, 34px); gap: 8px; }
   .neat i { width: 34px; height: 42px; background: #fff; border-radius: 6px; border-top: 6px solid var(--accent); }
-  .todaybar { margin-top: 30px; background: var(--ok-soft); border-radius: 18px; padding: 20px 30px; font-size: 32px; }
+  .todaybar { margin-top: 26px; background: var(--ok-soft); border-radius: 18px; padding: 18px 30px; font-size: 32px; }
+  .todaybar .goal { font-size: 27px; color: #2c4a3a; margin-top: 6px; font-weight: 500; }
 
+  /* 2b 개선 이력 */
+  .hist { margin-top: 30px; display: flex; flex-direction: column; gap: 12px; }
+  .hist .hh, .hist .hr { display: grid; grid-template-columns: 1fr 1fr 1.1fr; gap: 16px; }
+  .hist .hh span { font-size: 24px; font-weight: 700; color: var(--muted); padding: 0 22px; }
+  .hist .hr > * { border-radius: 14px; padding: 16px 22px; font-size: 27px; line-height: 1.4; }
+  .hist .hr b { background: var(--soft); }
+  .hist .hr span:nth-child(2) { background: var(--warn-soft); }
+  .hist .hr span:nth-child(3) { background: var(--ok-soft); font-weight: 700; }
   /* 3 경험 타임라인 */
   .tl { position: relative; margin-top: 70px; height: 190px; }
   .tl .axis { position: absolute; left: 0; right: 0; top: 90px; height: 6px; background: var(--line); border-radius: 3px; }
@@ -210,7 +219,9 @@
   .lane { border-radius: 24px; padding: 28px 32px; display: flex; flex-direction: column; gap: 14px; }
   .lane.ok { background: var(--ok-soft); } .lane.q { background: var(--warn-soft); }
   .lane h3 { font-size: 38px; margin: 0 0 6px; } .lane h3 small { display: block; font-size: 24px; color: var(--muted); font-weight: 600; margin-top: 4px; }
-  .lane > div { background: #fff; border-radius: 14px; padding: 14px 20px; font-size: 28px; line-height: 1.4; }
+  .lane > div { background: #fff; border-radius: 14px; padding: 12px 20px; font-size: 26px; line-height: 1.4; }
+  .lane .ai { font-size: 19px; font-weight: 700; color: var(--accent); background: var(--accent-soft); border-radius: 999px; padding: 1px 10px; margin-left: 6px; white-space: nowrap; }
+  .also { margin-top: 36px; background: var(--soft); border-radius: 18px; padding: 18px 28px; font-size: 32px; }
   .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
   .three .card { font-size: 40px; line-height: 1.4; font-weight: 700; }
   .three .card b { display: block; font-size: 76px; color: var(--accent); line-height: 1; margin-bottom: 18px; }
@@ -226,11 +237,10 @@
   <h1>법률 전문가가 아닌 담당자가<br>AI로 개인정보 처리방침을 점검한다면?</h1>
 </section>
 
-<!-- 1 자기소개 -->
-<section class="slide center" data-start="0:10" data-title="자기소개 (직접 작성)"
-  data-notes="(강사가 직접 작성)">
-  <div class="kicker">저를 소개합니다</div>
-  <div class="todo">자기소개는 강사가 직접 씁니다. (약 50초)</div>
+<!-- 1 내 소개 -->
+<section class="slide center" data-start="0:10" data-title="내 소개 (말로)"
+  data-notes="(말로 소개)">
+  <h1>내 소개</h1>
 </section>
 
 <!-- 2 과정 설계 -->
@@ -239,7 +249,7 @@
 1회는 정리입니다. 흩어진 자료에 최소한의 공통 기준을 세웁니다. AI를 쓰기 전의 DX입니다.
 2회는 가로입니다. 업무 하나를 접수부터 안내까지, 처음부터 끝까지 AI와 함께 처리합니다.
 3회는 세로입니다. 실무 기록에서 바로 보고와 결재까지 올라갑니다.
-오늘 보여 드릴 것은 2회의 한 차시, AI에게 기준을 주고 점검을 맡기는 수업입니다.
+오늘 보여 드릴 것은 2회의 한 차시, AI에게 기준을 주고 점검을 맡기는 수업입니다. 이 차시를 마치면 수강생은 공식 자료로 점검표 초안을 만들고, AI 결과를 근거 쪽수로 확인하고, 고칠 것과 물을 것을 나눌 수 있습니다.
 (질문이 오면 a 키: 과정 한 장 / 시험 조건·원본 응답 질문은 r 키: 재현 시험 기록)">
   <div class="kicker">과제 · 업무 정리에서 AI 활용까지 (과정명 가제) · 재직자 대상</div>
   <h2>회차는 7시간씩 쌓입니다</h2>
@@ -267,7 +277,26 @@
       <div class="one">실무 기록에서 바로 보고·결재</div>
     </div>
   </div>
-  <div class="todaybar">오늘 시연 · <b>2회 3차시 "기준을 주고 점검 맡기기"</b> &nbsp;<span class="muted">AI에게 점검 기준을 주고 결과를 검토하는 수업</span></div>
+  <div class="todaybar">오늘 시연 · <b>2회 3차시 "기준을 주고 점검 맡기기"</b><div class="goal">이 차시를 마치면 <b>공식 자료로 점검표 초안을 만들고, AI 결과를 근거 쪽수로 확인하고, 고칠 것과 물을 것을 나눌 수 있다</b></div></div>
+</section>
+
+<!-- 2b 개선 이력 -->
+<section class="slide" data-start="2:10" data-title="이렇게 고쳐 왔습니다 (40초)"
+  data-notes="이 과정은 한 번에 만들지 않았습니다. 해 보고, 발견하고, 고쳤습니다.
+처음 짠 구성은 AI 세 곳에 블라인드로 교차 채점을 받아 두 번 고쳤습니다.
+견적 찾기 시연은 정리 전에도 AI가 열 번 다 찾았습니다. 그래서 메시지를 '적혀 있으면 찾는다'로 바꾸고, 그 시연은 실습으로 돌렸습니다.
+오늘 보여 드릴 처리방침 점검도 시험을 여러 번 돌리며 만들었습니다. 그 결과를 그대로 보여 드리겠습니다.">
+  <div class="kicker">설계 과정 · 해 보고, 발견하고, 고쳤습니다</div>
+  <h2>이 과정을 이렇게 고쳐 왔습니다</h2>
+  <div class="hist">
+    <div class="hh"><span>해 본 것</span><span>발견한 것</span><span>바꾼 것</span></div>
+    <div class="hr"><b>외부 AI 블라인드 교차 검토 (2회)</b><span>"AI가 안 보인다", "15분의 목표가 없다"</span><span>AI 시연을 넣고, 목표를 먼저 제시</span></div>
+    <div class="hr"><b>견적 찾기 시연 10회</b><span>정리 전에도 10/10 정답</span><span>메시지를 "적혀 있으면 찾는다"로, 시연은 실습으로</span></div>
+    <div class="hr"><b>처리방침 대조 · 기준 없이 5회</b><span>매번 같은 세 곳이 빠짐</span><span>"환각"이 아니라 "누락"을 가르치기로</span></div>
+    <div class="hr"><b>AI가 만든 점검표 10개</b><span>10개 모두 법정 보관 기간이 빠짐</span><span>"원문을 펴서 확인" 단계 추가</span></div>
+    <div class="hr"><b>외부 AI 검수 (3곳)</b><span>고칠 것과 물을 것의 경계가 흐림</span><span>"적혀 있으면 고치고, 판단이 필요하면 묻는다"</span></div>
+  </div>
+  <div class="source">시험 기록은 r 키 · 과정 한 장은 a 키</div>
 </section>
 
 <!-- 3 경험 -->
@@ -299,7 +328,7 @@
   data-notes="오늘의 회사, 반찬 정기배송을 하는 다정밥상입니다. 다음 달 1일 온라인몰을 엽니다.
 회원가입 화면과 처리방침은 외주사가 다른 쇼핑몰 것을 참고해서 만들어 왔습니다.
 온라인몰 담당자는 한 명, 법률은 모릅니다. 회사 안에 법무 담당도 없습니다. 전문가 검토는 2주 뒤에나 됩니다. 오픈이 먼저입니다.">
-  <div class="kicker">오늘의 회사 (가상)</div>
+  <div class="kicker">오늘의 회사 (가상) · 2회 3차시 점검 연습 자료</div>
   <h2>(주)다정밥상, 다음 달 1일 온라인몰을 엽니다</h2>
   <div class="facts">
     <div><small>회사</small>반찬 정기배송</div>
@@ -572,35 +601,37 @@ AI가 놓친 것을 찾으려면, 내가 준 기준부터 점검해야 합니다
 </section>
 
 <!-- 18 조치와 질문 -->
-<section class="slide" data-start="12:40" data-title="오픈 전 할 일과 전문가에게 물을 것 (40초)"
-  data-notes="AI의 결과는 판단이 아닙니다. 판단을 받기 위한 준비입니다. 그래서 둘로 나눕니다.
-왼쪽은 사실을 확인하면 되는 것입니다. 받는 항목, 맡긴 업체, 연락처. 실제로 무엇을 받고 누구에게 맡기는지 확인한 뒤 오픈 전에 고칩니다.
-오른쪽은 해석이 필요한 것입니다. 이건 전문가에게 질문으로 가져갑니다. AI가 든 조문은 원문과 맞춰 봤습니다.
-전문가 답이 오기 전에 오픈해도 되는지, 중요한 문제가 남으면 오픈을 미룰지는 대표가 결정합니다.
-질문이 정리되어 있으면 전문가가 핵심 쟁점을 빠르게 파악하고 검토할 수 있습니다. 제가 매월 바뀐 부분 위주로 검토를 요청했던 것과 같습니다.">
+<section class="slide" data-start="12:40" data-title="고칠 것과 물을 것 (40초)"
+  data-notes="AI의 결과는 판단이 아닙니다. 판단을 받기 위한 준비입니다. 나누는 기준은 하나입니다.
+법령이나 지침에 적혀 있는 것은, 실제로 무엇을 받고 누구에게 맡기는지 사실을 확인한 뒤 오픈 전에 담당자가 고칩니다. 보관 기간도 아까 31쪽에서 본 것처럼 적혀 있습니다.
+우리 상황에 대입해서 판단해야 하는 것은 전문가에게 묻습니다. 오른쪽 둘째와 셋째는 시연 1에서 AI가 여섯 곳 밖으로 짚었던 것입니다. 정답지에는 없었지만, 물어볼 만한 질문입니다.
+중요한 문제가 풀리지 않으면 오픈 시점을 다시 정합니다. 최종 판단은 전문가와 대표가 합니다.">
   <div class="kicker">AI의 결과는 판단이 아니라, 판단을 받기 위한 준비</div>
-  <h2>오픈 전에 고칠 것, 전문가에게 물을 것</h2>
+  <h2>적혀 있으면 고치고, 판단이 필요하면 묻습니다</h2>
   <div class="two2">
     <div class="lane ok">
-      <h3>오픈 전 사실을 확인하고 고친다 <small>실제 수집·위탁 현황과 맞춰 본 뒤 · 담당자</small></h3>
+      <h3>오픈 전 고친다 <small>법령·지침에 적혀 있는 것 · 사실 확인 후 · 담당자</small></h3>
       <div>처리방침 항목에 <b>생년월일·못 드시는 재료</b> 추가</div>
       <div>위탁에 <b>(주)메시지온·(주)빠른새벽택배</b> 추가</div>
       <div>보호책임자 <b>연락처(전화·이메일)</b> 추가</div>
+      <div>혜택 알림 수신 동의를 <b>[선택]으로 분리</b></div>
+      <div>탈퇴 후 <b>법령상 보관 기록과 기간</b> 기재</div>
     </div>
     <div class="lane q step">
-      <h3>전문가에게 묻는다 <small>해석이 필요한 것 · 2주 뒤 검토</small></h3>
-      <div>혜택 알림 동의를 [선택]으로 분리하고, 거부해도 가입되게 해야 하나요?</div>
-      <div>주문·결제 기록과 불만·분쟁 기록은 각각 몇 년 보관해야 하나요?</div>
-      <div>못 드시는 재료(알레르기)는 별도 동의가 필요한 정보인가요?</div>
+      <h3>전문가에게 묻는다 <small>우리 상황에 대입하는 판단 · 2주 뒤 검토</small></h3>
+      <div>못 드시는 재료(알레르기)는 별도 동의가 필요한 민감정보인가요?</div>
+      <div>배송사에 주소를 넘기는 것은 위탁인가요, 제3자 제공인가요? <span class="ai">AI가 짚음</span></div>
+      <div>추천인 적립금을 줄 때 제3자 제공이 생기나요? <span class="ai">AI가 짚음</span></div>
     </div>
   </div>
-  <p class="step" style="font-size:34px;font-weight:700;margin-top:26px">중요한 문제가 풀리지 않으면 오픈 시점을 다시 정합니다. 최종 판단은 전문가와 대표가 합니다.</p>
+  <p class="step" style="font-size:32px;font-weight:700;margin-top:22px">중요한 문제가 풀리지 않으면 오픈 시점을 다시 정합니다. 최종 판단은 전문가와 대표가 합니다.</p>
 </section>
 
 <!-- 19 세 가지 -->
 <section class="slide center" data-start="13:20" data-title="AI에게 맡길 때 (1분)"
   data-notes="사람에게 일을 맡길 때도 가이드를 주고, 가이드대로 했는지 보고, 결과가 맞는지 판단합니다.
-AI도 같습니다. AI가 제대로 일하도록 기준을 만드는 것, 그것도 우리의 중요한 역량입니다.">
+AI도 같습니다. 처리방침만이 아닙니다. 견적서와 주문서, 주문표와 재고표, 보고서 숫자와 원자료처럼 두 자료를 맞대 보는 일은 모두 같은 방식입니다. 2회차 실습에서 그대로 해 봅니다.
+AI가 제대로 일하도록 기준을 만드는 것, 그것도 우리의 중요한 역량입니다.">
   <div class="kicker">사람에게 일을 맡길 때처럼</div>
   <h2>AI에게 일을 맡길 때도</h2>
   <div class="three">
@@ -608,7 +639,8 @@ AI도 같습니다. AI가 제대로 일하도록 기준을 만드는 것, 그것
     <div class="card step"><b>2</b>기준대로 했는지 봅니다</div>
     <div class="card step"><b>3</b>결과가 맞는지 판단합니다</div>
   </div>
-  <p class="step" style="font-size:42px;font-weight:800;margin-top:50px">AI가 제대로 일하도록 기준을 만드는 것도, 사람의 역량입니다.</p>
+  <div class="also step">같은 방식으로 · <b>견적서 ↔ 주문서</b> · <b>주문표 ↔ 재고표</b> · <b>보고서 숫자 ↔ 원자료</b> <span class="muted">(2회차 실습)</span></div>
+  <p class="step" style="font-size:42px;font-weight:800;margin-top:40px">AI가 제대로 일하도록 기준을 만드는 것도, 사람의 역량입니다.</p>
 </section>
 
 <!-- 20 마지막 -->

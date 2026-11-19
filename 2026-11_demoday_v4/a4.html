@@ -1,0 +1,128 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>과정 설계 한 장</title>
+<style>
+  @font-face { font-family: "Pretendard"; src: url("../assets/fonts/PretendardVariable.woff2") format("woff2-variations"); font-weight: 45 920; }
+  :root { --ink: #17191c; --muted: #5f6670; --line: #d9dde3; --soft: #f3f5f8; --accent: #2155cd; --a-soft: #e7eefc; --ok: #17784a; --ok-soft: #e4f4ec; --c3: #6b4fbb; --c3-soft: #efeafb; }
+  @page { size: A4; margin: 11mm 11mm 10mm; }
+  * { box-sizing: border-box; }
+  html { background: #e9ebee; }
+  body { margin: 0; font-family: "Pretendard", "Malgun Gothic", sans-serif; color: var(--ink); font-size: 9.3pt; line-height: 1.5; word-break: keep-all; }
+  .page { width: 210mm; min-height: 297mm; margin: 12px auto; background: #fff; padding: 11mm; }
+  @media print { html { background: #fff; } .page { margin: 0; padding: 0; width: auto; min-height: 0; } .no-print { display: none; } }
+  @media screen and (max-width: 820px) { .page { width: auto; padding: 16px; } }
+  h1 { font-size: 16pt; margin: 0; letter-spacing: -0.02em; }
+  h1 small { font-size: 9pt; font-weight: 500; color: var(--muted); margin-left: 6px; }
+  .by { color: var(--muted); font-size: 8.4pt; margin-top: 2px; }
+  .top { display: grid; grid-template-columns: repeat(4, 1fr); gap: 6px; margin-top: 8px; }
+  .box { background: var(--soft); border-radius: 6px; padding: 6px 8px; }
+  .box b { display: block; font-size: 7.6pt; color: var(--accent); margin-bottom: 1px; }
+  h2 { font-size: 10.5pt; margin: 12px 0 6px; }
+  h2 span { font-weight: 500; color: var(--muted); font-size: 8.2pt; margin-left: 6px; }
+  table { width: 100%; border-collapse: collapse; table-layout: fixed; }
+  th, td { border: 1px solid var(--line); padding: 4px 6px; vertical-align: top; text-align: left; }
+  th { font-size: 9pt; }
+  th small { display: block; font-weight: 500; color: var(--muted); font-size: 7.6pt; }
+  th.k, td.k { width: 15mm; background: #fafbfc; font-size: 7.8pt; color: var(--muted); font-weight: 700; }
+  .c1 { background: var(--a-soft); } .c2 { background: var(--ok-soft); } .c3 { background: var(--c3-soft); }
+  ol { margin: 0; padding-left: 13px; } li { margin: 0 0 1px; }
+  .hl { font-weight: 700; color: var(--accent); }
+  .tag { display: inline-block; font-size: 7.2pt; padding: 0 5px; border-radius: 8px; background: #fff; border: 1px solid var(--line); color: var(--muted); margin-left: 2px; }
+  .grid3 { display: grid; grid-template-columns: 1fr 1fr 1fr; gap: 6px; }
+  .foot { margin-top: 8px; font-size: 7.4pt; color: var(--muted); display: flex; justify-content: space-between; gap: 10px; }
+  .print { position: fixed; right: 16px; bottom: 16px; font: inherit; font-size: 12px; padding: 8px 14px; border-radius: 8px; border: 1px solid #ccc; background: #fff; cursor: pointer; }
+</style>
+</head>
+<body>
+<div class="page">
+  <h1>업무 정리에서 AI 활용까지 <small>역할 기반 AX 실무 과정 · 재직자 대상 7·14·21시간 (과정명 가제)</small></h1>
+  <div class="by">김현래 · 2026 현장형 AX 전문강사 양성과정 경영·행정·데이터 트랙 · 데모데이 2026-11-24</div>
+
+  <div class="top">
+    <div class="box"><b>대상</b>회사가 보내서 온 재직자. 사무·행정·영업 지원 등 비개발 직군</div>
+    <div class="box"><b>출발 질문</b>"내일부터 2주 휴가라면, 내 일 중 얼마가 대신 굴러갈까?"</div>
+    <div class="box"><b>역할</b>수업 중엔 가상 회사 (주)다온오피스(대표 + 직원 5명)의 <strong>대표</strong>, 과제는 내 업무로. 공공기관은 신설 TF 팀장</div>
+    <div class="box"><b>설계 원칙</b>웹툰(상황) → 흐름(순서) → 한 장(관계) → 실행. 차시마다 사례 → 막히는 지점 → 필요한 만큼의 기초 → 실습</div>
+  </div>
+
+  <h2>같은 뼈대가 시간만큼 늘어납니다 <span>한 회차 = 7차시(50분 + 휴식 10분) · 실습·공유가 절반 이상</span></h2>
+  <table>
+    <thead>
+      <tr>
+        <th class="k"></th>
+        <th class="c1">1회 · 정리 (DX)<small>흩어진 자료에 최소한의 공통 기준</small></th>
+        <th class="c2">2회 · 흐름 끝까지 (가로)<small>접수부터 안내까지 AI와 함께</small></th>
+        <th class="c3">3회 · 보고까지 (세로)<small>업무 기록에서 바로 보고·결재</small></th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr>
+        <td class="k">과정</td>
+        <td>7·14·21시간 모두</td><td>14·21시간</td><td>21시간</td>
+      </tr>
+      <tr>
+        <td class="k">차시</td>
+        <td><ol>
+          <li>오프닝: 대표 역할, 휴가 질문, 업무 점검 카드</li>
+          <li>같은 자료, 다른 폴더: 거래 문서 PDF 36개를 각자 정리 → 짝과 비교</li>
+          <li>남의 폴더에서 찾기: 자료 3개, 시간 재기</li>
+          <li>정리의 기준 → 조별 최소 규칙 3개 합의</li>
+          <li>도구 사다리: 개인 파일 → 공동 편집 → 업무 데이터 연결</li>
+          <li>AI로 찾기: 같은 질문을 정리 전·후로</li>
+          <li>업무 흐름 그리기, 끊기는 곳 표시</li>
+        </ol></td>
+        <td><ol>
+          <li>과제 공유 (익명 + 짝)</li>
+          <li>AI의 특성(누락·환각), AI 업무 요청서 4칸(목적·자료·<b>기준</b>·완료 형태)</li>
+          <li><span class="hl">기준을 주고 점검 맡기기</span>: 처리방침 대조, 기준 없이 → 점검표와 함께. 공식 자료로 점검표 만들기 <span class="tag">오늘 시연</span></li>
+          <li>접수: 카톡·메일 주문 15건 → 주문표 (주소 누락·"지난번처럼"·중복)</li>
+          <li>확인: 재고 대조 → 점검표로 검사 (같은 품목 다른 이름, 어제 날짜 재고)</li>
+          <li>안내까지 흐름 한 번에: 새 주문 5건, 안내문은 사람이 확인, AI 단계와 사람 확인 지점 표시</li>
+          <li>걸린 시간·오류 수 전후 비교 → 내 업무 흐름 하나</li>
+        </ol></td>
+        <td><ol>
+          <li>과제 공유 (익명 + 짝)</li>
+          <li>왜 보고가 두 번 일이 되나</li>
+          <li>주문·출고 기록에서 주간 보고 1장 (틀린 숫자 하나 숨김)</li>
+          <li>역할 바꿔 결재: 기존식 긴 보고 vs 기록 기반 1장, 결정 시간 비교</li>
+          <li>우리 결재 라인 점검 → 팀 AI 사용 규칙 초안</li>
+          <li>업무 개선안 5분 발표 (경영진 보고)</li>
+          <li>나로 돌아오기: 내가 바꿀 첫 단계 1장, 휴가 질문 다시</li>
+        </ol></td>
+      </tr>
+      <tr>
+        <td class="k">손에 남는 것</td>
+        <td>업무 정리 규칙, 공동 편집 자료, 업무 흐름도</td>
+        <td>우리 회사 점검표(근거 쪽수 포함), 업무 요청서 3장, AI·사람 역할을 표시한 흐름도</td>
+        <td>기록 기반 보고 1장, 팀 AI 사용 규칙 초안, 업무 개선안 1장</td>
+      </tr>
+      <tr>
+        <td class="k">회차 뒤 과제 (내 업무)</td>
+        <td>점검 카드에서 체크 못 한 일 하나의 처리 방법 기록 + 정리 원칙 2개 적용. AI 없이도 가능</td>
+        <td>내 업무 흐름 하나를 끝까지 그리고, AI 적용 단계 한 곳을 실제로 처리해 점검표로 확인</td>
+        <td>2주 뒤: 결과물 + 상사 설득 1장 (아낀 시간 × 횟수 vs 비용, 데이터 보호 조건)</td>
+      </tr>
+    </tbody>
+  </table>
+
+  <h2>운영과 측정</h2>
+  <div class="grid3">
+    <div class="box"><b>측정</b>점검 카드 체크 수: 수업 전 → 2주 뒤 비교. 결과 보고에 참석률·만족도와 함께 실습 제출률, 2주 뒤 과제 제출률. 점수는 매기지 않음</div>
+    <div class="box"><b>실습 운영</b>7시간 단건만 시연(어려우면 영상)으로 대체 가능. 14·21시간은 실습 필수, 환경은 고객사 제공. 개별 실습 기본, 조별 대체 가능</div>
+    <div class="box"><b>참여 방식</b>열린 토론 대신 익명 공유, 혼자 → 짝 → 조, 보기에서 고르기, "제 생각은" 대신 "대표로서는". 같은 부서·상하 직급은 다른 조로</div>
+    <div class="box"><b>회사마다 다른 AI 환경</b>외부 AI 차단 / 사내 AI / 허용. 정리·흐름은 어디서나 공통, AI 실습은 가상 자료와 승인된 도구로. 특정 도구 사용법은 가르치지 않음</div>
+    <div class="box"><b>가상 회사 자료</b>(주)다온오피스: 사무용품 B2B 납품. 견적·주문·재고·배송·회의록 등 실무 문서에 함정(최신본 혼동, 같은 품목 다른 이름, 창고 분리 등)을 심음. 점검 사례는 (주)다정밥상(반찬 정기배송) 회원가입 화면·처리방침, 함정 6곳</div>
+    <div class="box"><b>개선 이력</b>AI 3곳 블라인드 교차 채점 2회 → 구성 개편. AI 시연은 발표 노트북에서 10회 재현 시험 후 메시지 확정(정리 전에도 10/10 정답 → "적혀 있으면 찾는다"로 수정). 처리방침 점검은 조건별 5회씩 재현: 기준 없이 6곳 중 3곳, 점검표와 함께 6곳</div>
+  </div>
+
+  <div class="foot">
+    <span>회사·사람·번호는 모두 실습용 가상 데이터입니다.</span>
+    <span>슬라이드: hyun02063185-ax-beginner.github.io/AX_Slides</span>
+  </div>
+</div>
+<a class="print no-print" href="./" style="text-decoration:none;color:inherit">← 슬라이드로</a>
+</body>
+</html>

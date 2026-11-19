@@ -32,6 +32,8 @@
   <label><input type="checkbox" id="c1" checked> 점검표 함께</label>
   <label><input type="checkbox" id="c2" checked> AI가 만든 점검표</label>
   <label><input type="checkbox" id="c3" checked> AI 점검표 + 법 읽는 원리</label>
+  <br><label><input type="checkbox" id="c4"> AI 점검표 ← 작성지침</label>
+  <label><input type="checkbox" id="c5"> AI 점검표 ← 작성지침 + 인증기준 안내서 일부</label>
   &nbsp; <label>조건마다 <input id="n" type="number" value="5" min="1" max="20" style="width:56px">회</label>
   &nbsp; <label>max_tokens <input id="mt" type="number" value="2000" min="500" max="4000" style="width:72px"></label>
   <p style="margin:10px 0 0">
@@ -40,12 +42,21 @@
   </p>
 </fieldset>
 
+<fieldset>
+  <b>담당자가 구한 공식 자료</b> <span class="muted">(PDF는 이 브라우저 안에서만 읽고, 어디에도 올리지 않습니다)</span><br>
+  <label>개인정보 처리방침 작성지침 PDF <input type="file" id="g1" accept=".pdf"></label> <span id="g1info" class="muted"></span><br>
+  <label>인증기준 안내서 PDF <input type="file" id="g2" accept=".pdf"></label>
+  <label>쪽 <input id="g2pages" value="191-215,250-253" style="width:140px"></label> <span id="g2info" class="muted"></span>
+  <p class="muted" style="margin:6px 0 0">인증기준 안내서 기본 쪽: 3.1 수집 시 보호조치(마케팅 3.1.7 포함) + 3.5.1 처리방침 공개. 전체를 넣으면 AI가 한 번에 읽을 수 있는 양을 넘습니다.</p>
+</fieldset>
+
 <div class="box" id="status">아직 시험하지 않았습니다.</div>
 <h2>조건별 요약</h2>
 <table><thead><tr><th>조건</th><th>회수</th><th>P1 생년월일</th><th>P2 못 드시는 재료</th><th>P3 마케팅 필수 묶음</th><th>P4 법정 보존</th><th>P5 위탁 누락</th><th>P6 책임자 연락처</th><th>평균 시간</th><th>나온 조문</th></tr></thead><tbody id="sum"></tbody></table>
 <h2>회차별</h2>
 <table><thead><tr><th>#</th><th>조건</th><th>P1</th><th>P2</th><th>P3</th><th>P4</th><th>P5</th><th>P6</th><th>정답 밖 지적</th><th>조문</th><th>시간</th><th>AI 답 (전문)</th></tr></thead><tbody id="rows"></tbody></table>
 
+<script src="../../assets/pdfjs/pdf.min.js"></script>
 <script src="../../assets/ai-demo.js"></script>
 <script>
 const BASE_SYSTEM = [
@@ -84,9 +95,39 @@ const PRINCIPLES = [
   "2. '다만,'으로 시작하는 단서가 있으면 그 예외가 우리 회사에 해당하는지 본다.",
   "3. '다른 법령에 따라'라는 말이 나오면, 우리 회사의 업종·판매 방식에 걸리는 다른 법을 찾아 점검표에 넣는다.",
 ].join("\n");
+const GUIDE_SYSTEM = [
+  "당신은 작은 회사의 개인정보 업무 담당자를 돕는 검토 보조입니다.",
+  "담당자가 공식 자료를 구해 왔습니다. 당신의 기억이 아니라 이 공식 자료를 근거로, 아래 상황의 회사가 오픈 전에 '회원가입 화면'과 '개인정보 처리방침'을 스스로 점검할 때 쓸 점검표를 만드세요.",
+  "첫 줄은 '[우리 회사 개인정보 처리방침 점검표]'로 쓰고, 그 아래 최대 10줄, 한 줄에 확인할 것 하나를 '- '로 시작해 쓰세요.",
+  "각 줄 끝에 근거가 된 자료 이름과 쪽 번호를 (작성지침 p.00)처럼 괄호로 붙이세요. 설명이나 인사말은 쓰지 마세요.",
+].join("\n");
+const guides = { g1: "", g2: "" };
+async function pdfText(file, ranges) {
+  pdfjsLib.GlobalWorkerOptions.workerSrc = "../../assets/pdfjs/pdf.worker.min.js";
+  const doc = await pdfjsLib.getDocument({ data: await file.arrayBuffer(), cMapUrl: "../../assets/pdfjs/cmaps/", cMapPacked: true }).promise;
+  const want = new Set();
+  if (ranges) ranges.split(",").forEach(r => { const [a, b] = r.split("-").map(Number); for (let i = a; i <= (b || a); i++) want.add(i); });
+  let out = "";
+  for (let i = 1; i <= doc.numPages; i++) {
+    if (want.size && !want.has(i)) continue;
+    const tc = await (await doc.getPage(i)).getTextContent();
+    out += `\n[p.${i}]\n` + tc.items.map(x => x.str + (x.hasEOL ? "\n" : "")).join("");
+  }
+  return { text: out, pages: doc.numPages };
+}
+async function loadGuide(id) {
+  const f = $(id).files[0]; if (!f) return;
+  $(id + "info").textContent = "읽는 중…";
+  try {
+    const r = await pdfText(f, id === "g2" ? $("g2pages").value : "");
+    guides[id] = r.text;
+    $(id + "info").textContent = `${r.pages}쪽 중 읽음 · ${r.text.length.toLocaleString()}자`;
+  } catch (e) { $(id + "info").textContent = "읽기 실패: " + e.message; }
+}
 let kase, results = [], stopping = false;
 const $ = id => document.getElementById(id);
 $("cfg").onclick = () => AIDemo.settings();
+$("g1").onchange = () => loadGuide("g1"); $("g2").onchange = () => loadGuide("g2"); $("g2pages").onchange = () => loadGuide("g2");
 AIDemo.fetchJSON("case.json").then(c => { kase = c; $("clbox").textContent = c.checklist; });
 
 function splitItems(text) {
@@ -112,7 +153,9 @@ $("go").onclick = async () => {
   const base = AIDemo.load();
   if (!base.key) { alert("먼저 설정에서 키를 넣어 주세요."); return; }
   const models = $("models").value.split(",").map(s => s.trim()).filter(Boolean);
-  const modes = [$("c0").checked && "none", $("c1").checked && "checklist", $("c2").checked && "self", $("c3").checked && "principle"].filter(Boolean);
+  const modes = [$("c0").checked && "none", $("c1").checked && "checklist", $("c2").checked && "self", $("c3").checked && "principle", $("c4").checked && "guide", $("c5").checked && "guide2"].filter(Boolean);
+  if (modes.includes("guide") && !guides.g1) { alert("작성지침 PDF를 먼저 넣어 주세요."); return; }
+  if (modes.includes("guide2") && !(guides.g1 && guides.g2)) { alert("작성지침과 인증기준 안내서 PDF를 모두 넣어 주세요."); return; }
   const n = Number($("n").value) || 5, mt = Number($("mt").value) || 2000;
   const conds = models.flatMap(m => modes.map(mode => ({ model: m, mode })));
   if (!conds.length) { alert("조건을 하나 이상 고르세요."); return; }
@@ -127,9 +170,13 @@ $("go").onclick = async () => {
       const docs = [{ name: "회원가입 화면", text: kase.signup }, { name: "개인정보 처리방침", text: kase.policy }];
       if (c.mode === "checklist") docs.push({ name: "우리 회사 점검표", text: kase.checklist });
       let made = null, madeMs = 0;
-      if (c.mode === "self" || c.mode === "principle") {   // 1단계: 상황만 주고 점검표를 만들게 함
+      if (["self", "principle", "guide", "guide2"].includes(c.mode)) {   // 1단계: 점검표를 AI가 만든다 (가입 화면·처리방침은 이 단계에서 안 보여 줌)
         try {
-          const m = await AIDemo.ask([{ name: "우리 회사 상황", text: SITUATION }], `점검표를 만들어 주세요. (시험 ${k} · ${Date.now()})`, cfg, 180, { system: c.mode === "principle" ? MAKE_SYSTEM + "\n" + PRINCIPLES : MAKE_SYSTEM, maxTokens: 800 });
+          const src = [{ name: "우리 회사 상황", text: SITUATION }];
+          if (c.mode === "guide" || c.mode === "guide2") src.push({ name: "개인정보 처리방침 작성지침 (개인정보보호위원회, 2026.4)", text: guides.g1 });
+          if (c.mode === "guide2") src.push({ name: "ISMS-P 인증기준 안내서 일부 (" + $("g2pages").value + "쪽)", text: guides.g2 });
+          const sys = c.mode === "principle" ? MAKE_SYSTEM + "\n" + PRINCIPLES : c.mode.startsWith("guide") ? GUIDE_SYSTEM : MAKE_SYSTEM;
+          const m = await AIDemo.ask(src, `점검표를 만들어 주세요. (시험 ${k} · ${Date.now()})`, cfg, 300, { system: sys, maxTokens: 1200 });
           made = m.raw; madeMs = m.ms;
           docs.push({ name: "우리 회사 점검표", text: made });
         } catch (e) { made = "오류: " + e.message; }
@@ -152,7 +199,7 @@ $("go").onclick = async () => {
   $("dlt").disabled = false; $("dlj").disabled = false;
 };
 
-function label(c) { return `${c.model} · ${{ none: "점검표 없이", checklist: "점검표 함께", self: "AI가 만든 점검표", principle: "AI 점검표 + 법 읽는 원리" }[c.mode]}`; }
+function label(c) { return `${c.model} · ${{ none: "점검표 없이", checklist: "점검표 함께", self: "AI가 만든 점검표", principle: "AI 점검표 + 법 읽는 원리", guide: "AI 점검표 ← 작성지침", guide2: "AI 점검표 ← 작성지침+인증기준" }[c.mode]}`; }
 function summarize(conds) {
   $("sum").innerHTML = conds.map(c => {
     const rs = results.filter(x => x.cond === label(c) && !x.error);

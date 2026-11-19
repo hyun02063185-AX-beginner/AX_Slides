@@ -1,0 +1,450 @@
+<!doctype html>
+<html lang="ko">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>데모데이 15분 v4 · 처리방침 점검</title>
+<link rel="stylesheet" href="../assets/deck.css">
+<style>
+  :root { --c3: #6b4fbb; --c3-soft: #efeafb; }
+  .slide { word-break: keep-all; }
+  h2 { font-size: 64px; }
+  .say { font-size: 44px; line-height: 1.6; margin-top: 40px; }
+  .say p + p { margin-top: 22px; }
+  .say .muted { font-size: 36px; }
+  .quote { border-left: 10px solid var(--accent); padding: 10px 0 10px 40px; font-size: 50px; line-height: 1.55; font-weight: 700; }
+  .todo { border: 4px dashed #e2a100; background: #fff8e6; border-radius: 24px; padding: 36px 44px; font-size: 36px; line-height: 1.6; color: #6b5200; }
+
+  /* 과정 */
+  .course { display: grid; grid-template-columns: repeat(3, 1fr); gap: 28px; margin-top: 44px; }
+  .course .card { padding: 34px 38px; }
+  .course .card .when { font-size: 26px; font-weight: 700; color: var(--muted); }
+  .course .card h3 { font-size: 42px; margin: 10px 0 16px; }
+  .course .card p { font-size: 29px; line-height: 1.5; color: var(--muted); }
+  .course .card p b { color: var(--ink); }
+  .course .today { outline: 6px solid var(--accent); position: relative; }
+  .course .today::after { content: "오늘 보여 드릴 부분"; position: absolute; top: -26px; right: 24px; background: var(--accent); color: #fff; font-size: 24px; font-weight: 700; padding: 6px 18px; border-radius: 999px; }
+  .s1 { background: var(--accent-soft); } .s2 { background: var(--ok-soft); } .s3 { background: var(--c3-soft); }
+
+  /* 회사 */
+  .facts { display: grid; grid-template-columns: repeat(2, 1fr); gap: 22px 28px; margin-top: 44px; }
+  .facts div { background: var(--soft); border-radius: 20px; padding: 26px 32px; font-size: 36px; line-height: 1.45; }
+  .facts div small { display: block; font-size: 26px; color: var(--muted); margin-bottom: 6px; font-weight: 600; }
+  .facts .hot { background: var(--warn-soft); }
+
+  /* 문서 미리보기 */
+  .docs { display: grid; grid-template-columns: 1fr 1fr; gap: 36px; margin-top: 34px; }
+  .doc { border: 2px solid var(--line); border-radius: 20px; padding: 26px 32px; font-size: 25px; line-height: 1.55; background: #fff; }
+  .doc h4 { margin: 0 0 12px; font-size: 30px; }
+  .doc .r { display: flex; justify-content: space-between; border-bottom: 1px solid var(--soft); padding: 3px 0; }
+  .doc .r span:last-child { color: var(--muted); }
+
+  /* 맞대 보기 */
+  .match { margin-top: 40px; display: grid; grid-template-columns: 1fr 90px 1fr; row-gap: 18px; font-size: 38px; align-items: center; }
+  .match .h { font-size: 26px; font-weight: 700; color: var(--muted); padding-bottom: 6px; }
+  .match .l, .match .rr { background: var(--soft); border-radius: 14px; padding: 16px 26px; }
+  .match .a { text-align: center; font-size: 34px; color: var(--muted); }
+  .match .miss { background: var(--warn-soft); color: var(--warn); font-weight: 700; border: 3px dashed var(--warn); }
+  .match .ok { background: var(--ok-soft); }
+
+  /* AI 답 */
+  .ai { margin-top: 26px; background: var(--soft); border-radius: 24px; padding: 30px 40px; font-size: 30px; line-height: 1.55; }
+  .ai .who { font-size: 24px; font-weight: 700; color: var(--muted); margin-bottom: 10px; }
+  .ai ol { margin: 0; padding-left: 44px; }
+  .ai li { margin: 4px 0; }
+  .ai li small { color: var(--muted); font-size: 24px; }
+  .ai .bad { background: #fde2e2; border-radius: 6px; padding: 0 6px; }
+
+  /* 정답 격자 */
+  .grid6 { display: grid; grid-template-columns: 260px repeat(6, 1fr); gap: 10px; margin-top: 30px; font-size: 26px; text-align: center; align-items: center; }
+  .grid6 .th { font-weight: 700; font-size: 25px; line-height: 1.3; }
+  .grid6 .rl { text-align: left; font-weight: 700; color: var(--muted); }
+  .dot { height: 56px; border-radius: 12px; }
+  .dot.y { background: var(--ok); }
+  .dot.n { border: 3px dashed var(--warn); background: var(--warn-soft); }
+  .law { color: var(--warn); }
+
+  /* 세 가지 맞대 보기 그림 */
+  .tri { position: relative; height: 640px; margin-top: 10px; }
+  .tri .node { position: absolute; width: 560px; text-align: center; border-radius: 26px; padding: 26px 30px; font-size: 38px; font-weight: 800; }
+  .tri .node small { display: block; font-size: 27px; font-weight: 500; color: var(--muted); margin-top: 6px; }
+  .tri .top { left: 50%; transform: translateX(-50%); top: 0; background: var(--warn-soft); border: 4px dashed var(--warn); }
+  .tri .bl { left: 40px; bottom: 0; background: var(--accent-soft); }
+  .tri .br { right: 40px; bottom: 0; background: var(--accent-soft); }
+  .tri svg { position: absolute; inset: 0; width: 100%; height: 100%; }
+  .tri .tag { position: absolute; font-size: 30px; font-weight: 700; padding: 8px 20px; border-radius: 999px; }
+  .tri .tag.ok { background: var(--ok-soft); color: var(--ok); left: 50%; transform: translateX(-50%); bottom: 50px; }
+  .tri .tag.no { background: var(--warn-soft); color: var(--warn); }
+
+  /* 환각 vs 누락 */
+  .vs { display: grid; grid-template-columns: 1fr 1fr; gap: 40px; margin-top: 40px; }
+  .vs .card h3 { font-size: 46px; margin-bottom: 18px; }
+  .vs .card p { font-size: 32px; line-height: 1.55; }
+  .vs .card p + p { margin-top: 14px; }
+  .vs .ex { margin-top: 22px; background: #fff; border-radius: 16px; padding: 20px 26px; font-size: 28px; line-height: 1.5; }
+  .strike { text-decoration: underline wavy var(--warn); text-underline-offset: 8px; }
+  .hole { display: inline-block; width: 380px; height: 40px; border: 3px dashed var(--warn); border-radius: 8px; vertical-align: -8px; }
+
+  /* 점검표 출처 */
+  .flow3 { display: grid; grid-template-columns: 1fr 70px 1fr 70px 1fr; align-items: stretch; margin-top: 40px; }
+  .flow3 .card { font-size: 33px; line-height: 1.55; padding: 34px 36px; }
+  .flow3 .card h3 { font-size: 34px; margin-bottom: 14px; color: var(--muted); }
+  .flow3 .arr { display: flex; align-items: center; justify-content: center; font-size: 50px; color: var(--muted); }
+  .flow3 mark { background: #fff1a8; padding: 0 4px; }
+
+  /* 점검표 */
+  .cl { margin-top: 30px; font-size: 30px; line-height: 1.5; columns: 2; column-gap: 46px; }
+  .cl div { break-inside: avoid; padding: 8px 0 8px 52px; position: relative; }
+  .cl div b { position: absolute; left: 0; top: 8px; width: 38px; height: 38px; border-radius: 50%; background: var(--soft); text-align: center; font-size: 24px; line-height: 38px; }
+  .cl .add b { background: #fff1a8; }
+
+  /* 질문 */
+  .qs { margin-top: 36px; display: flex; flex-direction: column; gap: 18px; }
+  .qs div { background: var(--soft); border-radius: 18px; padding: 22px 30px; font-size: 34px; line-height: 1.45; }
+  .qs div small { display: block; font-size: 24px; color: var(--muted); margin-bottom: 4px; }
+
+  .three { display: grid; grid-template-columns: repeat(3, 1fr); gap: 30px; margin-top: 50px; }
+  .three .card { font-size: 36px; line-height: 1.5; }
+  .three .card b { display: block; font-size: 70px; color: var(--accent); line-height: 1; margin-bottom: 18px; }
+</style>
+</head>
+<body>
+<div class="stage">
+
+<!-- 0 표지 -->
+<section class="slide center" data-start="0:00" data-title="표지"
+  data-notes="안녕하십니까, 김현래입니다.">
+  <div class="kicker">2026 현장형 AX 전문강사 데모데이 · 김현래</div>
+  <h1>법을 모르는 담당자가<br>AI와 개인정보 처리방침을 점검한다면</h1>
+</section>
+
+<!-- 1 자기소개 -->
+<section class="slide center" data-start="0:10" data-title="자기소개 (직접 작성)"
+  data-notes="(강사가 직접 작성)">
+  <div class="kicker">저를 소개합니다</div>
+  <div class="todo">자기소개는 강사가 직접 씁니다. (약 50초)</div>
+</section>
+
+<!-- 2 과정 설계 -->
+<section class="slide" data-start="1:00" data-title="과제: 7·14·21시간 과정 (2분)"
+  data-notes="과제로 7시간, 14시간, 21시간 과정을 설계했습니다. 같은 뼈대가 시간만큼 늘어납니다.
+사람에게 일을 맡길 때를 생각했습니다. 자료를 정리해 두고, 기준을 주고, 결과가 맞는지 확인합니다. AI에게 맡길 때도 같습니다.
+오늘 보여 드릴 것은 14시간 과정 2회차의 한 차시입니다.
+(과정 이름과 출발 질문은 확정 후 반영)">
+  <div class="kicker">과제 · 재직자 대상 7·14·21시간 과정</div>
+  <h2>같은 뼈대가 시간만큼 늘어납니다</h2>
+  <div class="course">
+    <div class="card s1">
+      <div class="when">1회 · 7시간</div>
+      <h3>자료를 적어 둔다</h3>
+      <p>흩어진 업무 자료에 최소한의 기준을 세우고 정리합니다.</p>
+      <p style="margin-top:12px"><b>AI는 적혀 있는 것을 찾습니다.</b></p>
+    </div>
+    <div class="card s2 today">
+      <div class="when">2회 · 14시간까지</div>
+      <h3>기준을 주고 맡긴다</h3>
+      <p>업무 요청에 목적·자료·<b>기준</b>·완료 형태를 담고, AI의 결과를 기준으로 확인합니다.</p>
+      <p style="margin-top:12px"><b>AI는 받은 기준으로 봅니다.</b></p>
+    </div>
+    <div class="card s3">
+      <div class="when">3회 · 21시간까지</div>
+      <h3>결과를 판단하고 남긴다</h3>
+      <p>AI의 결과가 맞는지 가려내고, 확인한 기록을 보고와 증명 자료로 남깁니다.</p>
+      <p style="margin-top:12px"><b>판단은 사람이 합니다.</b></p>
+    </div>
+  </div>
+  <div class="source">과정 이름·출발 질문은 확정 후 반영 · 회차마다 7차시, 실습·공유가 절반 이상</div>
+</section>
+
+<!-- 3 갑자기 -->
+<section class="slide center" data-start="3:00" data-title="갑자기 점검이 필요할 때 (1분)"
+  data-notes="제가 홈페이지를 운영하던 회사는 대기업이었습니다. 법무 검토에 시간이 걸린다는 걸 알아서 미리 신청했고, 매월 정기 점검이 있어서 바뀐 부분 위주로 요청했습니다.
+그래도 갑자기 점검이 필요한 일은 생깁니다. 회사가 크든 작든 마찬가지입니다.
+그때 법을 읽을 줄 모르는 담당자는 어떻게 대응해야 할지 막막합니다.
+오늘 이 질문에 답해 보겠습니다.">
+  <div class="kicker">제가 홈페이지를 운영할 때</div>
+  <div class="say" style="margin-top:0">
+    <p>법무 검토는 시간이 걸리니 <b>미리 신청</b>했습니다.</p>
+    <p>매월 정기 점검 때는 <b>바뀐 부분 위주로</b> 요청했습니다.</p>
+    <p class="step">그래도 <b>갑자기</b> 점검이 필요한 일은 생깁니다.</p>
+  </div>
+  <div class="quote step" style="margin-top:60px">법을 읽을 줄 모르는 담당자는<br>어떻게 대응해야 할까요?</div>
+</section>
+
+<!-- 4 오늘의 회사 -->
+<section class="slide" data-start="4:00" data-title="오늘의 회사 (40초)"
+  data-notes="오늘의 회사입니다. 반찬 정기배송을 하는 직원 12명 회사, 다정밥상입니다.
+다음 달 1일 온라인몰을 엽니다. 회원가입 화면과 개인정보 처리방침은 외주사가 다른 쇼핑몰 것을 참고해서 만들어 왔습니다.
+법무 담당자는 없습니다. 외부 검토는 2주 뒤에나 된다고 합니다. 오픈이 먼저입니다.">
+  <div class="kicker">오늘의 회사 (가상)</div>
+  <h2>(주)다정밥상, 다음 달 1일 온라인몰을 엽니다</h2>
+  <div class="facts">
+    <div><small>회사</small>반찬 정기배송, 직원 12명</div>
+    <div><small>가입 화면과 처리방침</small>외주사가 <b>다른 쇼핑몰 것을 참고해</b> 만들어 옴</div>
+    <div class="hot"><small>법무 담당</small>없음</div>
+    <div class="hot"><small>외부 법률 검토</small>2주 뒤 가능. 오픈이 먼저</div>
+  </div>
+  <div class="source">실습용 가상 회사입니다.</div>
+</section>
+
+<!-- 5 처리방침이란 -->
+<section class="slide" data-start="4:40" data-title="처리방침이란 (40초)"
+  data-notes="개인정보 처리방침은 회사가 개인정보를 어떻게 처리하는지, 법이 정한 항목에 따라 적어서 공개해야 하는 문서입니다.
+그래서 두 가지가 맞아야 합니다. 가입 화면에서 실제로 받는 것과 맞아야 하고, 법이 정한 항목이 빠지면 안 됩니다.">
+  <div class="kicker">개인정보 처리방침</div>
+  <h2>법이 정한 항목에 따라 적어서<br>공개해야 하는 문서입니다</h2>
+  <div class="docs">
+    <div class="doc">
+      <h4>회원가입 화면 (실제로 받는 것)</h4>
+      <div class="r"><span>이름 · 휴대폰 · 이메일 · 주소</span><span>필수</span></div>
+      <div class="r"><span>생년월일 (생일 쿠폰)</span><span>필수</span></div>
+      <div class="r"><span>추천인 아이디</span><span>선택</span></div>
+      <div class="r"><span>못 드시는 재료 (맞춤 식단)</span><span>선택</span></div>
+      <div class="r"><span>알림톡 발송: (주)메시지온</span><span>안내문</span></div>
+      <div class="r"><span>배송: (주)빠른새벽택배</span><span>안내문</span></div>
+    </div>
+    <div class="doc">
+      <h4>개인정보 처리방침 (적어서 공개한 것)</h4>
+      <div class="r"><span>1. 처리 목적</span><span></span></div>
+      <div class="r"><span>2. 처리하는 개인정보 항목</span><span></span></div>
+      <div class="r"><span>3. 처리 및 보유 기간</span><span></span></div>
+      <div class="r"><span>5. 처리 위탁</span><span></span></div>
+      <div class="r"><span>10. 개인정보 보호책임자</span><span></span></div>
+      <div class="r"><span>…</span><span>11개 항목</span></div>
+    </div>
+  </div>
+  <div class="source">개인정보 보호법 제30조 · 개인정보보호위원회 「개인정보 처리방침 작성지침」(2026.4)</div>
+</section>
+
+<!-- 6 맞대 보기 -->
+<section class="slide center" data-start="5:20" data-title="두 문서 맞대 보기 (40초)"
+  data-notes="두 문서를 맞대 보면 이어지지 않는 칸이 보입니다.
+생년월일과 못 드시는 재료는 받는데 처리방침에 없습니다. 알림톡 업체와 택배 업체는 일을 맡기는데 위탁 항목에 없습니다.
+이건 두 문서만 있으면 찾을 수 있습니다.">
+  <div class="kicker">맞대 보기</div>
+  <h2>받는 것과 적은 것이 이어지나요?</h2>
+  <div class="match">
+    <div class="h">회원가입 화면</div><div></div><div class="h">처리방침</div>
+    <div class="l">이름 · 휴대폰 · 이메일 · 주소</div><div class="a">→</div><div class="rr ok">2. 항목 (필수)</div>
+    <div class="l step">생년월일</div><div class="a step">→</div><div class="rr miss step">없음</div>
+    <div class="l step">못 드시는 재료</div><div class="a step">→</div><div class="rr miss step">없음</div>
+    <div class="l step">알림톡 발송 (주)메시지온</div><div class="a step">→</div><div class="rr miss step">5. 위탁에 없음</div>
+    <div class="l step">배송 (주)빠른새벽택배</div><div class="a step">→</div><div class="rr miss step">5. 위탁에 없음</div>
+  </div>
+</section>
+
+<!-- 7 어려운 이유 -->
+<section class="slide center" data-start="6:00" data-title="점검이 어려운 이유 (40초)"
+  data-notes="ISMS-P 심사원 시험을 준비하며 이런 문서에서 잘못된 곳을 찾는 문제를 많이 풀었습니다.
+제일 흔한 실수는 법이 아니라 다른 서비스는 어떻게 했나를 기준으로 보는 것이었습니다. 오늘 회사도 그렇게 만들어졌습니다.
+제대로 보려면 법을 읽고, 관련된 법까지 이어서 해석해야 합니다. 그래서 전문가가 필요합니다.">
+  <div class="kicker">ISMS-P 심사원 시험을 준비하며</div>
+  <h2>잘못된 곳 찾기에서 제일 흔한 실수</h2>
+  <div class="say">
+    <p>법이 아니라 <b>"다른 서비스는 어떻게 했지?"</b>를 기준으로 보는 것.</p>
+    <p class="step">제대로 보려면 법을 읽고,<br>관련된 법까지 <b>이어서</b> 해석해야 합니다.</p>
+  </div>
+</section>
+
+<!-- 8 시연 1 -->
+<section class="slide" data-start="6:40" data-title="시연 1: 그냥 맡기기 (1분)"
+  data-notes="외부 검토는 2주 뒤입니다. 그 전에 AI에게 먼저 맡겨 봅니다.
+두 문서를 주고, 맞지 않거나 확인이 필요한 점을 찾아 달라고 했습니다.
+(답을 훑으며) 여덟 개를 찾았습니다. 항목마다 근거와 검토팀에 물을 질문까지 붙였습니다.
+꼼꼼해 보이죠? 빠진 게 있을까요?">
+  <div class="kicker">시연 1 · AI에게 그냥 맡깁니다</div>
+  <h2 style="font-size:54px">"두 문서를 대조해 맞지 않는 점을 찾아 주세요"</h2>
+  <div class="ai">
+    <div class="who">AI의 답 (항목 제목만)</div>
+    <ol>
+      <li>생년월일 수집 목적이 처리방침에 없음 <small>근거: 제15조</small></li>
+      <li>생년월일이 처리방침 항목에 없음 <small>근거: 제30조</small></li>
+      <li>알림톡 발송 대행사가 위탁 항목에 없음 <small>근거: 제26조</small></li>
+      <li>배송 대행사가 처리방침에 없음 <small>근거: 제26조</small></li>
+      <li>못 드시는 재료가 처리방침 항목에 없음 <small>근거: 제30조</small></li>
+      <li>추천인 적립금과 제3자 제공 관계 확인 필요 <small>근거: 확인 필요</small></li>
+      <li>보유 기간이 "회원 탈퇴 시"로만 적혀 있음 <small>근거: 제39조</small></li>
+      <li>혜택 알림을 문자·이메일·앱 푸시별로 나눠야 하는지 <small>근거: 제15조</small></li>
+    </ol>
+  </div>
+  <p class="step" style="font-size:46px;font-weight:800;margin-top:30px">꼼꼼해 보입니다. 빠진 게 있을까요?</p>
+</section>
+
+<!-- 9 정답 공개 -->
+<section class="slide" data-start="7:40" data-title="정답 공개 (50초)"
+  data-notes="사실 이 문서에는 제가 고칠 곳 여섯 개를 심어 두었습니다.
+AI는 세 개를 찾았습니다. 두 문서를 맞대 보면 보이는 것들입니다.
+나머지 세 개는 없습니다. 같은 요청을 다섯 번 했는데, 다섯 번 모두 같은 세 개가 비었습니다.
+비어 있는 세 개는 모두 법이 요구하는 칸입니다.">
+  <div class="kicker">심어 둔 여섯 곳 · 같은 요청을 다섯 번</div>
+  <h2>다섯 번 모두, 같은 세 칸이 비었습니다</h2>
+  <div class="grid6">
+    <div></div>
+    <div class="th">생년월일<br>항목 없음</div>
+    <div class="th">못 드시는 재료<br>항목 없음</div>
+    <div class="th">위탁 업체<br>누락</div>
+    <div class="th law">마케팅 동의를<br>필수에 묶음</div>
+    <div class="th law">법정 보관 기간<br>없음</div>
+    <div class="th law">보호책임자<br>연락처 없음</div>
+    <div class="rl">1번째</div><div class="dot y"></div><div class="dot y"></div><div class="dot y"></div><div class="dot n"></div><div class="dot n"></div><div class="dot n"></div>
+    <div class="rl">2번째</div><div class="dot y"></div><div class="dot y"></div><div class="dot y"></div><div class="dot n"></div><div class="dot n"></div><div class="dot n"></div>
+    <div class="rl">3번째</div><div class="dot y"></div><div class="dot y"></div><div class="dot y"></div><div class="dot n"></div><div class="dot n"></div><div class="dot n"></div>
+    <div class="rl">4번째</div><div class="dot y"></div><div class="dot y"></div><div class="dot y"></div><div class="dot n"></div><div class="dot n"></div><div class="dot n"></div>
+    <div class="rl">5번째</div><div class="dot y"></div><div class="dot y"></div><div class="dot y"></div><div class="dot n"></div><div class="dot n"></div><div class="dot n"></div>
+  </div>
+  <p class="step" style="font-size:40px;font-weight:700;margin-top:34px">비어 있는 세 칸은 모두 <span class="law">법이 요구하는 칸</span>입니다.</p>
+  <div class="source">초록: 찾음 · 빈 점선: 찾지 못함 · 발표 전 재현 시험 기록</div>
+</section>
+
+<!-- 10 왜 -->
+<section class="slide" data-start="8:30" data-title="왜 비었나 (40초)"
+  data-notes="왜 그럴까요. 저는 AI에게 두 문서를 줬습니다. 그래서 두 문서끼리는 맞대 봤습니다.
+하지만 법은 주지 않았습니다. AI는 주지 않은 기준과는 맞대 보지 못했습니다.
+AI는 준 자료끼리는 맞대 보지만, 주지 않은 기준과는 맞대 보지 못합니다.">
+  <div class="kicker">AI는 무엇과 무엇을 맞대 봤나</div>
+  <h2 style="font-size:56px">준 자료끼리는 맞대 보지만,<br>주지 않은 기준과는 맞대 보지 못합니다</h2>
+  <div class="tri">
+    <svg viewBox="0 0 1640 640" preserveAspectRatio="none" aria-hidden="true">
+      <line x1="560" y1="555" x2="1080" y2="555" stroke="#17784a" stroke-width="8"/>
+      <line x1="620" y1="150" x2="330" y2="470" stroke="#b4410c" stroke-width="6" stroke-dasharray="18 14"/>
+      <line x1="1020" y1="150" x2="1310" y2="470" stroke="#b4410c" stroke-width="6" stroke-dasharray="18 14"/>
+    </svg>
+    <div class="node top">법이 요구하는 것<small>AI에게 주지 않음</small></div>
+    <div class="node bl">회원가입 화면<small>AI에게 줌</small></div>
+    <div class="node br">처리방침<small>AI에게 줌</small></div>
+    <div class="tag ok">여기는 찾았습니다</div>
+    <div class="tag no step" style="left:250px;top:250px">여기는 비었습니다</div>
+    <div class="tag no step" style="right:250px;top:250px">여기도</div>
+  </div>
+</section>
+
+<!-- 11 환각과 누락 -->
+<section class="slide center" data-start="9:10" data-title="환각과 누락 (1분)"
+  data-notes="AI 결과를 조심하라고 하면 다들 환각을 떠올립니다. 아까 답에도 있었습니다. 보유 기간의 근거로 제39조를 댔는데, 제39조는 손해배상 조항입니다.
+환각은 AI가 틀린 겁니다. 적혀 있으니 원문과 맞춰 보면 잡힙니다.
+누락은 다릅니다. 답에 흔적이 없습니다. 그래서 아무도 의심하지 않습니다.
+그리고 누락은, 제가 덜 시킨 겁니다.">
+  <div class="kicker">AI 결과에서 조심할 것</div>
+  <h2>환각은 틀린 것, 누락은 빠진 것</h2>
+  <div class="vs">
+    <div class="card">
+      <h3>환각</h3>
+      <p>없는 것을 있는 것처럼 말합니다.</p>
+      <div class="ex">"보유 기간 근거: <span class="strike">제39조</span>"<br><span class="muted">→ 제39조는 손해배상 조항</span></div>
+      <p style="margin-top:22px"><b>적혀 있으니,</b> 원문과 맞춰 보면 잡힙니다.</p>
+    </div>
+    <div class="card warn step">
+      <h3>누락</h3>
+      <p>있어야 할 것을 말하지 않습니다.</p>
+      <div class="ex"><span class="hole"></span><br><span class="muted">→ "보호책임자 연락처가 없다"는 줄이 답에 없음</span></div>
+      <p style="margin-top:22px"><b>흔적이 없으니,</b> 아무도 의심하지 않습니다.</p>
+    </div>
+  </div>
+  <p class="step" style="font-size:42px;font-weight:800;margin-top:36px">누락은, 제가 덜 시킨 것입니다.</p>
+</section>
+
+<!-- 12 기준은 어디서 -->
+<section class="slide center" data-start="10:10" data-title="기준은 어디서 오나 (1분 10초)"
+  data-notes="그럼 법을 모르는 담당자는 기준을 어디서 구할까요.
+저는 시험 공부할 때 법을 해석하고 적용하는 방법을 공식처럼 외웠습니다. 지금은 조문을 많이 잊었지만, 어디를 펴 봐야 하는지는 압니다.
+개인정보위가 내는 처리방침 작성지침이 있습니다. 이걸 AI에게 주고 점검표 초안을 받았습니다. 근거 쪽수를 꼭 달게 했습니다.
+초안에는 '보유 기간이 구체적인가 (31쪽)'만 있었습니다. 31쪽을 펴 보니, 다른 법에 따라 보관해야 하는 기록과 기간이 예시로 있었습니다.
+그 한 줄을 점검표에 보탰습니다.
+(강사가 직접 다듬을 장면)">
+  <div class="kicker">법을 모르는 담당자의 기준 만들기</div>
+  <h2>공식 자료 → AI 초안 → 그 쪽을 펴서 보탠다</h2>
+  <div class="flow3">
+    <div class="card">
+      <h3>① AI가 만든 초안</h3>
+      작성지침을 주고, <b>근거 쪽수</b>를 달게 함<br><br>
+      "보유·이용 기간이 구체적으로 명시되어 있는가 <mark>(작성지침 p.31)</mark>"
+    </div>
+    <div class="arr">→</div>
+    <div class="card step">
+      <h3>② 31쪽을 펴 본다</h3>
+      "관계 법령에서 개인정보의 보유기간을 정하고 있는 경우에는 해당 법적 근거 및 법령에서 정한 보유기간을 기재하여야"<br><br>
+      예시: <mark>계약·청약철회 기록 5년</mark> (전자상거래법 시행령 제6조)
+    </div>
+    <div class="arr step">→</div>
+    <div class="card ok step">
+      <h3>③ 점검표에 보탠다</h3>
+      "탈퇴 후에도 법령에 따라 보관해야 하는 기록(계약·결제 5년, 불만·분쟁 3년)과 그 기간을 적었는가"
+    </div>
+  </div>
+  <div class="source">개인정보보호위원회 「개인정보 처리방침 작성지침」(2026.4) p.31</div>
+</section>
+
+<!-- 13 시연 2 -->
+<section class="slide center" data-start="11:20" data-title="시연 2: 점검표와 함께 (1분 10초)"
+  data-notes="이렇게 만든 점검표 열 줄을 함께 주고, 같은 요청을 다시 했습니다.
+(점검표 훑기) 노란 줄이 31쪽에서 보탠 줄입니다.
+결과입니다. 다섯 번 모두, 여섯 곳을 다 찾았습니다.">
+  <div class="kicker">시연 2 · 점검표를 함께 줍니다</div>
+  <h2>우리 회사 점검표 (10줄)</h2>
+  <div class="cl">
+    <div><b>1</b>가입 화면에서 받는 정보가 처리방침 항목에 빠짐없이 있는가</div>
+    <div><b>2</b>정보마다 쓰는 목적이 '처리 목적'에 있는가</div>
+    <div><b>3</b>마케팅 수신 동의는 [선택]으로 따로 받고, 거부해도 가입할 수 있는가</div>
+    <div><b>4</b>민감할 수 있는 정보를 받는다면 별도 동의가 필요한지 확인했는가</div>
+    <div class="add"><b>5</b>탈퇴 후에도 법령에 따라 보관해야 하는 기록과 그 기간을 적었는가</div>
+    <div><b>6</b>외부 업체에 맡기는 일이 '처리 위탁'에 업체 이름과 함께 있는가</div>
+    <div><b>7</b>제3자 제공이 있다면 적었는가. 위탁과 구분했는가</div>
+    <div><b>8</b>쿠키 같은 자동 수집의 목적과 거부 방법을 적었는가</div>
+    <div><b>9</b>보호책임자의 이름과 연락처(전화·이메일)를 적었는가</div>
+    <div><b>10</b>열람·정정·삭제 요구 방법과 시행일을 적었는가</div>
+  </div>
+  <div class="grid6 step" style="margin-top:30px">
+    <div></div>
+    <div class="th">생년월일<br>항목 없음</div>
+    <div class="th">못 드시는 재료<br>항목 없음</div>
+    <div class="th">위탁 업체<br>누락</div>
+    <div class="th">마케팅 동의를<br>필수에 묶음</div>
+    <div class="th">법정 보관 기간<br>없음</div>
+    <div class="th">보호책임자<br>연락처 없음</div>
+    <div class="rl">다섯 번 모두</div><div class="dot y"></div><div class="dot y"></div><div class="dot y"></div><div class="dot y"></div><div class="dot y"></div><div class="dot y"></div>
+  </div>
+</section>
+
+<!-- 14 결과물 -->
+<section class="slide center" data-start="12:30" data-title="결과물은 질문 (50초)"
+  data-notes="AI의 결과는 판단이 아닙니다. 검토팀에 보낼 질문입니다.
+AI가 든 조문은 원문과 맞춰 봤습니다.
+판단은 여전히 법무팀이 합니다. 다만 법무팀이 처음부터 읽는 대신, 정리된 질문에 답하면 됩니다.">
+  <div class="kicker">그래서 손에 남는 것</div>
+  <h2>판단이 아니라, 검토팀에 보낼 질문</h2>
+  <div class="qs">
+    <div><small>점검표 3</small>혜택 알림 수신 동의를 [선택]으로 바꾸고, 거부해도 가입되게 해야 하나요?</div>
+    <div><small>점검표 5</small>주문·결제 기록과 불만·분쟁 기록은 각각 몇 년 보관해야 하나요?</div>
+    <div><small>점검표 4</small>못 드시는 재료(알레르기)는 별도 동의가 필요한 정보인가요?</div>
+    <div><small>점검표 9</small>보호책임자 연락처는 대표 전화와 이메일로 적으면 되나요?</div>
+  </div>
+  <p class="step" style="font-size:38px;font-weight:700;margin-top:34px">판단은 법무팀이 합니다. 다만 처음부터 읽는 대신, 질문에 답하면 됩니다.</p>
+</section>
+
+<!-- 15 돌아가서 -->
+<section class="slide center" data-start="13:20" data-title="회사에 돌아가서 (1분)"
+  data-notes="사람에게 일을 맡길 때도 가이드를 주고, 가이드대로 했는지 보고, 결과가 맞는지 판단합니다.
+AI도 같습니다. 이 세 가지를 기억해 주세요.">
+  <div class="kicker">사람에게 일을 맡길 때처럼</div>
+  <h2>AI에게 일을 맡길 때도</h2>
+  <div class="three">
+    <div class="card"><b>1</b>기준을 줍니다</div>
+    <div class="card step"><b>2</b>기준대로 했는지 봅니다</div>
+    <div class="card step"><b>3</b>결과가 맞는지 판단합니다</div>
+  </div>
+</section>
+
+<!-- 16 마지막 -->
+<section class="slide center" data-start="14:20" data-title="마지막 말 (40초)"
+  data-notes="오늘은 AI로 처리방침을 점검했습니다.
+마지막으로 하나만 더 점검해 보시면 좋겠습니다.
+내가 AI의 방향을 잡고 있는지, AI에게 끌려가고 있는지.
+감사합니다.">
+  <div class="kicker">마지막으로 하나 더 점검</div>
+  <h1 style="font-size:80px">내가 AI의 방향을 잡고 있나요,<br>AI에게 끌려가고 있나요?</h1>
+</section>
+
+</div>
+<script src="../assets/deck.js"></script>
+</body>
+</html>

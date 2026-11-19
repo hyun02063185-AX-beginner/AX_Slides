@@ -31,6 +31,7 @@
   &nbsp; <label><input type="checkbox" id="c0" checked> 점검표 없이</label>
   <label><input type="checkbox" id="c1" checked> 점검표 함께</label>
   <label><input type="checkbox" id="c2" checked> AI가 만든 점검표</label>
+  <label><input type="checkbox" id="c3" checked> AI 점검표 + 법 읽는 원리</label>
   &nbsp; <label>조건마다 <input id="n" type="number" value="5" min="1" max="20" style="width:56px">회</label>
   &nbsp; <label>max_tokens <input id="mt" type="number" value="2000" min="500" max="4000" style="width:72px"></label>
   <p style="margin:10px 0 0">
@@ -76,6 +77,13 @@ const MAKE_SYSTEM = [
   "첫 줄은 '[우리 회사 개인정보 처리방침 점검표]'로 쓰고, 그 아래 최대 10줄, 한 줄에 확인할 것 하나를 '- '로 시작해 쓰세요.",
   "법 조문은 확실할 때만 괄호로 덧붙이세요. 설명이나 인사말은 쓰지 마세요.",
 ].join("\n");
+// 법을 모르는 담당자도 알 수 있는 '법 읽는 원리' (정답을 알려 주지 않는 일반 원리만)
+const PRINCIPLES = [
+  "점검표를 만들 때는 이렇게 법을 읽으세요.",
+  "1. 법률 조문에 '대통령령으로 정하는'이 있으면 시행령까지 내려가 구체적인 내용을 확인한다.",
+  "2. '다만,'으로 시작하는 단서가 있으면 그 예외가 우리 회사에 해당하는지 본다.",
+  "3. '다른 법령에 따라'라는 말이 나오면, 우리 회사의 업종·판매 방식에 걸리는 다른 법을 찾아 점검표에 넣는다.",
+].join("\n");
 let kase, results = [], stopping = false;
 const $ = id => document.getElementById(id);
 $("cfg").onclick = () => AIDemo.settings();
@@ -104,7 +112,7 @@ $("go").onclick = async () => {
   const base = AIDemo.load();
   if (!base.key) { alert("먼저 설정에서 키를 넣어 주세요."); return; }
   const models = $("models").value.split(",").map(s => s.trim()).filter(Boolean);
-  const modes = [$("c0").checked && "none", $("c1").checked && "checklist", $("c2").checked && "self"].filter(Boolean);
+  const modes = [$("c0").checked && "none", $("c1").checked && "checklist", $("c2").checked && "self", $("c3").checked && "principle"].filter(Boolean);
   const n = Number($("n").value) || 5, mt = Number($("mt").value) || 2000;
   const conds = models.flatMap(m => modes.map(mode => ({ model: m, mode })));
   if (!conds.length) { alert("조건을 하나 이상 고르세요."); return; }
@@ -119,9 +127,9 @@ $("go").onclick = async () => {
       const docs = [{ name: "회원가입 화면", text: kase.signup }, { name: "개인정보 처리방침", text: kase.policy }];
       if (c.mode === "checklist") docs.push({ name: "우리 회사 점검표", text: kase.checklist });
       let made = null, madeMs = 0;
-      if (c.mode === "self") {   // 1단계: 상황만 주고 점검표를 만들게 함
+      if (c.mode === "self" || c.mode === "principle") {   // 1단계: 상황만 주고 점검표를 만들게 함
         try {
-          const m = await AIDemo.ask([{ name: "우리 회사 상황", text: SITUATION }], `점검표를 만들어 주세요. (시험 ${k} · ${Date.now()})`, cfg, 180, { system: MAKE_SYSTEM, maxTokens: 800 });
+          const m = await AIDemo.ask([{ name: "우리 회사 상황", text: SITUATION }], `점검표를 만들어 주세요. (시험 ${k} · ${Date.now()})`, cfg, 180, { system: c.mode === "principle" ? MAKE_SYSTEM + "\n" + PRINCIPLES : MAKE_SYSTEM, maxTokens: 800 });
           made = m.raw; madeMs = m.ms;
           docs.push({ name: "우리 회사 점검표", text: made });
         } catch (e) { made = "오류: " + e.message; }
@@ -144,7 +152,7 @@ $("go").onclick = async () => {
   $("dlt").disabled = false; $("dlj").disabled = false;
 };
 
-function label(c) { return `${c.model} · ${{ none: "점검표 없이", checklist: "점검표 함께", self: "AI가 만든 점검표" }[c.mode]}`; }
+function label(c) { return `${c.model} · ${{ none: "점검표 없이", checklist: "점검표 함께", self: "AI가 만든 점검표", principle: "AI 점검표 + 법 읽는 원리" }[c.mode]}`; }
 function summarize(conds) {
   $("sum").innerHTML = conds.map(c => {
     const rs = results.filter(x => x.cond === label(c) && !x.error);

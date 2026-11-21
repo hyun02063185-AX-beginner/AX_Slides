@@ -375,6 +375,32 @@
   .road { margin-top: 104px; }
   .cb.lanes { gap: 10px; } .cb.lanes span { flex: 1; height: 80px; border-radius: 12px; display: flex; align-items: center; justify-content: center; font-size: 25px; font-weight: 800; }
   .cb.lanes .a { background: var(--ok-soft); color: var(--ok); } .cb.lanes .b { background: var(--warn-soft); color: var(--warn); }
+  /* 업무 스킬 표시: 사람이 해 오던 일 (노랑 = 사람의 몫) */
+  .skill { display: inline-flex; align-items: center; gap: 16px; margin-top: 22px; align-self: flex-start; background: #fff8cc; border-left: 10px solid #f2c400; border-radius: 12px; padding: 10px 22px; font-size: 29px; font-weight: 700; }
+  .skill b { font-size: 23px; color: #7a6000; background: #ffe25a; border-radius: 999px; padding: 2px 14px; white-space: nowrap; }
+  /* 검색 장면 */
+  .srch { display: grid; grid-template-columns: 1fr 300px; gap: 50px; margin-top: 24px; align-items: start; }
+  .sbar { display: flex; align-items: center; gap: 16px; border: 3px solid var(--line); border-radius: 999px; padding: 12px 28px; font-size: 30px; font-weight: 600; background: #fff; }
+  .sbar::before { content: "검색"; font-size: 22px; font-weight: 800; color: #fff; background: var(--accent); border-radius: 999px; padding: 3px 14px; }
+  .res { display: grid; grid-template-columns: 1fr 150px; gap: 18px; align-items: center; background: var(--soft); border-radius: 16px; padding: 14px 24px; margin-top: 12px; }
+  .res small { display: block; font-size: 22px; color: var(--muted); font-weight: 600; }
+  .res p { margin: 2px 0 0; font-size: 29px; font-weight: 700; }
+  .res .cite { display: inline-block; margin-top: 6px; font-size: 25px; font-weight: 700; background: #ffe25a; border-radius: 8px; padding: 1px 10px; }
+  .res .v { text-align: center; font-size: 25px; font-weight: 800; line-height: 1.25; }
+  .res .v.no { color: var(--warn); } .res .v.go { color: var(--ok); }
+  .cover { text-align: center; }
+  .cover img { width: 280px; border-radius: 10px; box-shadow: 0 10px 30px rgba(0,0,0,.18); }
+  .cover p { margin: 14px 0 0; font-size: 27px; font-weight: 800; line-height: 1.35; }
+  .cover small { display: block; font-size: 23px; color: var(--muted); font-weight: 600; }
+  .scope .ask { font-size: 26px; line-height: 1.45; background: #fff; border-radius: 12px; padding: 10px 16px; margin-top: 12px; }
+  .scope .ask b { color: var(--muted); font-size: 22px; display: block; }
+  .skills4 { display: flex; flex-wrap: wrap; gap: 12px; justify-content: flex-start; margin-top: 30px; }
+  .skills4 span { background: #fff8cc; border: 2px solid #f2c400; border-radius: 999px; padding: 6px 20px; font-size: 28px; font-weight: 700; }
+  .orig img { max-width: 960px; }
+  .flow4 + .orig { margin-top: 20px; }
+  .scope { margin-top: 16px; }
+  .total { margin-top: 12px; }
+  .total + .skill { margin-top: 12px; }
 </style>
 </head>
 <body>
@@ -640,35 +666,61 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
   <p class="step" style="font-size:40px;font-weight:800;margin-top:36px;line-height:1.45">누락을 막으려면, AI에게도 <span style="color:var(--accent)">업무 가이드</span>를 줘야 합니다.<br><span style="font-size:30px;color:var(--muted);font-weight:700">점검하는 일의 업무 가이드 = 점검표</span></p>
 </section>
 
+<!-- 14a 검색부터 -->
+<section class="slide" data-start="8:40" data-title="처음 해 보는 일이라 검색부터 (25초)"
+  data-notes="업무 가이드를 쓰려면 무엇을 기준으로 해야 할까요. 처음 해 보는 일이니 검색부터 합니다.
+'개인정보 처리방침 작성 방법'을 검색하면 템플릿도 나오고, 다른 쇼핑몰 처리방침도 나옵니다. 다정밥상 처리방침이 바로 이렇게 다른 쇼핑몰 것을 참고해 만들어졌죠.
+(넘김) 그런데 법률사무소나 변호사 글을 몇 개 열어 보면, 하나같이 근거로 드는 자료가 있습니다.
+(넘김) 개인정보보호위원회가 낸 「개인정보 처리방침 작성지침」입니다. 그 원본을 받습니다.
+처음 맡은 일은 매뉴얼부터 찾는 것, 여러분이 해 오던 일입니다.">
+  <div class="kicker">점검표를 무엇으로 만들까</div>
+  <h2 style="font-size:54px">처음 해 보는 일이라 검색부터 했더니,<br>글마다 근거로 드는 원본이 있었습니다</h2>
+  <div class="srch">
+    <div>
+      <div class="sbar">개인정보 처리방침 작성 방법</div>
+      <div class="res"><div><small>템플릿 모음</small><p>개인정보 처리방침 템플릿, 그대로 쓰세요</p></div><div class="v no">✕<br>남이 만든 틀</div></div>
+      <div class="res"><div><small>○○쇼핑몰</small><p>개인정보 처리방침</p></div><div class="v no">✕<br>다른 쇼핑몰 것</div></div>
+      <div class="res step"><div><small>법률사무소 소식지</small><p>개정된 처리방침, 이렇게 쓰세요</p><span class="cite">근거: 「개인정보 처리방침 작성지침」</span></div><div class="v go">글마다<br>같은 근거</div></div>
+      <div class="res step"><div><small>변호사 칼럼</small><p>처리방침에 꼭 들어가야 할 항목</p><span class="cite">근거: 「개인정보 처리방침 작성지침」</span></div><div class="v go">글마다<br>같은 근거</div></div>
+    </div>
+    <div class="cover step">
+      <img src="img/jichim_cover.png" alt="개인정보보호위원회 개인정보 처리방침 작성지침 표지">
+      <p>원본을 받습니다</p>
+      <small>개인정보보호위원회<br>「개인정보 처리방침 작성지침」</small>
+    </div>
+  </div>
+  <div class="skill"><b>여러분이 해 오던 일</b>처음 맡은 일은 매뉴얼부터 찾습니다</div>
+  <div class="source">검색 결과는 실제 검색 경향을 바탕으로 다시 그린 예시입니다</div>
+</section>
 <!-- 14 점검표는 누가, 무엇으로 -->
-<section class="slide" data-start="8:40" data-title="점검표는 누가, 무엇으로 (50초)"
-  data-notes="그럼 그 업무 가이드, 점검표는 누가 무엇으로 만들까요.
-처음 해 보는 일이면 먼저 검색하시죠. '개인정보 처리방침'을 검색하면 다른 쇼핑몰 처리방침도 나오고, 개인정보보호위원회가 낸 작성지침도 나옵니다. 다정밥상 처리방침은 다른 쇼핑몰 것을 참고해 만들었습니다. 다른 서비스 것이 아니라 공식 지침을 고르시면 됩니다. 법률 전문가가 아니어도 점검표 초안은 만들 수 있습니다.
-(왼쪽) 실제로 이렇게 시켰습니다. 회사 상황과 개인정보보호위원회의 작성지침을 주고, 회원가입 화면과 처리방침을 점검할 점검표를 만들어 달라고 했습니다. 줄마다 근거 쪽 번호를 붙이게 했습니다. 이때 가입 화면과 처리방침 원본은 AI에게 보여 주지 않았습니다.
+<section class="slide" data-start="9:05" data-title="점검표는 누가, 무엇으로 (40초)"
+  data-notes="찾은 작성지침으로 점검표 초안을 받습니다. 법률 전문가가 아니어도 할 수 있습니다.
+(왼쪽) 실제로 이렇게 시켰습니다. 회사 상황과 「개인정보 처리방침 작성지침」을 주고, 회원가입 화면과 처리방침을 점검할 점검표를 만들어 달라고 했습니다. 줄마다 근거 쪽 번호를 붙이게 했습니다. 이때 가입 화면과 처리방침 원본은 AI에게 보여 주지 않았습니다.
 (오른쪽) 받은 초안은 그대로 쓰지 않습니다. 원문을 펴서 확인하고 고치거나 더합니다. 판단이 필요한 것은 전문가에게 넘깁니다.">
   <div class="kicker">점검표 = 점검하는 일을 AI에게 맡길 때 주는 업무 가이드</div>
-  <h2 style="font-size:54px">법을 잘 몰라도, 정부가 공개한 안내서로<br>점검표 초안은 만들 수 있습니다</h2>
+  <h2 style="font-size:54px">법을 잘 몰라도, 「개인정보 처리방침 작성지침」으로<br>점검표 초안은 만들 수 있습니다</h2>
   <div class="how">
     <div class="chatwin">
-      <div class="att"><span>우리 회사 상황 (4줄)</span><span>「작성지침」 PDF</span></div>
+      <div class="att"><span>우리 회사 상황 (4줄)</span><span>「개인정보 처리방침 작성지침」 PDF</span></div>
       <div class="msg me">이 공식 자료를 근거로, 오픈 전에 <span class="hl">회원가입 화면과 개인정보 처리방침</span>을 점검할 점검표를 만들어 주세요. 최대 10줄, 줄마다 <span class="hl">근거 쪽 번호</span>를 붙여 주세요.</div>
       <div class="nb">실제로 보낸 요청입니다. 이때 가입 화면과 처리방침은 AI에게 보여 주지 않았습니다.</div>
     </div>
     <div class="steps3">
-      <div><b class="n">1</b><div><h4>공식 자료로 초안을 받습니다</h4><p>다른 쇼핑몰 처리방침이 아니라 정부 안내서로, 근거 쪽 번호까지</p></div></div>
+      <div><b class="n">1</b><div><h4>공식 자료로 초안을 받습니다</h4><p>「개인정보 처리방침 작성지침」으로, 근거 쪽 번호까지</p></div></div>
       <div class="step"><b class="n">2</b><div><h4>원문을 펴서 확인합니다</h4><p>쪽 번호를 따라가 고치고, 빠진 것은 더합니다</p></div></div>
       <div class="step" style="background:var(--warn-soft)"><b class="n" style="background:var(--warn)">3</b><div><h4>판단은 전문가에게 맡깁니다</h4><p>점검표는 어디까지나 초안입니다</p></div></div>
     </div>
   </div>
-  <div class="source">「작성지침」 = 개인정보보호위원회 「개인정보 처리방침 작성지침」(2026.4)</div>
+  <div class="source">개인정보보호위원회 「개인정보 처리방침 작성지침」(2026.4) · 아래부터 「작성지침」</div>
 </section>
 
 <!-- 15 31쪽 -->
-<section class="slide" data-start="9:30" data-title="점검표 확인 ① 31쪽 (50초)"
+<section class="slide" data-start="9:45" data-title="점검표 확인 ① 31쪽 (50초)"
   data-notes="받은 초안을 그대로 쓰지 않고 확인합니다. 첫째, AI가 단 쪽 번호를 따라가 봅니다. 작성지침은 개인정보보호위원회가 낸 처리방침 작성 안내서입니다. 그중 한 줄이 보관 기간이 구체적으로 적혀 있는지 보는 줄이고, 근거로 31쪽을 달았습니다.
 (넘김) 31쪽을 펴 봤습니다. 다른 법이 보관 기간을 정하고 있으면, 그 근거와 기간도 적으라고 되어 있습니다. 예시로 전자상거래법의 계약 기록 5년이 있습니다.
 (넘김) 다정밥상에 대 보면, 처리방침에는 '탈퇴 시 지체 없이 파기'라고만 있습니다. 그런데 온라인으로 파는 회사는 주문·계약 기록을 5년 보관해야 합니다.
-(넘김) 그래서 점검표의 그 줄을 이렇게 고쳤습니다. 탈퇴 후에도 법령에 따라 보관해야 하는 기록과 그 기간을 적었는가.">
+(넘김) 그래서 점검표의 그 줄을 이렇게 고쳤습니다. 탈퇴 후에도 법에 따라 보관해야 하는 기록이 있다면, 그 근거와 기간을 적었는가.
+보고서 숫자를 원자료와 맞춰 보듯이, AI가 단 쪽 번호도 원문과 맞춰 봅니다.">
   <div class="kicker">점검표 확인 ① 쪽 번호 따라가기 · 「작성지침」은 개인정보보호위원회가 낸 처리방침 작성 안내서</div>
   <h2 style="font-size:54px">AI가 알려 준 31쪽을 직접 펴 보니,<br>보관 기간 내용을 고쳐야 했습니다</h2>
   <div class="flow4">
@@ -684,14 +736,16 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
       <img src="img/p31_b.png" alt="계약 또는 청약철회 등에 관한 기록: 5년 (전자상거래 등에서의 소비자보호에 관한 법률 시행령 제6조 제1항제2호)">
     </div>
   </div>
+  <div class="skill"><b>여러분이 해 오던 일</b>보고서 숫자는 원자료와 맞춰 봅니다</div>
 </section>
 
 <!-- 16 범위와 맞춰 보기 + 점검표 -->
-<section class="slide" data-start="10:20" data-title="점검표 확인 ② 범위와 맞춰 보기 (50초)"
-  data-notes="둘째, 처음에 정한 점검 범위와 맞춰 봅니다. 요청할 때 범위는 처리방침과 회원가입 화면이었습니다.
+<section class="slide" data-start="10:35" data-title="점검표 확인 ② 범위와 맞춰 보기 (50초)"
+  data-notes="둘째, 받은 점검표를 내가 맡은 점검 범위와 맞춰 봅니다. 인계 문서를 받으면 내 업무 목록과 맞춰 보듯이요. 요청할 때 범위는 처리방침과 회원가입 화면이었습니다.
 (왼쪽) AI 초안 열 줄은 모두 처리방침 문서에 무엇이 적혀 있는지를 보는 줄입니다. 보관 기간 줄은 방금 31쪽을 보고 고쳤습니다.
 (오른쪽) 그런데 가입 화면에서 동의를 어떻게 받는지 보는 줄은 하나도 없었습니다. 범위의 한쪽이 비어 있습니다.
-(넘김) 그래서 동의를 다루는 공식 자료를 한 곳 더 폈습니다. KISA의 인증기준 안내서입니다. 마케팅 목적의 동의는 다른 동의와 구분해 따로 받으라고 되어 있습니다. 다정밥상 가입 화면은 혜택 알림, 즉 마케팅 동의가 필수 동의에 묶여 있습니다. 그래서 한 줄을 더했습니다.
+(넘김) 모르는 부분은 아는 사람에게 묻습니다. 개인정보 인증을 받아 본 사람에게 물으니, 동의는 KISA의 인증기준 안내서에 정리돼 있다고 합니다. (선택: 제 경우엔 예전에 이 안내서를 공부해서 알고 있었습니다.)
+3.1.7을 펴 보면 마케팅 목적의 동의는 다른 동의와 구분해 따로 받으라고 되어 있습니다. 다정밥상 가입 화면은 혜택 알림, 즉 마케팅 동의가 필수 동의에 묶여 있습니다. 그래서 한 줄을 더했습니다.
 이렇게 AI 초안 열 줄에서 한 줄은 고치고 한 줄은 더해, 열한 줄짜리 점검표가 됐습니다.">
   <div class="kicker">점검표 확인 ② 점검 범위와 맞춰 보기 · 「인증기준 안내서」는 한국인터넷진흥원(KISA)이 낸 개인정보 관리체계 인증 기준 안내서</div>
   <h2 style="font-size:52px">점검 범위와 맞춰 보니 동의를 확인하는 내용이 없어서,<br>한 줄을 더했습니다</h2>
@@ -710,6 +764,7 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
       <div class="ch">점검 범위 ② 가입 화면의 동의<small>동의를 어떻게 받는지</small></div>
       <div class="empty">AI 초안에는 없음</div>
       <div class="step">
+        <div class="ask"><b>아는 사람에게 물으니</b>"동의는 「인증기준 안내서」에 정리돼 있어요"</div>
         <div class="addl">+ 마케팅 동의를 다른 동의와 따로 받고 있는가</div>
         <div class="why">
           <div><b>「인증기준 안내서」 3.1.7</b>마케팅 목적의 동의는 다른 동의와 구분해서 받아야 합니다</div>
@@ -719,12 +774,13 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
     </div>
   </div>
   <p class="total step">AI 초안 10줄에서 한 줄은 고치고 한 줄은 더해 <span style="background:#ffe25a;border-radius:8px;padding:0 10px">점검표 11줄</span></p>
+  <div class="skill"><b>여러분이 해 오던 일</b>인계 문서는 내 업무 목록과 맞춰 보고, 모르는 건 아는 사람에게 묻습니다</div>
 </section>
 
 
 
 <!-- 17 결과 비교 -->
-<section class="slide center" data-start="11:10" data-title="점검표를 주고 고칠 때마다 (50초)"
+<section class="slide center" data-start="11:25" data-title="점검표를 주고 고칠 때마다 (50초)"
   data-notes="같은 AI, 같은 자료로, 같은 날 조건마다 다섯 번씩 돌렸습니다. 다섯 번 모두 찾은 곳만 셌습니다. 한 번 우연히 찾은 것은 세지 않았습니다.
 점검표 없이: 세 곳. (넘김) AI 초안을 그대로 줬을 때: 네 곳. 초안에 있던 보호책임자 연락처 줄 덕분입니다.
 (넘김) 보관 기간 줄을 고쳤더니: 다섯 곳. (넘김) 마케팅 동의 줄을 더했더니: 여섯 곳.
@@ -744,7 +800,7 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
 </section>
 
 <!-- 18 고칠 것과 물을 것 -->
-<section class="slide" data-start="12:00" data-title="고칠 것과 물을 것 (55초)"
+<section class="slide" data-start="12:15" data-title="고칠 것과 물을 것 (55초)"
   data-notes="AI의 결과는 판단이 아닙니다. 판단을 받기 위한 준비입니다.
 (왼쪽) 여섯 곳은 법령과 지침에 적혀 있는 것입니다. 실제로 무엇을 받고 누구에게 맡기는지 사실을 확인한 뒤, 오픈 전에 담당자가 고칩니다.
 (오른쪽) 우리 상황에 대입해서 판단해야 하는 것은 전문가에게 묻습니다. 둘째와 셋째는 시연 1에서 AI가 낸 추가 질문입니다. 심어 둔 여섯 곳에는 없었지만, 물어볼 만한 질문입니다.
@@ -774,11 +830,11 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
 </section>
 
 <!-- 19 세 가지 -->
-<section class="slide center" data-start="12:55" data-title="AI에게 맡길 때 (45초)"
+<section class="slide center" data-start="13:10" data-title="AI에게 맡길 때 (45초)"
   data-notes="오늘의 질문으로 돌아가겠습니다. 법률 전문가가 아닌 담당자는 갑자기 생긴 점검을 어떻게 해야 할까요.
 사람에게 일을 맡길 때도 가이드를 주고, 가이드대로 했는지 보고, 결과가 맞는지 판단합니다. AI도 같습니다.
 오늘 우리는 공식 자료로 점검표라는 업무 가이드를 만들어 줬고, 여섯 칸 판으로 찾은 곳과 못 찾은 곳을 봤고, 조문을 확인하고 고칠 것과 물을 것을 나눴습니다.
-새로운 기술이 아닙니다. 인계 문서를 쓰고, 신입에게 업무 가이드를 주고, 결과를 확인하던 것. 사람과 일할 때 이미 쓰던 업무 스킬을 AI에게도 그대로 쓰시면 됩니다.
+(넘김) 오늘 쓴 것을 다시 보면, 매뉴얼부터 찾고, 원자료와 맞춰 보고, 내 업무 목록과 맞춰 보고, 모르면 아는 사람에게 물었습니다. 새로운 기술이 아닙니다. 여러분이 사람과 일하며 해 오던 업무 스킬입니다. 그 스킬은 AI와 일하는 시대에도 그대로 쓸모가 있습니다. 해 오던 일을 AI와 함께 하도록 바꾸는 것, 그게 AX입니다.
 (넘김) 가이드를 주는 사람이 AI의 방향을 잡습니다.">
   <div class="kicker">오늘의 질문에 대한 답</div>
   <h2 style="font-size:58px">AI에게 일을 맡길 때도,<br>사람에게 맡길 때처럼 세 가지가 필요합니다</h2>
@@ -787,11 +843,13 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
     <div class="card step"><b>2</b>가이드대로 했는지 봅니다<div class="cb six"><i>✓</i><i>✓</i><i>✓</i><i>✓</i><i>✓</i><i>✓</i></div><small>오늘: 여섯 칸으로 찾은 곳과 못 찾은 곳 확인</small></div>
     <div class="card step"><b>3</b>결과가 맞는지 판단합니다<div class="cb lanes"><span class="a">고칠 것 6</span><span class="b">물을 것 3</span></div><small>오늘: 조문 확인, 고칠 것과 물을 것 나누기</small></div>
   </div>
-  <p class="step" style="font-size:44px;font-weight:800;margin-top:44px">가이드를 주는 사람이 AI의 방향을 잡습니다.</p>
+  <div class="skills4 step"><span>매뉴얼부터 찾기</span><span>원자료와 맞춰 보기</span><span>내 업무 목록과 맞춰 보기</span><span>모르면 아는 사람에게 묻기</span></div>
+  <p class="step" style="font-size:30px;font-weight:700;margin-top:14px;color:var(--muted)">오늘 쓴 것은 모두 여러분이 해 오던 업무 스킬입니다</p>
+  <p class="step" style="font-size:44px;font-weight:800;margin-top:30px">가이드를 주는 사람이 AI의 방향을 잡습니다.</p>
 </section>
 
 <!-- 20 마지막 -->
-<section class="slide center" data-start="13:40" data-title="마지막 말 (25초)"
+<section class="slide center" data-start="13:55" data-title="마지막 말 (25초)"
   data-notes="오늘은 AI로 처리방침을 점검했습니다.
 마지막으로 하나만 더 점검해 보시면 좋겠습니다.
 내가 AI의 방향을 잡고 있는지, AI에게 끌려가고 있는지.
@@ -816,7 +874,7 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
   document.querySelectorAll(".m6").forEach(m => { const S = ["생년월일", "재료", "위탁", "마케팅", "보관 기간", "연락처"]; const K = { y: "✓ ", n: "✕ ", p: "△ " }; const s = m.dataset.s, nw = m.dataset.new; m.innerHTML = S.map((t, i) => `<b class="k${s[i]}${String(i) === nw ? " nw" : ""}">${K[s[i]] || ""}${t}</b>`).join(""); });
   /* 이야기 지도: 사례가 시작되는 장부터 정리까지 */
   const MAPN = ["상황", "시연 1", "왜 빠졌나", "점검표 만들기", "시연 2", "판단과 정리"];
-  const MAPS = { "3:25": 0, "3:55": 0, "4:25": 0, "4:50": 0, "5:40": 1, "6:35": 1, "7:15": 2, "7:50": 2, "8:40": 3, "9:30": 3, "10:20": 3, "11:10": 4, "12:00": 5, "12:55": 5 };
+  const MAPS = { "3:25": 0, "3:55": 0, "4:25": 0, "4:50": 0, "5:40": 1, "6:35": 1, "7:15": 2, "7:50": 2, "8:40": 3, "9:05": 3, "9:45": 3, "10:35": 3, "11:25": 4, "12:15": 5, "13:10": 5 };
   document.querySelectorAll(".slide[data-start]").forEach(sl => { const k = MAPS[sl.dataset.start]; if (k === undefined) return; const d = document.createElement("div"); d.className = "smap"; d.innerHTML = MAPN.map((t, i) => `<span class="${i === k ? "now" : i < k ? "past" : ""}">${t}</span>`).join("<i></i>"); sl.appendChild(d); });
   /* 시연 1: 꼬리표 단계가 보이면 칩 표시 + 제39조 표시 */
   document.querySelectorAll(".chipson").forEach(t => new MutationObserver(() => { const on = t.classList.contains("shown"); t.closest(".slide").querySelectorAll(".chip").forEach(c => { c.style.opacity = on ? 1 : 0; }); t.closest(".slide").classList.toggle("chips", on); }).observe(t, { attributes: true }));

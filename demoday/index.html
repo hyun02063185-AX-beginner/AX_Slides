@@ -401,6 +401,18 @@
   .scope { margin-top: 16px; }
   .total { margin-top: 12px; }
   .total + .skill { margin-top: 12px; }
+  /* 동의 기준 찾기 */
+  .srch2 { display: grid; grid-template-columns: 0.8fr 1.2fr; gap: 36px; margin-top: 22px; align-items: start; }
+  .srch2 .orig { margin-top: 0; }
+  .srch2 .orig img { max-width: 100%; }
+  .flow3 { display: grid; grid-template-columns: 1fr 1.1fr 0.9fr; gap: 54px; margin-top: 22px; }
+  .flow3 > div { position: relative; border-radius: 16px; padding: 14px 20px; font-size: 28px; font-weight: 700; line-height: 1.4; }
+  .flow3 > div + div::before { content: "→"; position: absolute; left: -44px; top: 50%; transform: translateY(-50%); font-size: 38px; font-weight: 800; color: #a2a8b0; }
+  .flow3 small { display: block; font-size: 22px; font-weight: 700; color: var(--muted); }
+  .flow3 .w { background: var(--warn-soft); } .flow3 .w small { color: var(--warn); }
+  .flow3 .a { background: #ffe25a; }
+  .flow3 .t { background: var(--soft); }
+  .scope .qn { margin-top: 18px; font-size: 30px; font-weight: 800; line-height: 1.4; color: var(--ink); }
 </style>
 </head>
 <body>
@@ -740,15 +752,13 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
 </section>
 
 <!-- 16 범위와 맞춰 보기 + 점검표 -->
-<section class="slide" data-start="10:35" data-title="점검표 확인 ② 범위와 맞춰 보기 (50초)"
+<section class="slide" data-start="10:35" data-title="점검표 확인 ② 범위와 맞춰 보기 (30초)"
   data-notes="둘째, 받은 점검표를 내가 맡은 점검 범위와 맞춰 봅니다. 인계 문서를 받으면 내 업무 목록과 맞춰 보듯이요. 요청할 때 범위는 처리방침과 회원가입 화면이었습니다.
 (왼쪽) AI 초안 열 줄은 모두 처리방침 문서에 무엇이 적혀 있는지를 보는 줄입니다. 보관 기간 줄은 방금 31쪽을 보고 고쳤습니다.
-(오른쪽) 그런데 가입 화면에서 동의를 어떻게 받는지 보는 줄은 하나도 없었습니다. 범위의 한쪽이 비어 있습니다.
-(넘김) 모르는 부분은 아는 사람에게 묻습니다. 개인정보 인증을 받아 본 사람에게 물으니, 동의는 KISA의 인증기준 안내서에 정리돼 있다고 합니다. (선택: 제 경우엔 예전에 이 안내서를 공부해서 알고 있었습니다.)
-3.1.7을 펴 보면 마케팅 목적의 동의는 다른 동의와 구분해 따로 받으라고 되어 있습니다. 다정밥상 가입 화면은 혜택 알림, 즉 마케팅 동의가 필수 동의에 묶여 있습니다. 그래서 한 줄을 더했습니다.
-이렇게 AI 초안 열 줄에서 한 줄은 고치고 한 줄은 더해, 열한 줄짜리 점검표가 됐습니다.">
-  <div class="kicker">점검표 확인 ② 점검 범위와 맞춰 보기 · 「인증기준 안내서」는 한국인터넷진흥원(KISA)이 낸 개인정보 관리체계 인증 기준 안내서</div>
-  <h2 style="font-size:52px">점검 범위와 맞춰 보니 동의를 확인하는 내용이 없어서,<br>한 줄을 더했습니다</h2>
+(오른쪽) 그런데 가입 화면에서 동의를 어떻게 받는지 보는 줄은 하나도 없습니다. 범위의 한쪽이 비어 있습니다.
+(넘김) 동의는 무엇을 기준으로 봐야 할까요?">
+  <div class="kicker">점검표 확인 ② 점검 범위와 맞춰 보기</div>
+  <h2 style="font-size:54px">점검 범위와 맞춰 보니,<br>동의를 확인하는 내용이 비어 있었습니다</h2>
   <div class="scope">
     <div class="col">
       <div class="ch">점검 범위 ① 처리방침 문서<small>AI 초안 10줄은 모두 이쪽</small></div>
@@ -763,24 +773,47 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
     <div class="col">
       <div class="ch">점검 범위 ② 가입 화면의 동의<small>동의를 어떻게 받는지</small></div>
       <div class="empty">AI 초안에는 없음</div>
-      <div class="step">
-        <div class="ask"><b>아는 사람에게 물으니</b>"동의는 「인증기준 안내서」에 정리돼 있어요"</div>
-        <div class="addl">+ 마케팅 동의를 다른 동의와 따로 받고 있는가</div>
-        <div class="why">
-          <div><b>「인증기준 안내서」 3.1.7</b>마케팅 목적의 동의는 다른 동의와 구분해서 받아야 합니다</div>
-          <div><b>다정밥상 가입 화면</b>혜택 알림(마케팅) 동의가 [필수]에 묶여 있음</div>
-        </div>
+      <p class="qn step">동의는 무엇을 기준으로<br>봐야 할까?</p>
+    </div>
+  </div>
+  <div class="skill"><b>여러분이 해 오던 일</b>인계 문서를 받으면 내 업무 목록과 맞춰 봅니다</div>
+</section>
+<!-- 동의 기준 찾기 -->
+<section class="slide" data-start="11:05" data-title="점검표 확인 ③ 검사하는 쪽 기준표 (35초)"
+  data-notes="작성지침은 처리방침을 쓰는 법입니다. 그런데 회사가 개인정보를 제대로 다루는지 심사하는 제도도 있습니다. 개인정보 관리체계 인증, ISMS-P입니다. 심사하는 쪽의 기준표라면 동의를 받는 방법까지 있지 않을까요.
+(왼쪽) '개인정보 인증 기준'을 검색하면 개인정보보호위원회의 인증 제도 안내와 한국인터넷진흥원의 인증기준 안내서가 나옵니다.
+(넘김) 3.1.7을 펴 보면, 마케팅 목적의 동의는 다른 동의와 구분해 따로 받으라고 되어 있습니다.
+(넘김) 다정밥상 가입 화면은 혜택 알림, 즉 마케팅 동의가 필수 동의에 묶여 있습니다. 그래서 점검표에 한 줄을 더했습니다. AI 초안 열 줄에서 한 줄은 고치고 한 줄은 더해, 열한 줄짜리 점검표가 됐습니다.
+검사를 앞두면 검사하는 쪽의 체크리스트부터 보는 것, 여러분이 해 오던 일입니다.">
+  <div class="kicker">점검표 확인 ③ 검사하는 쪽 기준표 찾기 · 「인증기준 안내서」는 한국인터넷진흥원(KISA)의 ISMS-P 인증 기준</div>
+  <h2 style="font-size:54px">동의 기준은 심사하는 쪽 기준표에서 찾아,<br>점검표에 한 줄을 더했습니다</h2>
+  <div class="srch2">
+    <div>
+      <div class="sbar">개인정보 인증 기준</div>
+      <div class="res"><div><small>개인정보보호위원회</small><p>개인정보 관리체계 인증(ISMS-P) 안내</p></div><div class="v">심사 제도</div></div>
+      <div class="res"><div><small>한국인터넷진흥원(KISA)</small><p>「인증기준 안내서」</p></div><div class="v go">심사하는 쪽<br>기준표</div></div>
+    </div>
+    <div class="orig step">
+      <div class="dh">원문 · 「인증기준 안내서」(2023.11) 208쪽 3.1.7 · 형광펜은 제가 칠했습니다</div>
+      <div class="im">
+        <img src="img/isms317_a.png" alt="3.1.7 마케팅 목적의 개인정보 수집·이용: 정보주체가 명확하게 인지할 수 있도록 알리고 별도의 동의를 받고 있는가">
+        <img src="img/isms317_b.png" alt="상품 홍보, 마케팅 목적으로 수집하는 개인정보는 다른 목적으로 수집하는 정보와 명확하게 구분하여 동의를 받고 수집">
       </div>
     </div>
   </div>
-  <p class="total step">AI 초안 10줄에서 한 줄은 고치고 한 줄은 더해 <span style="background:#ffe25a;border-radius:8px;padding:0 10px">점검표 11줄</span></p>
-  <div class="skill"><b>여러분이 해 오던 일</b>인계 문서는 내 업무 목록과 맞춰 보고, 모르는 건 아는 사람에게 묻습니다</div>
+  <div class="flow3 step">
+    <div class="w"><small>다정밥상 가입 화면</small>혜택 알림(마케팅) 동의가 [필수]에 묶여 있음</div>
+    <div class="a"><small>점검표에 더한 줄</small>+ 마케팅 동의를 다른 동의와 따로 받고 있는가</div>
+    <div class="t"><small>AI 초안 10줄에서</small>한 줄 고치고 한 줄 더해 점검표 11줄</div>
+  </div>
+  <div class="skill"><b>여러분이 해 오던 일</b>검사를 앞두면 검사하는 쪽의 체크리스트부터 봅니다</div>
+  <div class="source">검색 결과는 실제 검색을 바탕으로 다시 그린 예시입니다</div>
 </section>
 
 
 
 <!-- 17 결과 비교 -->
-<section class="slide center" data-start="11:25" data-title="점검표를 주고 고칠 때마다 (50초)"
+<section class="slide center" data-start="11:40" data-title="점검표를 주고 고칠 때마다 (50초)"
   data-notes="같은 AI, 같은 자료로, 같은 날 조건마다 다섯 번씩 돌렸습니다. 다섯 번 모두 찾은 곳만 셌습니다. 한 번 우연히 찾은 것은 세지 않았습니다.
 점검표 없이: 세 곳. (넘김) AI 초안을 그대로 줬을 때: 네 곳. 초안에 있던 보호책임자 연락처 줄 덕분입니다.
 (넘김) 보관 기간 줄을 고쳤더니: 다섯 곳. (넘김) 마케팅 동의 줄을 더했더니: 여섯 곳.
@@ -800,7 +833,7 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
 </section>
 
 <!-- 18 고칠 것과 물을 것 -->
-<section class="slide" data-start="12:15" data-title="고칠 것과 물을 것 (55초)"
+<section class="slide" data-start="12:30" data-title="고칠 것과 물을 것 (55초)"
   data-notes="AI의 결과는 판단이 아닙니다. 판단을 받기 위한 준비입니다.
 (왼쪽) 여섯 곳은 법령과 지침에 적혀 있는 것입니다. 실제로 무엇을 받고 누구에게 맡기는지 사실을 확인한 뒤, 오픈 전에 담당자가 고칩니다.
 (오른쪽) 우리 상황에 대입해서 판단해야 하는 것은 전문가에게 묻습니다. 둘째와 셋째는 시연 1에서 AI가 낸 추가 질문입니다. 심어 둔 여섯 곳에는 없었지만, 물어볼 만한 질문입니다.
@@ -830,11 +863,11 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
 </section>
 
 <!-- 19 세 가지 -->
-<section class="slide center" data-start="13:10" data-title="AI에게 맡길 때 (45초)"
+<section class="slide center" data-start="13:25" data-title="AI에게 맡길 때 (45초)"
   data-notes="오늘의 질문으로 돌아가겠습니다. 법률 전문가가 아닌 담당자는 갑자기 생긴 점검을 어떻게 해야 할까요.
 사람에게 일을 맡길 때도 가이드를 주고, 가이드대로 했는지 보고, 결과가 맞는지 판단합니다. AI도 같습니다.
 오늘 우리는 공식 자료로 점검표라는 업무 가이드를 만들어 줬고, 여섯 칸 판으로 찾은 곳과 못 찾은 곳을 봤고, 조문을 확인하고 고칠 것과 물을 것을 나눴습니다.
-(넘김) 오늘 쓴 것을 다시 보면, 매뉴얼부터 찾고, 원자료와 맞춰 보고, 내 업무 목록과 맞춰 보고, 모르면 아는 사람에게 물었습니다. 새로운 기술이 아닙니다. 여러분이 사람과 일하며 해 오던 업무 스킬입니다. 그 스킬은 AI와 일하는 시대에도 그대로 쓸모가 있습니다. 해 오던 일을 AI와 함께 하도록 바꾸는 것, 그게 AX입니다.
+(넘김) 오늘 쓴 것을 다시 보면, 매뉴얼부터 찾고, 원자료와 맞춰 보고, 내 업무 목록과 맞춰 보고, 검사하는 쪽의 기준표를 찾아봤습니다. 새로운 기술이 아닙니다. 여러분이 사람과 일하며 해 오던 업무 스킬입니다. 그 스킬은 AI와 일하는 시대에도 그대로 쓸모가 있습니다. 해 오던 일을 AI와 함께 하도록 바꾸는 것, 그게 AX입니다.
 (넘김) 가이드를 주는 사람이 AI의 방향을 잡습니다.">
   <div class="kicker">오늘의 질문에 대한 답</div>
   <h2 style="font-size:58px">AI에게 일을 맡길 때도,<br>사람에게 맡길 때처럼 세 가지가 필요합니다</h2>
@@ -843,13 +876,13 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
     <div class="card step"><b>2</b>가이드대로 했는지 봅니다<div class="cb six"><i>✓</i><i>✓</i><i>✓</i><i>✓</i><i>✓</i><i>✓</i></div><small>오늘: 여섯 칸으로 찾은 곳과 못 찾은 곳 확인</small></div>
     <div class="card step"><b>3</b>결과가 맞는지 판단합니다<div class="cb lanes"><span class="a">고칠 것 6</span><span class="b">물을 것 3</span></div><small>오늘: 조문 확인, 고칠 것과 물을 것 나누기</small></div>
   </div>
-  <div class="skills4 step"><span>매뉴얼부터 찾기</span><span>원자료와 맞춰 보기</span><span>내 업무 목록과 맞춰 보기</span><span>모르면 아는 사람에게 묻기</span></div>
+  <div class="skills4 step"><span>매뉴얼부터 찾기</span><span>원자료와 맞춰 보기</span><span>내 업무 목록과 맞춰 보기</span><span>검사하는 쪽 기준표 보기</span></div>
   <p class="step" style="font-size:30px;font-weight:700;margin-top:14px;color:var(--muted)">오늘 쓴 것은 모두 여러분이 해 오던 업무 스킬입니다</p>
   <p class="step" style="font-size:44px;font-weight:800;margin-top:30px">가이드를 주는 사람이 AI의 방향을 잡습니다.</p>
 </section>
 
 <!-- 20 마지막 -->
-<section class="slide center" data-start="13:55" data-title="마지막 말 (25초)"
+<section class="slide center" data-start="14:10" data-title="마지막 말 (25초)"
   data-notes="오늘은 AI로 처리방침을 점검했습니다.
 마지막으로 하나만 더 점검해 보시면 좋겠습니다.
 내가 AI의 방향을 잡고 있는지, AI에게 끌려가고 있는지.
@@ -874,7 +907,7 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
   document.querySelectorAll(".m6").forEach(m => { const S = ["생년월일", "재료", "위탁", "마케팅", "보관 기간", "연락처"]; const K = { y: "✓ ", n: "✕ ", p: "△ " }; const s = m.dataset.s, nw = m.dataset.new; m.innerHTML = S.map((t, i) => `<b class="k${s[i]}${String(i) === nw ? " nw" : ""}">${K[s[i]] || ""}${t}</b>`).join(""); });
   /* 이야기 지도: 사례가 시작되는 장부터 정리까지 */
   const MAPN = ["상황", "시연 1", "왜 빠졌나", "점검표 만들기", "시연 2", "판단과 정리"];
-  const MAPS = { "3:25": 0, "3:55": 0, "4:25": 0, "4:50": 0, "5:40": 1, "6:35": 1, "7:15": 2, "7:50": 2, "8:40": 3, "9:05": 3, "9:45": 3, "10:35": 3, "11:25": 4, "12:15": 5, "13:10": 5 };
+  const MAPS = { "3:25": 0, "3:55": 0, "4:25": 0, "4:50": 0, "5:40": 1, "6:35": 1, "7:15": 2, "7:50": 2, "8:40": 3, "9:05": 3, "9:45": 3, "10:35": 3, "11:05": 3, "11:40": 4, "12:30": 5, "13:25": 5 };
   document.querySelectorAll(".slide[data-start]").forEach(sl => { const k = MAPS[sl.dataset.start]; if (k === undefined) return; const d = document.createElement("div"); d.className = "smap"; d.innerHTML = MAPN.map((t, i) => `<span class="${i === k ? "now" : i < k ? "past" : ""}">${t}</span>`).join("<i></i>"); sl.appendChild(d); });
   /* 시연 1: 꼬리표 단계가 보이면 칩 표시 + 제39조 표시 */
   document.querySelectorAll(".chipson").forEach(t => new MutationObserver(() => { const on = t.classList.contains("shown"); t.closest(".slide").querySelectorAll(".chip").forEach(c => { c.style.opacity = on ? 1 : 0; }); t.closest(".slide").classList.toggle("chips", on); }).observe(t, { attributes: true }));

@@ -940,7 +940,7 @@ AI도 법을 압니다. 방금 답에도 조문을 스스로 댔습니다. 하�
   if (top) new MutationObserver(() => top.closest(".tri").classList.toggle("shown-lines", top.classList.contains("shown"))).observe(top, { attributes: true });
 })();
 /* a 키: 과정 한 장 · r 키: 시연 재현 시험 기록 */
-document.addEventListener("keydown", e => { if (e.target.closest("input, select, dialog")) return; if (e.key === "a") location.href = "a4.html"; if (e.key === "r") location.href = "evidence.html"; });
+document.addEventListener("keydown", e => { if (e.target.closest("input, select, dialog")) return; const from = "?from=" + (window.Deck ? window.Deck.index : 0); if (e.key === "a") location.href = "a4.html" + from; if (e.key === "r") location.href = "evidence.html" + from; });
 </script>
 <script src="../assets/deck.js"></script>
 </body>

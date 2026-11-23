@@ -117,5 +117,19 @@
   </div>
 </div>
 <a class="print no-print" href="./" style="text-decoration:none;color:inherit">← 슬라이드로</a>
+<script>
+/* 발표 중 키보드로 오가기: 같은 키 또는 Esc·Backspace·q → 보던 슬라이드로, a ↔ r 서로 오가기 */
+(function () {
+  var from = new URLSearchParams(location.search).get("from") || "0";
+  var deck = "index.html#" + from, q = "?from=" + from;
+  document.querySelectorAll("a.back, a.print").forEach(function (a) { if (/^(\.\/|index\.html)$/.test(a.getAttribute("href"))) a.href = deck; });
+  document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey || (e.target.closest && e.target.closest("input, textarea, select"))) return;
+    var k = e.key;
+    if (k === "Escape" || k === "Backspace" || k === "q" || k === "a") { e.preventDefault(); location.href = deck; }
+    else if (k === "r") location.href = "evidence.html" + q;
+  });
+})();
+</script>
 </body>
 </html>

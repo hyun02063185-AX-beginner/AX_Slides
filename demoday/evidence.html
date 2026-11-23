@@ -858,4 +858,18 @@ a.back { position:fixed; right:16px; bottom:16px; background:#fff; border:1px so
 <h2>참고: 그 밖에 해 본 것</h2>
 <div class="box">AI에게 점검표를 직접 만들게 한 경우(기억만 / 법 읽는 원리 / 작성지침 전문 제공)도 각 5회씩 여러 날 시험함. 기억만으로 만든 점검표 10개(두 모델)는 모두 "다른 법에 따른 보관 기간"이 빠졌고, 작성지침을 줘도 Haiku 초안은 "구체적인 기간인가" 수준에 머묾. 같은 조건도 날마다 결과가 달라질 수 있어, 비교는 같은 날 함께 돌린 조건끼리만 함.</div>
 <a class="back" href="index.html">← 슬라이드로</a>
+<script>
+/* 발표 중 키보드로 오가기: 같은 키 또는 Esc·Backspace·q → 보던 슬라이드로, a ↔ r 서로 오가기 */
+(function () {
+  var from = new URLSearchParams(location.search).get("from") || "0";
+  var deck = "index.html#" + from, q = "?from=" + from;
+  document.querySelectorAll("a.back, a.print").forEach(function (a) { if (/^(\.\/|index\.html)$/.test(a.getAttribute("href"))) a.href = deck; });
+  document.addEventListener("keydown", function (e) {
+    if (e.ctrlKey || e.metaKey || e.altKey || (e.target.closest && e.target.closest("input, textarea, select"))) return;
+    var k = e.key;
+    if (k === "Escape" || k === "Backspace" || k === "q" || k === "r") { e.preventDefault(); location.href = deck; }
+    else if (k === "a") location.href = "a4.html" + q;
+  });
+})();
+</script>
 </body></html>

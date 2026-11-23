@@ -63,4 +63,16 @@ label .opt { color: #999; font-weight: 400; margin-left: 4px; font-size: 12px; }
 <p>이 개인정보 처리방침은 2026년 12월 1일부터 적용됩니다.</p>
 </div>
 <div class="fake">실습용 가상 서비스입니다. 회사·사람·업체 이름은 모두 지어낸 것입니다.</div>
-</div></body></html>
+</div><script>
+/* Backspace → 이전 화면으로. 이전 화면이 없으면 마지막으로 보던 슬라이드로 */
+document.addEventListener("keydown", function (e) {
+  if (e.key !== "Backspace" || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.target.closest && e.target.closest("input, textarea, select, [contenteditable]")) return;
+  e.preventDefault();
+  var fromHere = document.referrer.indexOf(location.origin) === 0;
+  if (fromHere && history.length > 1) { history.back(); return; }
+  var last = "0"; try { last = localStorage.getItem("demoday-slide") || "0"; } catch (_) {}
+  location.href = "../index.html#" + last;
+});
+</script>
+</body></html>

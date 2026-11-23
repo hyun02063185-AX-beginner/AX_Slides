@@ -232,5 +232,17 @@ $("dlj").onclick = () => {
   download("results.json", JSON.stringify({ recorded_at: new Date().toISOString().slice(0, 16).replace("T", " "), results: results.map(x => ({ k: x.k, cond: x.cond, model: x.model, mode: x.mode, ms: x.ms, made: x.made, hit: x.hit, cites: x.cites, raw: x.raw })) }, null, 2), "application/json");
 };
 </script>
+<script>
+/* Backspace → 이전 화면으로. 이전 화면이 없으면 마지막으로 보던 슬라이드로 */
+document.addEventListener("keydown", function (e) {
+  if (e.key !== "Backspace" || e.ctrlKey || e.metaKey || e.altKey) return;
+  if (e.target.closest && e.target.closest("input, textarea, select, [contenteditable]")) return;
+  e.preventDefault();
+  var fromHere = document.referrer.indexOf(location.origin) === 0;
+  if (fromHere && history.length > 1) { history.back(); return; }
+  var last = "0"; try { last = localStorage.getItem("demoday-slide") || "0"; } catch (_) {}
+  location.href = "../index.html#" + last;
+});
+</script>
 </body>
 </html>
